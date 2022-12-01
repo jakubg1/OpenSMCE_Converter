@@ -984,6 +984,9 @@ def main():
 
 
 if STANDALONE_MODE or sys.argv[0] == "main.py":
+	if sys.argv[0] == "main.py":
+		# Never let the shell converter script to convert only some of the game files.
+		CONVERSION_SCOPE = []
 	main()
 else:
 	print("Could not launch the script... Probably you have launched the wrong file.")
