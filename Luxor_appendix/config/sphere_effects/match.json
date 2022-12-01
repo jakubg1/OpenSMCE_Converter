@@ -1,0 +1,17 @@
+{
+    "$schema": "../../../../schemas/config/sphere_effect.json",
+    "time": 0,
+    "infection_size": 0,
+    "infection_time": 0,
+    "destroy_sound": "hardcoded",
+    "destroy_font": "hardcoded",
+    "destroy_collectible": "vanilla_match.json",
+    "level_loss_protection": true,
+    "immobile": false,
+    "fragile": false,
+    "can_boost_combo": true,
+    "can_boost_chain": true,
+    "apply_chain_multiplier": true,
+    "can_keep_combo": true,
+    "cause_check": true
+}

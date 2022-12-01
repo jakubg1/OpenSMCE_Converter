@@ -1,0 +1,24 @@
+{
+    "$schema": "../../../../schemas/config/Sphere.json",
+    "sprite": "sprites/game/vise.json",
+    "nextSprite": "sprites/game/next_ball_0.json",
+    "idleParticle": null,
+    "destroyParticle": "particles/collapse_vise.json",
+    "destroy_collectible": "vise_gems.json",
+    "color": {
+        "r": 1,
+        "g": 1,
+        "b": 1
+    },
+    "interchangeable": true,
+    "shootBehavior": {
+        "type": "normal"
+    },
+    "shootSound": "sound_events/sphere_shoot_normal.json",
+    "hitBehavior": {
+        "type": "normal"
+    },
+    "hitSound": "sound_events/sphere_hit_normal.json",
+    "matches": [],
+    "matchFont": "fonts/score0.json"
+}

@@ -1,0 +1,15 @@
+{
+    "$schema": "../../../../schemas/config/collectible.json",
+    "particle": "particles/powerup_bomb_color_3.json",
+    "pickupParticle": "particles/powerup_catch.json",
+    "spawnSound": "sound_events/collectible_spawn_powerup.json",
+    "pickupSound": "sound_events/collectible_catch_powerup_colorbomb.json",
+    "pickupName": "COLOR BOMB!",
+    "pickupFont": "fonts/score3.json",
+    "effects": [
+        {
+            "type": "destroyColor",
+            "color": 3
+        }
+    ]
+}

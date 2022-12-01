@@ -1,0 +1,71 @@
+{
+    "inheritShow": false,
+    "inheritHide": false,
+	"inheritPos":false,
+    "type": "none",
+    "pos": {
+        "x": 0,
+        "y": 0
+    },
+    "alpha": 1,
+    "children": {
+        "Background": {
+            "inheritShow": true,
+            "inheritHide": true,
+            "type": "none",
+            "pos": {
+                "x": 0,
+                "y": 0
+            },
+            "alpha": 0.0,
+            "children": {
+                "Background": "ui/background.json"
+            },
+            "animations": {
+                "in_": {
+                    "type": "fade",
+                    "time": 0.25,
+                    "startValue": 0.0,
+                    "endValue": 1.0
+                },
+                "out": {
+                    "type": "fade",
+                    "time": 0.25,
+                    "startValue": 1.0,
+                    "endValue": 0.0
+                }
+            },
+            "sounds": {},
+            "layer": "HudForegroundMask"
+        },
+        "Background2": {
+            "inheritShow": true,
+            "inheritHide": true,
+            "type": "none",
+            "pos": {
+                "x": 0,
+                "y": 0
+            },
+            "alpha": 1.0,
+            "children": {},
+            "animations": {
+                "in_": {
+                    "type": "fade",
+                    "time": 0.0,
+                    "startValue": 1.0,
+                    "endValue": 1.0
+                },
+                "out": {
+                    "type": "fade",
+                    "time": 0.0,
+                    "startValue": 1.0,
+                    "endValue": 1.0
+                }
+            },
+            "sounds": {},
+            "layer": "BannerBackground"
+        }
+    },
+    "animations": {},
+    "sounds": {}
+}

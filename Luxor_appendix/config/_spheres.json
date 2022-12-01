@@ -1,0 +1,266 @@
+{
+    "spheres": {
+        "-3": {
+            "sprite": "sprites/game/ball_lightning.json",
+            "spriteAnimationSpeed": 16,
+            "nextSprite": "sprites/game/next_ball_lightning.json",
+            "idleParticle": "particles/idle_ball_lightning.json",
+            "destroyParticle": "particles/lightning_beam.json",
+            "color": {
+                "r": 0.7,
+                "g": 0.8,
+                "b": 1
+            },
+            "generatable": false,
+            "interchangeable": true,
+            "shootBehavior": {
+                "type": "lightning",
+                "range": 100,
+                "resetCombo": true
+            },
+            "shootSound": "sound_events/sphere_shoot_lightning.json",
+            "hitBehavior": {
+                "type": "normal"
+            },
+            "hitSound": "sound_events/sphere_hit_normal.json",
+            "matches": [
+                -1,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+            ],
+            "matchFont": "fonts/score0.json"
+        },
+        "-2": {
+            "sprite": "sprites/game/ball_fire.json",
+            "spriteAnimationSpeed": 16,
+            "nextSprite": "sprites/game/next_ball_bomb.json",
+            "idleParticle": "particles/idle_ball_bomb.json",
+            "destroyParticle": "particles/collapse_ball_bomb.json",
+            "color": "images/powerups/fire_pal.png",
+            "colorSpeed": 64,
+            "generatable": false,
+            "interchangeable": true,
+            "shootBehavior": {
+                "type": "normal"
+            },
+            "shootSound": "sound_events/sphere_shoot_fire.json",
+            "hitBehavior": {
+                "type": "fireball",
+                "range": 125
+            },
+            "hitSound": "sound_events/sphere_hit_fire.json",
+            "matches": [
+                -1,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+            ],
+            "matchFont": "fonts/score0.json"
+        },
+        "-1": {
+            "sprite": "sprites/game/ball_wild.json",
+            "spriteAnimationSpeed": 16,
+            "nextSprite": "sprites/game/next_ball_wild.json",
+            "idleParticle": "particles/idle_ball_wild.json",
+            "destroyParticle": "particles/collapse_wild.json",
+            "color": "images/powerups/wild_pal.png",
+            "colorSpeed": 64,
+            "generatable": false,
+            "interchangeable": true,
+            "shootBehavior": {
+                "type": "normal"
+            },
+            "shootSound": "sound_events/sphere_shoot_wild.json",
+            "hitBehavior": {
+                "type": "normal"
+            },
+            "hitSound": "sound_events/sphere_hit_normal.json",
+            "matches": [
+                -1,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+            ],
+            "matchFont": "fonts/score0.json"
+        },
+        "0": {
+            "sprite": "sprites/game/vise.json",
+            "nextSprite": "sprites/game/next_ball_0.json",
+            "idleParticle": null,
+            "destroyParticle": "particles/collapse_vise.json",
+            "color": {
+                "r": 1,
+                "g": 1,
+                "b": 1
+            },
+            "generatable": false,
+            "interchangeable": true,
+            "shootBehavior": {
+                "type": "normal"
+            },
+            "shootSound": "sound_events/sphere_shoot_normal.json",
+            "hitBehavior": {
+                "type": "normal"
+            },
+            "hitSound": "sound_events/sphere_hit_normal.json",
+            "matches": [],
+            "matchFont": "fonts/score0.json"
+        },
+        "1": {
+            "sprite": "sprites/game/ball_1.json",
+            "nextSprite": "sprites/game/next_ball_1.json",
+            "destroyParticle": "particles/collapse_ball_1.json",
+            "color": {
+                "r": 0,
+                "g": 0,
+                "b": 1
+            },
+            "matches": [
+                -1,
+                1
+            ],
+            "matchFont": "fonts/score1.json",
+            "tags": [
+                "normal"
+            ]
+        },
+        "2": {
+            "sprite": "sprites/game/ball_2.json",
+            "nextSprite": "sprites/game/next_ball_2.json",
+            "destroyParticle": "particles/collapse_ball_2.json",
+            "color": {
+                "r": 1,
+                "g": 1,
+                "b": 0
+            },
+            "matches": [
+                -1,
+                2
+            ],
+            "matchFont": "fonts/score2.json",
+            "tags": [
+                "normal"
+            ]
+        },
+        "3": {
+            "sprite": "sprites/game/ball_3.json",
+            "nextSprite": "sprites/game/next_ball_3.json",
+            "destroyParticle": "particles/collapse_ball_3.json",
+            "color": {
+                "r": 1,
+                "g": 0,
+                "b": 0
+            },
+            "matches": [
+                -1,
+                3
+            ],
+            "matchFont": "fonts/score3.json",
+            "tags": [
+                "normal"
+            ]
+        },
+        "4": {
+            "sprite": "sprites/game/ball_4.json",
+            "nextSprite": "sprites/game/next_ball_4.json",
+            "destroyParticle": "particles/collapse_ball_4.json",
+            "color": {
+                "r": 0,
+                "g": 1,
+                "b": 0
+            },
+            "matches": [
+                -1,
+                4
+            ],
+            "matchFont": "fonts/score4.json",
+            "tags": [
+                "normal"
+            ]
+        },
+        "5": {
+            "sprite": "sprites/game/ball_5.json",
+            "nextSprite": "sprites/game/next_ball_5.json",
+            "destroyParticle": "particles/collapse_ball_5.json",
+            "color": {
+                "r": 1,
+                "g": 0,
+                "b": 1
+            },
+            "matches": [
+                -1,
+                5
+            ],
+            "matchFont": "fonts/score5.json",
+            "tags": [
+                "normal"
+            ]
+        },
+        "6": {
+            "sprite": "sprites/game/ball_6.json",
+            "nextSprite": "sprites/game/next_ball_6.json",
+            "destroyParticle": "particles/collapse_ball_6.json",
+            "color": {
+                "r": 1,
+                "g": 1,
+                "b": 1
+            },
+            "matches": [
+                -1,
+                6
+            ],
+            "matchFont": "fonts/score6.json",
+            "tags": [
+                "normal"
+            ]
+        },
+        "7": {
+            "sprite": "sprites/game/ball_7.json",
+            "nextSprite": "sprites/game/next_ball_7.json",
+            "destroyParticle": "particles/collapse_ball_7.json",
+            "color": {
+                "r": 0,
+                "g": 0,
+                "b": 0
+            },
+            "matches": [
+                -1,
+                7
+            ],
+            "matchFont": "fonts/score7.json",
+            "tags": [
+                "normal"
+            ]
+        }
+    },
+    "tags": {
+        "normal": {
+            "idleParticle": null,
+            "generatable": true,
+            "interchangeable": true,
+            "shootBehavior": {
+                "type": "normal"
+            },
+            "shootSound": "sound_events/sphere_shoot_normal.json",
+            "hitBehavior": {
+                "type": "normal"
+            },
+            "hitSound": "sound_events/sphere_hit_normal.json"
+        }
+    }
+}

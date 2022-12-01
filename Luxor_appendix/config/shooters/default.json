@@ -1,0 +1,51 @@
+{
+    "sprite": "sprites/game/shooter.json",
+    "next_color_sprites": {
+        "-3": {
+            "sprite": "sprites/game/next_ball_lightning.json"
+        },
+        "-2": {
+            "sprite": "sprites/game/next_ball_fireball.json"
+        },
+        "-1": {
+            "sprite": "sprites/game/next_ball_wild.json"
+        },
+        "0": {
+            "sprite": "sprites/game/next_ball_0.json"
+        },
+        "1": {
+            "sprite": "sprites/game/next_ball_1.json"
+        },
+        "2": {
+            "sprite": "sprites/game/next_ball_2.json"
+        },
+        "3": {
+            "sprite": "sprites/game/next_ball_3.json"
+        },
+        "4": {
+            "sprite": "sprites/game/next_ball_4.json"
+        },
+        "5": {
+            "sprite": "sprites/game/next_ball_5.json"
+        },
+        "6": {
+            "sprite": "sprites/game/next_ball_6.json"
+        },
+        "7": {
+            "sprite": "sprites/game/next_ball_7.json"
+        }
+    },
+    "shadow_sprite": "sprites/game/shooter_shadow.json",
+    "speed_shot_beam": {
+        "sprite": "sprites/particles/speed_shot_beam.json",
+        "fade_time": 0.5,
+        "rendering_type": "cut",
+        "colored": false
+    },
+    "speed_shot_particle": "particles/speed_shot_beam.json",
+    "shoot_speed": 1000,
+    "hitbox_size": {
+        "x": 160,
+        "y": 30
+    }
+}

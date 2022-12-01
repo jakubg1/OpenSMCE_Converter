@@ -1,0 +1,277 @@
+{
+    "inheritShow": false,
+    "inheritHide": false,
+    "type": "none",
+    "pos": {
+        "x": 0,
+        "y": 0
+    },
+    "alpha": 1,
+    "children": {
+        "Background": {
+            "inheritShow": true,
+            "inheritHide": true,
+            "type": "none",
+            "pos": {
+                "x": 0,
+                "y": 0
+            },
+            "alpha": 0.0,
+            "children": {
+                "Background": "ui/background.json"
+            },
+            "animations": {
+                "in_": {
+                    "type": "fade",
+                    "time": 0.25,
+                    "startValue": 0.0,
+                    "endValue": 0.5019607843137255
+                },
+                "out": {
+                    "type": "fade",
+                    "time": 0.25,
+                    "startValue": 0.5019607843137255,
+                    "endValue": 0.0
+                }
+            },
+            "sounds": {},
+            "layer": "MenuBackgroundMask"
+        },
+        "Frame": {
+            "inheritShow": true,
+            "inheritHide": true,
+            "type": "sprite",
+            "pos": {
+                "x": 125,
+                "y": 110
+            },
+            "alpha": 0.0,
+            "children": {
+                "Text_Title": {
+                    "inheritShow": true,
+                    "inheritHide": true,
+                    "type": "text",
+                    "pos": {
+                        "x": 275,
+                        "y": 15
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "MenuDialog2Controls",
+                    "font": "fonts/dialog_header.json",
+                    "align": {
+                        "x": 0.5,
+                        "y": 0
+                    },
+                    "text": "OPTIONS"
+                },
+                "Text_Effects": {
+                    "inheritShow": true,
+                    "inheritHide": true,
+                    "type": "text",
+                    "pos": {
+                        "x": 275,
+                        "y": 72
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "MenuDialog2Controls",
+                    "font": "fonts/dialog_body.json",
+                    "align": {
+                        "x": 0.5,
+                        "y": 0
+                    },
+                    "text": "EFFECTS VOLUME"
+                },
+                "Slot_sfx": {
+                    "inheritShow": true,
+                    "inheritHide": true,
+                    "type": "sprite",
+                    "pos": {
+                        "x": 77,
+                        "y": 95
+                    },
+                    "alpha": 1,
+                    "children": {
+                        "Slider_Effects": {
+                            "inheritShow": true,
+                            "inheritHide": true,
+                            "type": "spriteButtonSlider",
+                            "pos": {
+                                "x": 2,
+                                "y": 2
+                            },
+                            "alpha": 1,
+                            "children": {},
+                            "animations": {},
+                            "sounds": {},
+                            "layer": "MenuDialog2Controls2",
+                            "sprite": "sprites/dialogs/slider.json",
+                            "bounds": [
+                                2,
+                                369
+                            ]
+                        }
+                    },
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "MenuDialog2Controls",
+                    "sprite": "sprites/dialogs/slider_slot.json"
+                },
+                "Text_Music": {
+                    "inheritShow": true,
+                    "inheritHide": true,
+                    "type": "text",
+                    "pos": {
+                        "x": 275,
+                        "y": 132
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "MenuDialog2Controls",
+                    "font": "fonts/dialog_body.json",
+                    "align": {
+                        "x": 0.5,
+                        "y": 0
+                    },
+                    "text": "MUSIC VOLUME"
+                },
+                "Slot_music": {
+                    "inheritShow": true,
+                    "inheritHide": true,
+                    "type": "sprite",
+                    "pos": {
+                        "x": 77,
+                        "y": 155
+                    },
+                    "alpha": 1,
+                    "children": {
+                        "Slider_Music": {
+                            "inheritShow": true,
+                            "inheritHide": true,
+                            "type": "spriteButtonSlider",
+                            "pos": {
+                                "x": 2,
+                                "y": 2
+                            },
+                            "alpha": 1,
+                            "children": {},
+                            "animations": {},
+                            "sounds": {},
+                            "layer": "MenuDialog2Controls2",
+                            "sprite": "sprites/dialogs/slider.json",
+                            "bounds": [
+                                2,
+                                369
+                            ]
+                        }
+                    },
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "MenuDialog2Controls",
+                    "sprite": "sprites/dialogs/slider_slot.json"
+                },
+                "Toggle_Fullscreen": {
+                    "inheritShow": true,
+                    "inheritHide": true,
+                    "type": "spriteButtonCheckbox",
+                    "pos": {
+                        "x": 190,
+                        "y": 200
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "MenuDialog2Controls",
+                    "sprite": [
+                        "sprites/dialogs/checkbox_fullscreen_off.json",
+                        "sprites/dialogs/checkbox_fullscreen_on.json"
+                    ]
+                },
+                "Toggle_Mute": {
+                    "inheritShow": true,
+                    "inheritHide": true,
+                    "type": "spriteButtonCheckbox",
+                    "pos": {
+                        "x": 190,
+                        "y": 245
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "MenuDialog2Controls",
+                    "sprite": [
+                        "sprites/dialogs/checkbox_mute_off.json",
+                        "sprites/dialogs/checkbox_mute_on.json"
+                    ]
+                },
+                "Button_Close": {
+                    "inheritShow": true,
+                    "inheritHide": true,
+                    "type": "spriteButton",
+                    "pos": {
+                        "x": 225,
+                        "y": 291
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "MenuDialog2Controls",
+                    "sprite": "sprites/dialogs/button_done.json",
+					"callbacks": {
+						"buttonClick": "optionsDone"
+					}
+                },
+                "Button_Credits": {
+                    "inheritShow": true,
+                    "inheritHide": true,
+                    "type": "spriteButton",
+                    "pos": {
+                        "x": 395,
+                        "y": 291
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "MenuDialog2Controls",
+                    "sprite": "sprites/dialogs/button_credits.json",
+					"callbacks": {
+						"buttonClick": "optionsCredits"
+					}
+                }
+            },
+            "animations": {
+                "in_": {
+                    "type": "fade",
+                    "time": 0.25,
+                    "startValue": 0.0,
+                    "endValue": 1.0
+                },
+                "out": {
+                    "type": "fade",
+                    "time": 0.25,
+                    "startValue": 1.0,
+                    "endValue": 0.0
+                }
+            },
+            "sounds": {},
+            "layer": "MenuDialog2",
+            "sprite": "sprites/dialogs/dialog_1.json"
+        }
+    },
+    "animations": {},
+    "sounds": {
+        "in_": "sound_events/ui_dialog_show.json",
+        "out": "sound_events/ui_dialog_hide.json"
+    }
+}

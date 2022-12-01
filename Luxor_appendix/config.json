@@ -1,0 +1,12 @@
+{
+    "$schema": "../../schemas/config.json",
+    "name": "Luxor",
+    "engine_version": "v0.40.0",
+    "native_resolution": {
+        "x": 800,
+        "y": 600
+    },
+    "rich_presence": {
+        "enabled": true
+    }
+}

@@ -1,0 +1,18 @@
+{
+    "$schema": "../../../../schemas/config/collectible.json",
+    "particle": "particles/powerup_stop.json",
+    "pickupParticle": "particles/powerup_catch.json",
+    "spawnSound": "sound_events/collectible_spawn_powerup.json",
+    "pickupSound": "sound_events/collectible_catch_powerup_stop.json",
+    "pickupName": "STOP!",
+    "pickupFont": "fonts/score0.json",
+    "effects": [
+        {
+            "type": "speedOverride",
+            "speedBase": 0,
+            "speedMultiplier": 0,
+            "decceleration": 200,
+            "time": 3
+        }
+    ]
+}

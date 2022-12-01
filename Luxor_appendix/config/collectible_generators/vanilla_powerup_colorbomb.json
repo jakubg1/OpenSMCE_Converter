@@ -1,0 +1,89 @@
+{
+  "type": "random_pick",
+  "pool": [
+    {
+      "entry": {
+        "type": "collectible",
+        "name": "colorbomb_1",
+        "conditions": [
+          {
+            "type": "color_present",
+            "color": 1
+          }
+        ]
+      }
+    },
+    {
+      "entry": {
+        "type": "collectible",
+        "name": "colorbomb_2",
+        "conditions": [
+          {
+            "type": "color_present",
+            "color": 2
+          }
+        ]
+      }
+    },
+    {
+      "entry": {
+        "type": "collectible",
+        "name": "colorbomb_3",
+        "conditions": [
+          {
+            "type": "color_present",
+            "color": 3
+          }
+        ]
+      }
+    },
+    {
+      "entry": {
+        "type": "collectible",
+        "name": "colorbomb_4",
+        "conditions": [
+          {
+            "type": "color_present",
+            "color": 4
+          }
+        ]
+      }
+    },
+    {
+      "entry": {
+        "type": "collectible",
+        "name": "colorbomb_5",
+        "conditions": [
+          {
+            "type": "color_present",
+            "color": 5
+          }
+        ]
+      }
+    },
+    {
+      "entry": {
+        "type": "collectible",
+        "name": "colorbomb_6",
+        "conditions": [
+          {
+            "type": "color_present",
+            "color": 6
+          }
+        ]
+      }
+    },
+    {
+      "entry": {
+        "type": "collectible",
+        "name": "colorbomb_7",
+        "conditions": [
+          {
+            "type": "color_present",
+            "color": 7
+          }
+        ]
+      }
+    }
+  ]
+}

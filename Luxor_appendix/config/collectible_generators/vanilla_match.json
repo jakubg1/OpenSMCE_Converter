@@ -1,0 +1,25 @@
+{
+    "type": "combine",
+    "entries": [
+        {
+            "type": "collectible_generator",
+            "name": "vanilla_powerup.json",
+            "conditions": [
+                {
+                    "type": "expression",
+                    "expression": "([chainLv] == 1 && [comboBoost] && [comboLv] % 3 == 0) || [chainLv] % 3 == 0"
+                }
+            ]
+        },
+        {
+            "type": "collectible_generator",
+            "name": "vanilla_coin.json",
+            "conditions": [
+                {
+                    "type": "expression",
+                    "expression": "[length] > 4 && random() < ([length] - 3) * 0.25"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,58 @@
+{
+    "$schema": "../../../schemas/config/gameplay.json",
+    "shooter": {
+        "speedShotBeamRenderingType": "cut",
+        "speedShotBeamColored": false,
+        "speedShotBeamFadeTime": 0.5,
+        "speedShotParticle": "particles/speed_shot_beam.json",
+        "shotSpeed": 1000
+    },
+    "level": {
+        "controlDelay": 2,
+        "finishDelay": 2,
+        "bonusDelay": 1.5,
+        "wonDelay": 1.5
+    },
+    "sphereBehaviour": {
+        "acceleration": 500,
+        "decceleration": 500,
+        "attractionSpeedBase": -5000,
+        "attractionSpeedMult": 0,
+        "knockbackSpeedBase": 0,
+        "knockbackSpeedMult": -150,
+        "foulSpeed": 2000,
+        "overspeedCheck": true,
+        "invincible_scarabs": false
+    },
+    "collectibleBehaviour": {
+        "speed": {
+            "x": {
+                "type": "randomFloat",
+                "min": -100,
+                "max": 100
+            },
+            "y": {
+                "type": "randomFloat",
+                "min": -250,
+                "max": -150
+            }
+        },
+        "acceleration": {
+            "x": 0,
+            "y": 300
+        }
+    },
+    "bonusScarab": {
+        "sprite": "sprites/game/vise.json",
+        "stepLength": 24,
+        "pointsPerStep": 50,
+        "coinDistance": 500,
+        "coinGenerator": null,
+        "speed": 1000,
+        "trailParticle": "particles/bonus_scarab_trail.json",
+        "trailParticleDistance": 24,
+        "destroyParticle": "particles/collapse_vise.json",
+        "destroyGenerator": null,
+        "scoreFont": "fonts/score0.json"
+    }
+}

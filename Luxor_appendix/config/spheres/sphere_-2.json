@@ -1,0 +1,32 @@
+{
+    "$schema": "../../../../schemas/config/Sphere.json",
+    "sprite": "sprites/game/ball_fire.json",
+    "spriteAnimationSpeed": 16,
+    "nextSprite": "sprites/game/next_ball_bomb.json",
+    "idleParticle": "particles/idle_ball_bomb.json",
+    "destroyParticle": "particles/collapse_ball_bomb.json",
+    "color": "images/powerups/fire_pal.png",
+    "colorSpeed": 64,
+    "interchangeable": true,
+    "shootBehavior": {
+        "type": "normal"
+    },
+    "shootSound": "sound_events/sphere_shoot_fire.json",
+    "hitBehavior": {
+        "type": "fireball",
+        "range": 125
+    },
+    "hitSound": "sound_events/sphere_hit_fire.json",
+    "matches": [
+        -1,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        10
+    ],
+    "matchFont": "fonts/score0.json"
+}

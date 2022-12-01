@@ -1,0 +1,27 @@
+{
+	"inheritShow":true,
+	"inheritHide":true,
+    "type": "none",
+    "pos": {
+        "x": 0,
+        "y": 0
+    },
+    "alpha": 1,
+    "children": {
+		"Main":"ui/main.json",
+		"Menu_ClearScores":"ui/menu_clearscores.json",
+		"Menu_Continue":"ui/menu_continue.json",
+		"Menu_Credits":"ui/menu_credits.json",
+		"Menu_Game":"ui/menu_game.json",
+		"Menu_Highscores":"ui/menu_highscores.json",
+		"Menu_Instructions":"ui/menu_instructions.json",
+		"Menu_Instructions_Mask":"ui/menu_instructions_mask.json",
+		"Menu_Options":"ui/menu_options.json",
+		"Menu_QuitGame":"ui/menu_quitgame.json",
+		"Menu_StageSelect":"ui/menu_stageselect.json",
+		
+		"Game":"ui/game.json"
+	},
+	"animations": {},
+    "sounds": {}
+}

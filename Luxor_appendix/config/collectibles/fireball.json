@@ -1,0 +1,15 @@
+{
+    "$schema": "../../../../schemas/config/collectible.json",
+    "particle": "particles/powerup_bomb.json",
+    "pickupParticle": "particles/powerup_catch.json",
+    "spawnSound": "sound_events/collectible_spawn_powerup.json",
+    "pickupSound": "sound_events/collectible_catch_powerup_bomb.json",
+    "pickupName": "FIREBALL!",
+    "pickupFont": "fonts/score0.json",
+    "effects": [
+        {
+            "type": "replaceSphere",
+            "color": -2
+        }
+    ]
+}

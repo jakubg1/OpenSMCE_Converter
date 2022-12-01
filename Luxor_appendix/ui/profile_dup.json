@@ -1,0 +1,104 @@
+{
+    "inheritShow": false,
+    "inheritHide": false,
+    "type": "none",
+    "pos": {
+        "x": 0,
+        "y": 0
+    },
+    "alpha": 1,
+    "children": {
+        "Frame": {
+            "inheritShow": true,
+            "inheritHide": true,
+            "type": "sprite",
+            "pos": {
+                "x": 227,
+                "y": 175
+            },
+            "alpha": 0.0,
+            "children": {
+                "Text_Title": {
+                    "inheritShow": true,
+                    "inheritHide": true,
+                    "type": "text",
+                    "pos": {
+                        "x": 172,
+                        "y": 14
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "MenuDialog4Controls",
+                    "font": "fonts/dialog_header.json",
+                    "align": {
+                        "x": 0.5,
+                        "y": 0
+                    },
+                    "text": "DUPLICATE NAME"
+                },
+                "Text_1": {
+                    "inheritShow": true,
+                    "inheritHide": true,
+                    "type": "text",
+                    "pos": {
+                        "x": 172,
+                        "y": 64
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "MenuDialog4Controls",
+                    "font": "fonts/dialog_body.json",
+                    "align": {
+                        "x": 0.5,
+                        "y": 0
+                    },
+                    "text": "PLEASE ENTER A\nUNIQUE NAME\nFOR THIS PROFILE."
+                },
+                "Button_Ok": {
+                    "inheritShow": true,
+                    "inheritHide": true,
+                    "type": "spriteButton",
+                    "pos": {
+                        "x": 123,
+                        "y": 153
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "sprite": "sprites/dialogs/button_done.json",
+                    "layer": "MenuDialog4Controls",
+          					"callbacks": {
+          						"buttonClick": "profilesDuplicateOk"
+          					}
+                }
+            },
+            "animations": {
+                "in_": {
+                    "type": "fade",
+                    "time": 0.25,
+                    "startValue": 0.0,
+                    "endValue": 1.0
+                },
+                "out": {
+                    "type": "fade",
+                    "time": 0.25,
+                    "startValue": 1.0,
+                    "endValue": 0.0
+                }
+            },
+            "sounds": {},
+            "layer": "MenuDialog4",
+            "sprite": "sprites/dialogs/dialog_2.json"
+        }
+    },
+    "animations": {},
+    "sounds": {
+        "in_": "sound_events/ui_dialog_show.json",
+        "out": "sound_events/ui_dialog_hide.json"
+    }
+}

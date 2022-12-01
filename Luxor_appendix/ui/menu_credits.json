@@ -1,0 +1,61 @@
+{
+    "inheritShow": false,
+    "inheritHide": false,
+    "type": "none",
+    "pos": {
+        "x": 0,
+        "y": 0
+    },
+    "alpha": 1,
+    "children": {
+        "Frame": {
+            "inheritShow": true,
+            "inheritHide": true,
+            "type": "sprite",
+            "pos": {
+                "x": 0,
+                "y": 0
+            },
+            "alpha": 0.0,
+            "children": {
+                "Button_Done": {
+                    "inheritShow": true,
+                    "inheritHide": true,
+                    "type": "spriteButton",
+                    "pos": {
+                        "x": 681,
+                        "y": 558
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "MenuDialog4Controls",
+                    "sprite": "sprites/dialogs/button_done.json",
+					"callbacks": {
+						"buttonClick": "creditsDone"
+					}
+                }
+            },
+            "animations": {
+                "in_": {
+                    "type": "fade",
+                    "time": 0.5,
+                    "startValue": 0.0,
+                    "endValue": 1.0
+                },
+                "out": {
+                    "type": "fade",
+                    "time": 0.5,
+                    "startValue": 1.0,
+                    "endValue": 0.0
+                }
+            },
+            "sounds": {},
+            "layer": "MenuDialog4",
+            "sprite": "sprites/dialogs/credits.json"
+        }
+    },
+    "animations": {},
+    "sounds": {}
+}

@@ -1,0 +1,16 @@
+{
+    "$schema": "../../../../schemas/config/collectible.json",
+    "particle": "particles/powerup_speed_shot.json",
+    "pickupParticle": "particles/powerup_catch.json",
+    "spawnSound": "sound_events/collectible_spawn_powerup.json",
+    "pickupSound": "sound_events/collectible_catch_powerup_shotspeed.json",
+    "pickupName": "SPEED SHOT!",
+    "pickupFont": "fonts/score0.json",
+    "effects": [
+        {
+            "type": "speedShot",
+            "time": 20,
+            "speed": 1500
+        }
+    ]
+}

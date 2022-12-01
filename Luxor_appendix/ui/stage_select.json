@@ -1,0 +1,2066 @@
+{
+  "inheritShow": true,
+  "inheritHide": true,
+	"inheritPos":false,
+    "type": "none",
+    "pos": {
+        "x": 0,
+        "y": 0
+    },
+    "alpha": 1,
+    "children": {
+      "StageCompletePsys": {
+          "inheritShow": false,
+          "inheritHide": true,
+          "type": "particle",
+          "pos": {
+              "x": 400,
+              "y": 300
+          },
+          "alpha": 1,
+          "children": {},
+          "animations": {},
+          "sounds": {
+              "in_": "sound_events/ui_stage_complete.json"
+          },
+          "layer": "MenuDialogControls2",
+          "path": "particles/stage_complete2.json",
+          "callbacks": {}
+      },
+      "StageUnlockPsys": {
+          "inheritShow": false,
+          "inheritHide": true,
+          "type": "particle",
+          "pos": {
+              "x": 0,
+              "y": 0
+          },
+          "alpha": 1,
+          "children": {},
+          "animations": {},
+          "sounds": {},
+          "layer": "MenuDialogControls2",
+          "path": "particles/stage_complete.json",
+          "callbacks": {}
+      },
+      "LevelPsys": {
+          "inheritShow": true,
+          "inheritHide": true,
+          "type": "particle",
+          "pos": {
+              "x": 0,
+              "y": 0
+          },
+          "alpha": 1,
+          "children": {},
+          "animations": {},
+          "sounds": {},
+          "layer": "MenuDialogControls2",
+          "path": "particles/level.json",
+          "callbacks": {}
+      },
+      "StageButtons": {
+          "inheritShow": false,
+          "inheritHide": false,
+          "type": "none",
+          "pos": {
+              "x": 0,
+              "y": 0
+          },
+          "alpha": 1,
+          "children": {
+            "1": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 42,
+                    "y": 260
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_stage1.json",
+                "callbacks": {
+                  "buttonClick": {
+                    "name": "mainMapSelect",
+                    "parameters": [1]
+                  }
+                }
+            },
+            "2": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 51,
+                    "y": 154
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_stage2.json",
+                "callbacks": {
+                  "buttonClick": {
+                    "name": "mainMapSelect",
+                    "parameters": [2]
+                  }
+                }
+            },
+            "3": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 182,
+                    "y": 95
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_stage3.json",
+                "callbacks": {
+                  "buttonClick": {
+                    "name": "mainMapSelect",
+                    "parameters": [3]
+                  }
+                }
+            },
+            "4": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 131,
+                    "y": 261
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_stage4.json",
+                "callbacks": {
+                  "buttonClick": {
+                    "name": "mainMapSelect",
+                    "parameters": [4]
+                  }
+                }
+            },
+            "5": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 154,
+                    "y": 353
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_stage5.json",
+                "callbacks": {
+                  "buttonClick": {
+                    "name": "mainMapSelect",
+                    "parameters": [5]
+                  }
+                }
+            },
+            "6": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 315,
+                    "y": 176
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_stage6.json",
+                "callbacks": {
+                  "buttonClick": {
+                    "name": "mainMapSelect",
+                    "parameters": [6]
+                  }
+                }
+            },
+            "7": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 411,
+                    "y": 208
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_stage7.json",
+                "callbacks": {
+                  "buttonClick": {
+                    "name": "mainMapSelect",
+                    "parameters": [7]
+                  }
+                }
+            },
+            "8": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 315,
+                    "y": 341
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_stage8.json",
+                "callbacks": {
+                  "buttonClick": {
+                    "name": "mainMapSelect",
+                    "parameters": [8]
+                  }
+                }
+            },
+            "9": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 198,
+                    "y": 453
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_stage9.json",
+                "callbacks": {
+                  "buttonClick": {
+                    "name": "mainMapSelect",
+                    "parameters": [9]
+                  }
+                }
+            },
+            "10": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 454,
+                    "y": 268
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_stage10.json",
+                "callbacks": {
+                  "buttonClick": {
+                    "name": "mainMapSelect",
+                    "parameters": [10]
+                  }
+                }
+            },
+            "11": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 462,
+                    "y": 478
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_stage11.json",
+                "callbacks": {
+                  "buttonClick": {
+                    "name": "mainMapSelect",
+                    "parameters": [11]
+                  }
+                }
+            },
+            "12": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 580,
+                    "y": 409
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_stage12.json",
+                "callbacks": {
+                  "buttonClick": {
+                    "name": "mainMapSelect",
+                    "parameters": [12]
+                  }
+                }
+            },
+            "13": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 703,
+                    "y": 458
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_stage13.json",
+                "callbacks": {
+                  "buttonClick": {
+                    "name": "mainMapSelect",
+                    "parameters": [13]
+                  }
+                }
+            }
+          },
+          "animations": {},
+          "sounds": {}
+      },
+      "Set": {
+          "inheritShow":false,
+          "inheritHide":false,
+          "type": "sprite",
+          "pos": {
+              "x": 597,
+              "y": 213
+          },
+          "alpha": 1,
+          "children": {},
+          "animations": {},
+          "sounds": {},
+          "layer": "MenuDialogControls",
+          "sprite": "sprites/dialogs/set.json"
+      },
+      "LevelButtons": {
+          "inheritShow": false,
+          "inheritHide": false,
+          "type": "none",
+          "pos": {
+              "x": 0,
+              "y": 0
+          },
+          "alpha": 1,
+          "children": {
+            "1": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 20,
+                    "y": 256
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "2": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 23,
+                    "y": 232
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "3": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 25,
+                    "y": 208
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "4": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 30,
+                    "y": 182
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "5": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 54,
+                    "y": 143
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "6": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 75,
+                    "y": 129
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "7": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 95,
+                    "y": 116
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "8": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 117,
+                    "y": 104
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "9": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 143,
+                    "y": 96
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "10": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 168,
+                    "y": 137
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "11": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 171,
+                    "y": 161
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "12": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 180,
+                    "y": 187
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "13": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 199,
+                    "y": 204
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "14": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 217,
+                    "y": 220
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "15": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 198,
+                    "y": 235
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "16": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 208,
+                    "y": 258
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "17": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 228,
+                    "y": 267
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "18": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 231,
+                    "y": 287
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "19": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 220,
+                    "y": 304
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "20": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 214,
+                    "y": 324
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "21": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 235,
+                    "y": 335
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "22": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 249,
+                    "y": 318
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "23": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 261,
+                    "y": 295
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "24": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 271,
+                    "y": 267
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "25": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 281,
+                    "y": 246
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "26": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 294,
+                    "y": 226
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "27": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 302,
+                    "y": 186
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "28": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 309,
+                    "y": 161
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "29": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 333,
+                    "y": 151
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "30": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 359,
+                    "y": 149
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "31": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 384,
+                    "y": 155
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "32": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 397,
+                    "y": 174
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "33": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 406,
+                    "y": 195
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "34": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 380,
+                    "y": 230
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "35": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 360,
+                    "y": 243
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "36": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 343,
+                    "y": 263
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "37": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 330,
+                    "y": 284
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "38": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 324,
+                    "y": 308
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "39": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 311,
+                    "y": 330
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "40": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 290,
+                    "y": 363
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "41": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 271,
+                    "y": 371
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "42": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 260,
+                    "y": 392
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "43": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 273,
+                    "y": 413
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "44": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 297,
+                    "y": 409
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "45": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 310,
+                    "y": 425
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "46": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 293,
+                    "y": 446
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "47": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 290,
+                    "y": 477
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "48": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 314,
+                    "y": 474
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "49": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 331,
+                    "y": 458
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "50": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 344,
+                    "y": 435
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "51": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 355,
+                    "y": 407
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "52": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 378,
+                    "y": 385
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "53": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 396,
+                    "y": 361
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "54": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 414,
+                    "y": 333
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "55": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 451,
+                    "y": 334
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "56": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 457,
+                    "y": 355
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "57": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 452,
+                    "y": 379
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "58": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 438,
+                    "y": 402
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "59": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 425,
+                    "y": 428
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "60": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 419,
+                    "y": 453
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "61": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 421,
+                    "y": 476
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "62": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 451,
+                    "y": 463
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "63": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 466,
+                    "y": 446
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "64": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 474,
+                    "y": 422
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "65": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 487,
+                    "y": 402
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "66": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 510,
+                    "y": 392
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "67": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 540,
+                    "y": 396
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "68": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 567,
+                    "y": 405
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "69": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 569,
+                    "y": 432
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "70": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 578,
+                    "y": 486
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "71": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 599,
+                    "y": 496
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "72": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 625,
+                    "y": 488
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "73": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 640,
+                    "y": 469
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "74": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 660,
+                    "y": 460
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "75": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 676,
+                    "y": 481
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "76": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 687,
+                    "y": 510
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "77": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 713,
+                    "y": 523
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "78": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 742,
+                    "y": 527
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "79": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 771,
+                    "y": 476
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "80": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 763,
+                    "y": 447
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "81": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 755,
+                    "y": 420
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "82": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 753,
+                    "y": 387
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "83": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 753,
+                    "y": 358
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "84": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 754,
+                    "y": 329
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "85": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 753,
+                    "y": 300
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "86": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 738,
+                    "y": 275
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "87": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 714,
+                    "y": 258
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            },
+            "88": {
+                "inheritShow": true,
+                "inheritHide": true,
+                "type": "spriteButton",
+                "neverDisabled": true,
+                "pos": {
+                    "x": 682,
+                    "y": 247
+                },
+                "alpha": 1,
+                "children": {},
+                "animations": {},
+                "sounds": {},
+                "layer": "MenuDialogControls",
+                "sprite": "sprites/dialogs/button_level.json",
+                "callbacks": {
+                    "buttonClick": "x"
+                }
+            }
+          },
+          "animations": {},
+          "sounds": {}
+      }
+    },
+    "animations": {},
+    "sounds": {}
+}

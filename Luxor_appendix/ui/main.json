@@ -1,0 +1,231 @@
+{
+    "inheritShow": false,
+    "inheritHide": false,
+    "type": "none",
+    "pos": {
+        "x": 0,
+        "y": 0
+    },
+    "alpha": 1,
+    "children": {
+        "Background": {
+            "inheritShow": true,
+            "inheritHide": true,
+            "type": "none",
+            "pos": {
+                "x": 0,
+                "y": 0
+            },
+            "alpha": 1.0,
+            "children": {
+                "Background": "ui/background.json"
+            },
+            "animations": {
+                "in_": {
+                    "type": "fade",
+                    "time": 0.5,
+                    "startValue": 1.0,
+                    "endValue": 0.0
+                },
+                "out": {
+                    "type": "fade",
+                    "time": 0.5,
+                    "startValue": 0.0,
+                    "endValue": 1.0
+                }
+            },
+            "sounds": {},
+            "layer": "MenuDialog"
+        },
+        "Menu": {
+            "inheritShow": true,
+            "inheritHide": true,
+            "type": "level",
+            "pos": {
+                "x": 0,
+                "y": 0
+            },
+            "alpha": 1,
+            "children": {
+                "Button_Player": {
+                    "inheritShow": true,
+                    "inheritHide": true,
+                    "type": "spriteButton",
+                    "pos": {
+                        "x": 357,
+                        "y": 174
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "MenuControls",
+                    "sprite": "sprites/main/button_changeplayer.json",
+					"callbacks": {
+						"buttonClick": "mainProfiles"
+					}
+                },
+                "Text_PlayerE": {
+                    "inheritShow": true,
+                    "inheritHide": true,
+                    "type": "text",
+                    "pos": {
+                        "x": 373,
+                        "y": 145
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "MenuControls",
+                    "font": "fonts/dialog_body.json",
+                    "align": {
+                        "x": 0.5,
+                        "y": 0
+                    },
+                    "text": ""
+                },
+                "Text_PlayerH": {
+                    "inheritShow": true,
+                    "inheritHide": true,
+                    "type": "text",
+                    "pos": {
+                        "x": 644,
+                        "y": 145
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "MenuControls",
+                    "font": "fonts/dialog_cartouche.json",
+                    "align": {
+                        "x": 0.5,
+                        "y": 0
+                    },
+                    "text": ""
+                },
+                "Text_Version": {
+                    "inheritShow": true,
+                    "inheritHide": true,
+                    "type": "text",
+                    "pos": {
+                        "x": 10,
+                        "y": 583
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "MenuControls",
+                    "font": "fonts/debug.json",
+                    "align": {
+                        "x": 0,
+                        "y": 0
+                    },
+                    "text": "If you can read this then you're smart boi"
+                },
+                "Button_Start": {
+                    "inheritShow": true,
+                    "inheritHide": true,
+                    "type": "spriteButton",
+                    "pos": {
+                        "x": 358,
+                        "y": 234
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "MenuControls",
+                    "sprite": "sprites/main/button_startgame.json",
+					"callbacks": {
+						"buttonClick": "mainStart"
+					}
+                },
+                "Button_Options": {
+                    "inheritShow": true,
+                    "inheritHide": true,
+                    "type": "spriteButton",
+                    "pos": {
+                        "x": 395,
+                        "y": 318
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "MenuControls",
+                    "sprite": "sprites/main/button_options.json",
+					"callbacks": {
+						"buttonClick": "mainOptions"
+					}
+                },
+                "Button_Help": {
+                    "inheritShow": true,
+                    "inheritHide": true,
+                    "type": "spriteButton",
+                    "pos": {
+                        "x": 395,
+                        "y": 369
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "MenuControls",
+                    "sprite": "sprites/main/button_help.json",
+					"callbacks": {
+						"buttonClick": "mainHelp"
+					}
+                },
+                "Button_Scores": {
+                    "inheritShow": true,
+                    "inheritHide": true,
+                    "type": "spriteButton",
+                    "pos": {
+                        "x": 395,
+                        "y": 419
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "MenuControls",
+                    "sprite": "sprites/main/button_scores.json",
+					"callbacks": {
+						"buttonClick": "mainHighscores"
+					}
+                },
+                "Button_Quit": {
+                    "inheritShow": true,
+                    "inheritHide": true,
+                    "type": "spriteButton",
+                    "pos": {
+                        "x": 395,
+                        "y": 478
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "MenuControls",
+                    "sprite": "sprites/main/button_quit.json",
+					"callbacks": {
+						"buttonClick": "mainQuit"
+					}
+                }
+            },
+            "animations": {},
+            "sounds": {},
+            "layer": "MenuBackground",
+			"path": "config/levels/level_0.json"
+        },
+		"Profile_Manage":"ui/profile_manage.json",
+		"Profile_Create":"ui/profile_create.json",
+		"Profile_Duplicate":"ui/profile_dup.json",
+		"Profile_Delete":"ui/profile_delete.json"
+    },
+    "animations": {},
+    "sounds": {}
+}

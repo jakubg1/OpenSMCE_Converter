@@ -1,0 +1,25 @@
+{
+    "$schema": "../../../../schemas/config/Sphere.json",
+    "sprite": "sprites/game/ball_3.json",
+    "nextSprite": "sprites/game/next_ball_3.json",
+    "destroyParticle": "particles/collapse_ball_3.json",
+    "color": {
+        "r": 1,
+        "g": 0,
+        "b": 0
+    },
+    "interchangeable": true,
+    "shootBehavior": {
+        "type": "normal"
+    },
+    "shootSound": "sound_events/sphere_shoot_normal.json",
+    "hitBehavior": {
+        "type": "normal"
+    },
+    "hitSound": "sound_events/sphere_hit_normal.json",
+    "matches": [
+        -1,
+        3
+    ],
+    "matchFont": "fonts/score3.json"
+}

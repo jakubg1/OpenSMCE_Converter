@@ -1,0 +1,229 @@
+{
+    "inheritShow": false,
+    "inheritHide": false,
+    "type": "none",
+    "pos": {
+        "x": 0,
+        "y": 0
+    },
+    "alpha": 1,
+    "children": {
+        "Background": {
+            "inheritShow": true,
+            "inheritHide": true,
+            "type": "none",
+            "pos": {
+                "x": 0,
+                "y": 0
+            },
+            "alpha": 0.0,
+            "children": {
+                "Background": "ui/background.json"
+            },
+            "animations": {
+                "in_": {
+                    "type": "fade",
+                    "time": 0.25,
+                    "startValue": 0.0,
+                    "endValue": 0.5019607843137255
+                },
+                "out": {
+                    "type": "fade",
+                    "time": 0.5,
+                    "startValue": 0.5019607843137255,
+                    "endValue": 0.0
+                }
+            },
+            "sounds": {},
+            "layer": "MenuBackgroundMask"
+        },
+        "Frame": {
+            "inheritShow": true,
+            "inheritHide": true,
+            "type": "sprite",
+            "pos": {
+                "x": 125,
+                "y": 110
+            },
+            "alpha": 0.0,
+            "children": {
+                "Text_Title": {
+                    "inheritShow": true,
+                    "inheritHide": true,
+                    "type": "text",
+                    "pos": {
+                        "x": 275,
+                        "y": 15
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "MenuDialogControls",
+                    "font": "fonts/dialog_header.json",
+                    "align": {
+                        "x": 0.5,
+                        "y": 0
+                    },
+                    "text": "CONTINUE GAME"
+                },
+                "Text_1": {
+                    "inheritShow": true,
+                    "inheritHide": true,
+                    "type": "text",
+                    "pos": {
+                        "x": 275,
+                        "y": 72
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "MenuDialogControls",
+                    "font": "fonts/dialog_body.json",
+                    "align": {
+                        "x": 0.5,
+                        "y": 0
+                    },
+                    "text": "WOULD YOU LIKE TO CONTINUE\nFROM YOUR LAST SAVED GAME?"
+                },
+                "Text_Stage": {
+                    "inheritShow": true,
+                    "inheritHide": true,
+                    "type": "text",
+                    "pos": {
+                        "x": 275,
+                        "y": 134
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "MenuDialogControls",
+                    "font": "fonts/dialog_body.json",
+                    "align": {
+                        "x": 0.5,
+                        "y": 0
+                    },
+					"text": ""
+                },
+                "Text_3": {
+                    "inheritShow": true,
+                    "inheritHide": true,
+                    "type": "text",
+                    "pos": {
+                        "x": 242,
+                        "y": 158
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "MenuDialogControls",
+                    "font": "fonts/dialog_body.json",
+                    "align": {
+                        "x": 1,
+                        "y": 0
+                    },
+                    "text": "SCORE"
+                },
+                "Text_Score": {
+                    "inheritShow": true,
+                    "inheritHide": true,
+                    "type": "text",
+                    "pos": {
+                        "x": 250,
+                        "y": 158
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "MenuDialogControls",
+                    "font": "fonts/dialog_body2.json",
+                    "align": {
+                        "x": 0,
+                        "y": 0
+                    },
+                    "text": ""
+                },
+                "Button_ContinueGame": {
+                    "inheritShow": true,
+                    "inheritHide": true,
+                    "type": "spriteButton",
+                    "pos": {
+                        "x": 140,
+                        "y": 197
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "MenuDialogControls",
+                    "sprite": "sprites/dialogs/button_continuegame.json",
+					"callbacks": {
+						"buttonClick": "mainContinueContinue"
+					}
+                },
+                "Button_StartNewGame": {
+                    "inheritShow": true,
+                    "inheritHide": true,
+                    "type": "spriteButton",
+                    "pos": {
+                        "x": 140,
+                        "y": 239
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "MenuDialogControls",
+                    "sprite": "sprites/dialogs/button_startnewgame.json",
+					"callbacks": {
+						"buttonClick": "mainContinueNew"
+					}
+                },
+                "Button_Cancel": {
+                    "inheritShow": true,
+                    "inheritHide": true,
+                    "type": "spriteButton",
+                    "pos": {
+                        "x": 225,
+                        "y": 280
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "MenuDialogControls",
+                    "sprite": "sprites/dialogs/button_cancel.json",
+					"callbacks": {
+						"buttonClick": "mainContinueCancel"
+					}
+                }
+            },
+            "animations": {
+                "in_": {
+                    "type": "fade",
+                    "time": 0.25,
+                    "startValue": 0.0,
+                    "endValue": 1.0
+                },
+                "out": {
+                    "type": "fade",
+                    "time": 0.5,
+                    "startValue": 1.0,
+                    "endValue": 0.0
+                }
+            },
+            "sounds": {},
+            "layer": "MenuDialog",
+            "sprite": "sprites/dialogs/dialog_1.json"
+        }
+    },
+    "animations": {},
+    "sounds": {
+        "in_": "sound_events/ui_dialog_show.json",
+        "out": "sound_events/ui_dialog_hide.json"
+    }
+}

@@ -1,0 +1,169 @@
+{
+    "inheritShow": false,
+    "inheritHide": false,
+	"inheritPos":false,
+    "type": "none",
+    "pos": {
+        "x": 0,
+        "y": 0
+    },
+    "alpha": 1,
+    "children": {
+        "Frame": {
+            "inheritShow": true,
+            "inheritHide": true,
+            "type": "none",
+            "pos": {
+                "x": 0,
+                "y": 0
+            },
+            "alpha": 0.0,
+            "children": {
+                "StageMap": {
+                    "inheritShow": true,
+                    "inheritHide": true,
+                    "type": "sprite",
+                    "pos": {
+                        "x": 0,
+                        "y": 0
+                    },
+                    "alpha": 1,
+                    "children": {
+                        "Text_StageName": {
+                            "inheritShow": true,
+                            "inheritHide": true,
+                            "type": "text",
+                            "pos": {
+                                "x": 400,
+                                "y": 10
+                            },
+                            "alpha": 1,
+                            "children": {},
+                            "animations": {},
+                            "sounds": {},
+                            "layer": "MenuDialogControls",
+                            "font": "fonts/dialog_header2.json",
+                            "align": {
+                                "x": 0.5,
+                                "y": 0
+                            },
+              							"text": ""
+                        },
+                        "Text_StageNumber": {
+                            "inheritShow": true,
+                            "inheritHide": true,
+                            "type": "text",
+                            "pos": {
+                                "x": 400,
+                                "y": 48
+                            },
+                            "alpha": 1,
+                            "children": {},
+                            "animations": {},
+                            "sounds": {},
+                            "layer": "MenuDialogControls",
+                            "font": "fonts/dialog_body.json",
+                            "align": {
+                                "x": 0.5,
+                                "y": 0
+                            },
+              							"text": ""
+                        },
+                        "Text_MapName": {
+                            "inheritShow": true,
+                            "inheritHide": true,
+                            "type": "text",
+                            "pos": {
+                                "x": 400,
+                                "y": 70
+                            },
+                            "alpha": 1,
+                            "children": {},
+                            "animations": {},
+                            "sounds": {},
+                            "layer": "MenuDialogControls",
+                            "font": "fonts/dialog_body.json",
+                            "align": {
+                                "x": 0.5,
+                                "y": 0
+                            },
+              							"text": ""
+                        },
+                        "RadioGroup": {
+                            "inheritShow": true,
+                            "inheritHide": true,
+                            "type": "none",
+                            "pos": {
+                                "x": 0,
+                                "y": 0
+                            },
+                            "alpha": 1,
+                            "children": {},
+                            "animations": {},
+                            "sounds": {}
+                        },
+                        "Button_Cancel": {
+                            "inheritShow": true,
+                            "inheritHide": true,
+                            "type": "spriteButton",
+                            "pos": {
+                                "x": 10,
+                                "y": 560
+                            },
+                            "alpha": 1,
+                            "children": {},
+                            "animations": {},
+                            "sounds": {},
+                            "layer": "MenuDialogControls",
+                            "sprite": "sprites/dialogs/button_cancel.json",
+              							"callbacks": {
+              								"buttonClick": "mainMapCancel"
+              							}
+                        },
+                        "Button_Start": {
+                            "inheritShow": true,
+                            "inheritHide": true,
+                            "type": "spriteButton",
+                            "pos": {
+                                "x": 690,
+                                "y": 560
+                            },
+                            "alpha": 1,
+                            "children": {},
+                            "animations": {},
+                            "sounds": {},
+                            "layer": "MenuDialogControls",
+                            "sprite": "sprites/dialogs/button_start.json",
+              							"callbacks": {
+              								"buttonClick": "mainMapStart"
+              							}
+                        },
+                        "Stage_Select":"ui/stage_select.json"
+                    },
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "MenuDialog",
+                    "sprite": "sprites/dialogs/stage_map.json"
+                }
+            },
+            "animations": {
+                "in_": {
+                    "type": "fade",
+                    "time": 0.5,
+                    "startValue": 0.0,
+                    "endValue": 1.0
+                },
+                "out": {
+                    "type": "fade",
+                    "time": 0.5,
+                    "startValue": 1.0,
+                    "endValue": 0.0
+                }
+            },
+            "sounds": {},
+            "layer": "MenuDialog2"
+        }
+    },
+    "animations": {},
+    "sounds": {}
+}
