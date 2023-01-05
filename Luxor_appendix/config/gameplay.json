@@ -1,12 +1,5 @@
 {
     "$schema": "../../../schemas/config/gameplay.json",
-    "shooter": {
-        "speedShotBeamRenderingType": "cut",
-        "speedShotBeamColored": false,
-        "speedShotBeamFadeTime": 0.5,
-        "speedShotParticle": "particles/speed_shot_beam.json",
-        "shotSpeed": 1000
-    },
     "level": {
         "controlDelay": 2,
         "finishDelay": 2,
@@ -22,7 +15,12 @@
         "knockbackSpeedMult": -150,
         "foulSpeed": 2000,
         "overspeedCheck": true,
-        "invincible_scarabs": false
+        "invincibleScarabs": false,
+		"luxorized": true,
+        "joinSound": "sound_events/sphere_group_join.json",
+        "newGroupSound": "sound_events/sphere_chain_spawn.json",
+        "noScarabs": false,
+        "permitLongMatches": true
     },
     "collectibleBehaviour": {
         "speed": {
@@ -44,6 +42,7 @@
     },
     "bonusScarab": {
         "sprite": "sprites/game/vise.json",
+        "shadowSprite": "sprites/game/ball_shadow.json",
         "stepLength": 24,
         "pointsPerStep": 50,
         "coinDistance": 500,
@@ -51,6 +50,8 @@
         "speed": 1000,
         "trailParticle": "particles/bonus_scarab_trail.json",
         "trailParticleDistance": 24,
+        "loopSound": "sound_events/bonus_scarab_loop.json",
+        "destroySound": "sound_events/bonus_scarab.json",
         "destroyParticle": "particles/collapse_vise.json",
         "destroyGenerator": null,
         "scoreFont": "fonts/score0.json"

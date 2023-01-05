@@ -235,7 +235,12 @@ def convert_level(contents):
 		"colorGeneratorNormal":"default",
 		"colorGeneratorDanger":"danger",
 		"matchEffect":"match",
-		"target":0,
+		"objectives":[
+			{
+				"type": "destroyedSpheres",
+				"target": 0
+			}
+		],
 		"pathsBehavior":[
 			{
 				"colors":[],
@@ -282,7 +287,7 @@ def convert_level(contents):
 			level_data["pathsBehavior"][0]["colorStreak"] = min(int(words[2]) / 300, 0.45)
 			level_data["pathsBehavior"][1]["colorStreak"] = min(int(words[2]) / 300, 0.45)
 		if words[0] == "winCondition":
-			level_data["target"] = int(words[2])
+			level_data["objectives"][0]["target"] = int(words[2])
 		if words[0] == "viseGroupCount":
 			level_data["pathsBehavior"][0]["spawnRules"]["amount"] = int(words[2])
 			level_data["pathsBehavior"][1]["spawnRules"]["amount"] = int(words[2])

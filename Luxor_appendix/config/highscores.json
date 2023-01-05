@@ -1,7 +1,7 @@
 {
     "$schema": "../../../schemas/config/highscores.json",
     "size": 10,
-    "default_scores": [
+    "defaultScores": [
         {
             "name": "AAA",
             "score": 10000,

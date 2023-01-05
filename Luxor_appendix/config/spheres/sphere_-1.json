@@ -2,7 +2,6 @@
     "$schema": "../../../../schemas/config/Sphere.json",
     "sprite": "sprites/game/ball_wild.json",
     "spriteAnimationSpeed": 16,
-    "nextSprite": "sprites/game/next_ball_wild.json",
     "idleParticle": "particles/idle_ball_wild.json",
     "destroyParticle": "particles/collapse_wild.json",
     "color": "images/powerups/wild_pal.png",

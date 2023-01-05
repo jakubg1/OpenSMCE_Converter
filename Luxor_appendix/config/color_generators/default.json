@@ -10,7 +10,20 @@
         6,
         7
     ],
-    "fallback": 0,
+    "fallback": {
+        "type": "random",
+        "has_to_exist": false,
+        "colors": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+        ],
+        "fallback": 0
+    },
     "colors_remove_if_nonexistent": [
         1,
         2,

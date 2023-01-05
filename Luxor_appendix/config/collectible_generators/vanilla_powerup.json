@@ -1,5 +1,5 @@
 {
-  "type": "random_pick",
+  "type": "randomPick",
   "pool": [
     {
       "entry": {
@@ -52,7 +52,7 @@
     },
     {
       "entry": {
-        "type": "collectible_generator",
+        "type": "collectibleGenerator",
         "name": "vanilla_powerup_colorbomb.json"
       },
       "weight": 500

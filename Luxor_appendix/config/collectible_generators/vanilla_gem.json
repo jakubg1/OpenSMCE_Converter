@@ -1,5 +1,5 @@
 {
-    "type": "random_pick",
+    "type": "randomPick",
     "pool": [
         {
             "entry": {
@@ -7,7 +7,7 @@
                 "name": "gem_1",
                 "conditions": [
                     {
-                        "type": "cmp_latest_checkpoint",
+                        "type": "cmpLatestCheckpoint",
                         "min": 1,
                         "max": 1
                     }
@@ -20,7 +20,7 @@
                 "name": "gem_2",
                 "conditions": [
                     {
-                        "type": "cmp_latest_checkpoint",
+                        "type": "cmpLatestCheckpoint",
                         "min": 1,
                         "max": 2
                     }
@@ -33,7 +33,7 @@
                 "name": "gem_3",
                 "conditions": [
                     {
-                        "type": "cmp_latest_checkpoint",
+                        "type": "cmpLatestCheckpoint",
                         "min": 1,
                         "max": 3
                     }
@@ -46,7 +46,7 @@
                 "name": "gem_4",
                 "conditions": [
                     {
-                        "type": "cmp_latest_checkpoint",
+                        "type": "cmpLatestCheckpoint",
                         "min": 2,
                         "max": 4
                     }
@@ -59,7 +59,7 @@
                 "name": "gem_5",
                 "conditions": [
                     {
-                        "type": "cmp_latest_checkpoint",
+                        "type": "cmpLatestCheckpoint",
                         "min": 3,
                         "max": 5
                     }
@@ -72,7 +72,7 @@
                 "name": "gem_6",
                 "conditions": [
                     {
-                        "type": "cmp_latest_checkpoint",
+                        "type": "cmpLatestCheckpoint",
                         "min": 4,
                         "max": 6
                     }
@@ -85,7 +85,7 @@
                 "name": "gem_7",
                 "conditions": [
                     {
-                        "type": "cmp_latest_checkpoint",
+                        "type": "cmpLatestCheckpoint",
                         "min": 5,
                         "max": 7
                     }
@@ -98,7 +98,7 @@
                 "name": "gem_8",
                 "conditions": [
                     {
-                        "type": "cmp_latest_checkpoint",
+                        "type": "cmpLatestCheckpoint",
                         "min": 6,
                         "max": 8
                     }
@@ -111,7 +111,7 @@
                 "name": "gem_9",
                 "conditions": [
                     {
-                        "type": "cmp_latest_checkpoint",
+                        "type": "cmpLatestCheckpoint",
                         "min": 7,
                         "max": 9
                     }
@@ -124,7 +124,7 @@
                 "name": "gem_10",
                 "conditions": [
                     {
-                        "type": "cmp_latest_checkpoint",
+                        "type": "cmpLatestCheckpoint",
                         "min": 8,
                         "max": 10
                     }
@@ -137,7 +137,7 @@
                 "name": "gem_11",
                 "conditions": [
                     {
-                        "type": "cmp_latest_checkpoint",
+                        "type": "cmpLatestCheckpoint",
                         "min": 9,
                         "max": 11
                     }
@@ -150,7 +150,7 @@
                 "name": "gem_12",
                 "conditions": [
                     {
-                        "type": "cmp_latest_checkpoint",
+                        "type": "cmpLatestCheckpoint",
                         "min": 10,
                         "max": 12
                     }
@@ -163,7 +163,7 @@
                 "name": "gem_13",
                 "conditions": [
                     {
-                        "type": "cmp_latest_checkpoint",
+                        "type": "cmpLatestCheckpoint",
                         "min": 11,
                         "max": 13
                     }
@@ -176,7 +176,7 @@
                 "name": "gem_14",
                 "conditions": [
                     {
-                        "type": "cmp_latest_checkpoint",
+                        "type": "cmpLatestCheckpoint",
                         "min": 12,
                         "max": 13
                     }
@@ -189,7 +189,7 @@
                 "name": "gem_15",
                 "conditions": [
                     {
-                        "type": "cmp_latest_checkpoint",
+                        "type": "cmpLatestCheckpoint",
                         "min": 13,
                         "max": 13
                     }

@@ -2,7 +2,7 @@
     "type": "combine",
     "entries": [
         {
-            "type": "collectible_generator",
+            "type": "collectibleGenerator",
             "name": "vanilla_powerup.json",
             "conditions": [
                 {
@@ -12,7 +12,7 @@
             ]
         },
         {
-            "type": "collectible_generator",
+            "type": "collectibleGenerator",
             "name": "vanilla_coin.json",
             "conditions": [
                 {

@@ -1,5 +1,5 @@
 {
-  "type": "random_pick",
+  "type": "randomPick",
   "pool": [
     {
       "entry": {
@@ -7,7 +7,7 @@
         "name": "colorbomb_1",
         "conditions": [
           {
-            "type": "color_present",
+            "type": "colorPresent",
             "color": 1
           }
         ]
@@ -19,7 +19,7 @@
         "name": "colorbomb_2",
         "conditions": [
           {
-            "type": "color_present",
+            "type": "colorPresent",
             "color": 2
           }
         ]
@@ -31,7 +31,7 @@
         "name": "colorbomb_3",
         "conditions": [
           {
-            "type": "color_present",
+            "type": "colorPresent",
             "color": 3
           }
         ]
@@ -43,7 +43,7 @@
         "name": "colorbomb_4",
         "conditions": [
           {
-            "type": "color_present",
+            "type": "colorPresent",
             "color": 4
           }
         ]
@@ -55,7 +55,7 @@
         "name": "colorbomb_5",
         "conditions": [
           {
-            "type": "color_present",
+            "type": "colorPresent",
             "color": 5
           }
         ]
@@ -67,7 +67,7 @@
         "name": "colorbomb_6",
         "conditions": [
           {
-            "type": "color_present",
+            "type": "colorPresent",
             "color": 6
           }
         ]
@@ -79,7 +79,7 @@
         "name": "colorbomb_7",
         "conditions": [
           {
-            "type": "color_present",
+            "type": "colorPresent",
             "color": 7
           }
         ]

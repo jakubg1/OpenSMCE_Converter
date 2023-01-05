@@ -1,7 +1,6 @@
 {
     "$schema": "../../../../schemas/config/Sphere.json",
     "sprite": "sprites/game/ball_5.json",
-    "nextSprite": "sprites/game/next_ball_5.json",
     "destroyParticle": "particles/collapse_ball_5.json",
     "color": {
         "r": 1,

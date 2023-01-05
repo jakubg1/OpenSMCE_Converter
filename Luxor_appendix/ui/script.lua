@@ -13,6 +13,12 @@ local c = {}
 -- It is used just as a simple way to provide the function library to be used here.
 
 -- SPLASH STUFF
+function c.init(f)
+  f.getWidgetN("splash"):show()
+  f.getWidgetN("splash"):setActive()
+  f.musicVolume("menu", 1)
+end
+
 function c.splashStart(f)
   f.loadMain()
 end
@@ -810,6 +816,18 @@ end
 ----------------------
 
 function c.tick(f)
+  -- update splash screen
+  local splash = f.getWidgetN("splash")
+  if splash then
+    local progress = f.loadingGetProgress()
+    f.getWidgetN("splash/Frame/Progress").widget.valueData = progress
+    if progress == 1 then
+      f.getWidgetN("splash/Frame/Button_Play"):show()
+    end
+  end
+
+
+
   -- when the options menu is open, update options to the widget positions
 
   -- The "if Menu_Options" check refers to the existence of the widget itself.
@@ -969,11 +987,10 @@ end
 
 
 
-function c.levelComplete(f, params)
-  local record = params[1]
+function c.levelComplete(f)
   c.Button_Pause:buttonSetEnabled(false)
   c.Banner_LevelComplete:show()
-  if not record then
+  if not f.levelGetNewRecord() then
     c.Banner_LevelComplete_Record:hide()
   end
 end

@@ -1,10 +1,10 @@
 {
     "$schema": "../../../../schemas/config/Sphere.json",
     "sprite": "sprites/game/vise.json",
-    "nextSprite": "sprites/game/next_ball_0.json",
     "idleParticle": null,
     "destroyParticle": "particles/collapse_vise.json",
-    "destroy_collectible": "vise_gems.json",
+    "destroyCollectible": "vanilla_vise.json",
+    "destroySound": "sound_events/sphere_destroy_vise.json",
     "color": {
         "r": 1,
         "g": 1,

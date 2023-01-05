@@ -1,0 +1,10 @@
+{
+	"type": "collectibleGenerator",
+	"name": "vanilla_gem.json",
+	"conditions": [
+		{
+			"type": "expression",
+			"expression": "![crushed]"
+		}
+	]
+}

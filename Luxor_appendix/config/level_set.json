@@ -1,5 +1,5 @@
 {
-    "level_order": [
+    "levelOrder": [
         {
             "type": "level",
             "level": 101,
@@ -19,7 +19,7 @@
             "type": "level",
             "level": 104,
             "name": "1-4",
-            "unlock_checkpoints_on_beat": [
+            "unlockCheckpointsOnBeat": [
                 2
             ]
         },
@@ -47,7 +47,7 @@
             "type": "level",
             "level": 205,
             "name": "2-5",
-            "unlock_checkpoints_on_beat": [
+            "unlockCheckpointsOnBeat": [
                 3
             ]
         },
@@ -80,7 +80,7 @@
             "type": "level",
             "level": 306,
             "name": "3-6",
-            "unlock_checkpoints_on_beat": [
+            "unlockCheckpointsOnBeat": [
                 4
             ]
         },
@@ -108,7 +108,7 @@
             "type": "level",
             "level": 405,
             "name": "4-5",
-            "unlock_checkpoints_on_beat": [
+            "unlockCheckpointsOnBeat": [
                 5
             ]
         },
@@ -141,7 +141,7 @@
             "type": "level",
             "level": 506,
             "name": "5-6",
-            "unlock_checkpoints_on_beat": [
+            "unlockCheckpointsOnBeat": [
                 6
             ]
         },
@@ -179,7 +179,7 @@
             "type": "level",
             "level": 607,
             "name": "6-7",
-            "unlock_checkpoints_on_beat": [
+            "unlockCheckpointsOnBeat": [
                 7
             ]
         },
@@ -212,7 +212,7 @@
             "type": "level",
             "level": 706,
             "name": "7-6",
-            "unlock_checkpoints_on_beat": [
+            "unlockCheckpointsOnBeat": [
                 8
             ]
         },
@@ -250,7 +250,7 @@
             "type": "level",
             "level": 807,
             "name": "8-7",
-            "unlock_checkpoints_on_beat": [
+            "unlockCheckpointsOnBeat": [
                 9
             ]
         },
@@ -293,7 +293,7 @@
             "type": "level",
             "level": 908,
             "name": "9-8",
-            "unlock_checkpoints_on_beat": [
+            "unlockCheckpointsOnBeat": [
                 10
             ]
         },
@@ -331,7 +331,7 @@
             "type": "level",
             "level": 1007,
             "name": "10-7",
-            "unlock_checkpoints_on_beat": [
+            "unlockCheckpointsOnBeat": [
                 11
             ]
         },
@@ -374,7 +374,7 @@
             "type": "level",
             "level": 1108,
             "name": "11-8",
-            "unlock_checkpoints_on_beat": [
+            "unlockCheckpointsOnBeat": [
                 12
             ]
         },
@@ -422,7 +422,7 @@
             "type": "level",
             "level": 1209,
             "name": "12-9",
-            "unlock_checkpoints_on_beat": [
+            "unlockCheckpointsOnBeat": [
                 13
             ]
         },
