@@ -22,23 +22,9 @@
         "noScarabs": false,
         "permitLongMatches": true
     },
-    "collectibleBehaviour": {
-        "speed": {
-            "x": {
-                "type": "randomFloat",
-                "min": -100,
-                "max": 100
-            },
-            "y": {
-                "type": "randomFloat",
-                "min": -250,
-                "max": -150
-            }
-        },
-        "acceleration": {
-            "x": 0,
-            "y": 300
-        }
+    "collectibleBehavior": {
+        "speed": "$expr{vec2(randomf(-100, 100), randomf(-250, -150))}",
+        "acceleration": "$expr{vec2(0, 300)}"
     },
     "bonusScarab": {
         "sprite": "sprites/game/vise.json",
