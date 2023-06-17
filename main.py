@@ -6,9 +6,9 @@ from PIL import Image, ImageDraw
 ### Change these two constanta to manipulate the purpose of this program.
 
 # Lets the program be able to be opened by itself. This will disable some automation, and you will have to copy the result and perform some checks manually.
-STANDALONE_MODE = True
+STANDALONE_MODE = False
 # A list of stuff to convert. Leave empty to convert everything. Allowed values: "sprites", "maps", "levels", "fonts", "particles", "sounds".
-CONVERSION_SCOPE = ["levels"]
+CONVERSION_SCOPE = []
 
 
 
@@ -35,11 +35,31 @@ def unindent(line):
 		char += 1
 
 #
+# Fix paths for unixlike systems
+#
+
+def fix_path(path):
+	path = path.replace("\\", "/")
+	if path.__contains__("data/maps"):
+		path = path.replace("InTheShadowofthePyramids","InTheShadowOfThePyramids") \
+			.replace("InnerSanctumoftheTemple","InnerSanctumOfTheTemple") \
+			.replace("flightofthesacredibis","FlightOfTheSacredIbis") \
+			.replace("DescenttotheUnderworld","DescentToTheUnderworld") \
+			.replace("inundationofthenile","InundationOfTheNile") \
+			.replace("danceofthecrocodiles","DanceOfTheCrocodiles") \
+			.replace("RasJourneytotheWest","RasJourneyToTheWest") \
+			.replace("ThePillarofOsiris","ThePillarOfOsiris") \
+			.replace("ScrollofThoth","ScrollOfThoth") \
+			.replace("PooloftheLotusBlossom","PoolOfTheLotusBlossom")
+
+	return path
+
+#
 #  Takes a file from a given path and returns its contents as a list of lines.
 #
 
 def get_contents(path):
-	path = path.replace("\\", "/") # MacOS hack
+	path = fix_path(path) # MacOS hack
 	file = open(path, "r")
 	contents = file.read()
 	file.close()
@@ -69,28 +89,28 @@ def try_create_dir(path):
 #
 
 def resolve_path_image(path):
-	return path.replace("\\", "/").replace("data/sprites", "images")[:-4] + ".png"
+	return fix_path(path).replace("data/sprites", "images")[:-4] + ".png"
 
 #
 #  Changes i.e. "data\sprites\game\shooter.spr" to "sprites/game/shooter.json".
 #
 
 def resolve_path_sprite(path):
-	return path.replace("\\", "/").replace("data/sprites", "sprites")[:-4] + ".json"
+	return fix_path(path).replace("data/sprites", "sprites")[:-4] + ".json"
 
 #
 #  Changes i.e. "data\fonts\score4.font" to "fonts/score4.json".
 #
 
 def resolve_path_font(path):
-	return path.replace("\\", "/").replace("data/fonts", "fonts")[:-5] + ".json"
+	return fix_path(path).replace("data/fonts", "fonts")[:-5] + ".json"
 
 #
 #  Changes i.e. "data\sound\collapse_1.ogg" to "sounds/collapse_1.ogg".
 #
 
 def resolve_path_sound(path):
-	return path.replace("\\", "/").replace("data/sound", "sounds")
+	return fix_path(path).replace("data/sound", "sounds")
 
 #
 #  If both values are identical, return that value. If not, return a random value generator dictionary, eg. {"type":"randomInt","min":1,"max":3}
@@ -127,18 +147,18 @@ def rename_level(name):
 
 def combine_alpha(img, alpha = None):
 	combine = alpha != None
-	
+
 	px = img.load()
 	if combine:
 		px_alpha = alpha.convert(mode = "L").load()
-	
+
 	result = Image.new("RGBA" if combine else "RGB", img.size)
 	px_result = result.load()
-	
+
 	for i in range(img.size[0]):
 		for j in range(img.size[1]):
 			px_result[i, j] = (px[i, j][0], px[i, j][1], px[i, j][2], px_alpha[i, j]) if combine else (px[i, j][0], px[i, j][1], px[i, j][2])
-	
+
 	return result
 
 #
@@ -149,19 +169,19 @@ def combine_alpha_path(img_path, alpha_path, result_path):
 	output_path = "/".join(result_path.split("/")[:-1])
 	if not os.path.exists(output_path):
 		os.makedirs(output_path)
-	
+
 	try:
-		img = Image.open(img_path)
+		img = Image.open(fix_path(img_path))
 	except:
 		print("Unknown image: " + img_path)
 		return False
-	
+
 	try:
-		alpha = Image.open(alpha_path)
+		alpha = Image.open(fix_path(alpha_path))
 	except:
 		alpha = None
 	combine_alpha(img, alpha).save(result_path)
-	
+
 	return True
 
 #
@@ -170,12 +190,12 @@ def combine_alpha_path(img_path, alpha_path, result_path):
 
 def combine_alpha_sprite(sprite_path, out_sprite_path, out_image_path, internal = False):
 	sprite_data = {"path":"","frame_size":{"x":1,"y":1},"states":[],"internal":internal,"batched":False}
-	
+
 	contents = get_contents(sprite_path)
 	result = combine_alpha_path(contents[0], contents[1], out_image_path)
 	if not result:
 		return
-	
+
 	sprite_data["path"] = "/".join(out_image_path.split("/")[1:])
 	sprite_data["frame_size"]["x"] = int(contents[2].split(" ")[0])
 	sprite_data["frame_size"]["y"] = int(contents[2].split(" ")[1])
@@ -186,11 +206,11 @@ def combine_alpha_sprite(sprite_path, out_sprite_path, out_image_path, internal 
 		state["pos"]["y"] = int(contents[n + 1].split(" ")[1])
 		state["frames"]["x"] = int(contents[n])
 		sprite_data["states"].append(state)
-	
+
 	# hacks for various sprites
 	if sprite_path == "data/sprites/particles/speed_shot_beam.spr":
 		sprite_data["states"][0]["frames"]["x"] = 1
-	
+
 	result_path = out_sprite_path
 	output_path = "/".join(result_path.split("/")[:-1])
 	if not os.path.exists(output_path):
@@ -204,7 +224,7 @@ def combine_alpha_sprite(sprite_path, out_sprite_path, out_image_path, internal 
 def convert_path(contents):
 	vertices = []
 	vertex_order = []
-	
+
 	for line in contents:
 		words = line.split(" ")
 		if words[0] == "v":
@@ -212,13 +232,13 @@ def convert_path(contents):
 		if words[0] == "f":
 			for i in range(len(words) - 1):
 				vertex_order.append(int(words[i + 1]))
-	
+
 	result = []
 	for vertex_id in vertex_order:
 		result.append(vertices[vertex_id - 1])
-	
+
 	result.reverse()
-	
+
 	return result
 
 #
@@ -260,7 +280,7 @@ def convert_level(contents):
 			}
 		]
 	}
-	
+
 	viseMaxSpeed = 0
 	viseMidMaxSpeed = 0
 	viseMidMinSpeed = 0
@@ -272,7 +292,7 @@ def convert_level(contents):
 	midStartDistance2 = 0
 	midEndDistance1 = 0
 	midEndDistance2 = 0
-	
+
 	for line in contents:
 		line = unindent(line)
 		if line == None:
@@ -317,17 +337,17 @@ def convert_level(contents):
 			midEndDistance1 = float(words[2])
 		if words[0] == "midEndDistance_2":
 			midEndDistance2 = float(words[2])
-	
+
 	level_data["pathsBehavior"][0]["speeds"].append({"distance":0,"speed":viseMaxSpeed,"transition":{"type":"bezier","point1":viseSpeedMaxBzLerp[0],"point2":viseSpeedMaxBzLerp[1]}})
 	level_data["pathsBehavior"][0]["speeds"].append({"distance":midStartDistance1,"speed":viseMidMaxSpeed,"transition":{"type":"bezier","point1":viseSpeedMidBzLerp[0],"point2":viseSpeedMidBzLerp[1]}})
 	level_data["pathsBehavior"][0]["speeds"].append({"distance":midEndDistance1,"speed":viseMidMinSpeed,"transition":{"type":"bezier","point1":viseSpeedMinBzLerp[0],"point2":viseSpeedMinBzLerp[1]}})
 	level_data["pathsBehavior"][0]["speeds"].append({"distance":1,"speed":viseMinSpeed})
-	
+
 	level_data["pathsBehavior"][1]["speeds"].append({"distance":0,"speed":viseMaxSpeed,"transition":{"type":"bezier","point1":viseSpeedMaxBzLerp[0],"point2":viseSpeedMaxBzLerp[1]}})
 	level_data["pathsBehavior"][1]["speeds"].append({"distance":midStartDistance2,"speed":viseMidMaxSpeed,"transition":{"type":"bezier","point1":viseSpeedMidBzLerp[0],"point2":viseSpeedMidBzLerp[1]}})
 	level_data["pathsBehavior"][1]["speeds"].append({"distance":midEndDistance2,"speed":viseMidMinSpeed,"transition":{"type":"bezier","point1":viseSpeedMinBzLerp[0],"point2":viseSpeedMinBzLerp[1]}})
 	level_data["pathsBehavior"][1]["speeds"].append({"distance":1,"speed":viseMinSpeed})
-	
+
 	return level_data
 
 #
@@ -337,20 +357,20 @@ def convert_level(contents):
 def convert_map(input_path, output_path):
 	if not os.path.exists(output_path):
 		os.makedirs(output_path)
-	
+
 	map_data = {"name":"","paths":[],"sprites":[]}
-	
+
 	contents = get_contents(input_path + "map.ui")
-	
+
 	for line in contents:
 		line = unindent(line)
 		if line == None:
 			continue
 		words = line.split(" ")
-		
+
 		if words[0] == "MapName":
 			map_data["name"] = " ".join(words[2:])[1:-1]
-		
+
 		if words[0] == "Sprite":
 			is_global = input_path.replace("/", "\\").lower() != ("\\".join(words[2].split("\\")[:-1]) + "\\").lower()
 			sprite_name = (words[2].replace("\\", "/").replace("data/sprites", "sprites")[:-4]) if is_global else words[2].split("\\")[-1][:-4]
@@ -358,7 +378,7 @@ def convert_map(input_path, output_path):
 				combine_alpha_sprite(input_path + sprite_name + ".spr", output_path + sprite_name + ".json", output_path + sprite_name + ".png", True)
 			sprite = {"x":0,"y":0,"path":sprite_name + ".json","internal":not is_global,"background":True}
 			map_data["sprites"].append(sprite)
-		
+
 		if words[0] == "GLSprite":
 			is_global = input_path.replace("/", "\\").lower() != ("\\".join(words[5].split("\\")[:-1]) + "\\").lower()
 			background = words[4] == "GamePieceHShadow"
@@ -367,14 +387,14 @@ def convert_map(input_path, output_path):
 				combine_alpha_sprite(input_path + sprite_name + ".spr", output_path + sprite_name + ".json", output_path + sprite_name + ".png", True)
 			sprite = {"x":int(words[2]),"y":int(words[3]),"path":sprite_name + ".json","internal":not is_global,"background":background}
 			map_data["sprites"].append(sprite)
-		
+
 		if words[0] == "Path":
 			path = convert_path(get_contents(input_path + words[2].split("\\")[-1]))
 			map_data["paths"].append(path)
-		
+
 		if words[0] == "Node":
 			map_data["paths"][int(words[2])][int(words[3])]["hidden"] = True
-	
+
 	store_contents(output_path + "config.json", map_data)
 
 #
@@ -383,18 +403,18 @@ def convert_map(input_path, output_path):
 
 def convert_font(input_path, output_path):
 	font_data = {"type":"image","image":"","characters":{}}
-	
+
 	contents = get_contents(input_path)
-	
+
 	image_name = contents[0].replace("\\", "/").replace("data/bitmaps", "images")[:-4]
 	combine_alpha_path(contents[0].replace("\\", "/"), contents[1].replace("\\", "/"), "output/" + image_name + ".png")
 	font_data["image"] = image_name + ".png"
-	
+
 	for i in range((len(contents) - 4) // 2):
 		char = contents[i * 2 + 4]
 		params = contents[i * 2 + 5].split(" ")
 		font_data["characters"][char] = {"offset":int(params[0]),"width":int(params[2])}
-	
+
 	store_contents(output_path, font_data)
 
 #
@@ -404,18 +424,18 @@ def convert_font(input_path, output_path):
 def convert_ui(contents, rule_table, name = "root"):
 	ui_data = {"inheritShow":True,"inheritHide":True,"type":"none","pos":{"x":0,"y":0},"alpha":1,"children":{},"animations":{},"sounds":{}}
 	sub_anim_uis = {}
-	
+
 	child_scan = False
 	child_scan_level = 0
 	child_name = ""
 	child_type = "none"
 	child_contents = []
-	
+
 	for line in contents:
 		line = unindent(line)
 		if line == None:
 			continue
-		
+
 		if child_scan:
 			child_contents.append(line)
 			if line == "{":
@@ -434,11 +454,11 @@ def convert_ui(contents, rule_table, name = "root"):
 						child_data["type"] = child_type
 						ui_data["children"][child_name] = child_data
 			continue
-		
+
 		words = line.split(" ")
 		if words[0] == "//":
 			continue # we don't want comments
-		
+
 		if words[0] == "X":
 			ui_data["pos"]["x"] = int(words[2])
 		if words[0] == "Y":
@@ -490,9 +510,9 @@ def convert_ui(contents, rule_table, name = "root"):
 			child_scan_level = 0
 			child_name = words[1]
 			child_contents = []
-		
-		
-		
+
+
+
 		if words[0] == "SubAnimIn":
 			if words[2] == "Widget":
 				sub_ui = ui_data
@@ -539,11 +559,11 @@ def convert_ui(contents, rule_table, name = "root"):
 				sub_anim_uis[words[1]]["animations"]["out"]["startValue"] = int(words[4]) / 255
 			if words[2] == "AlphaTarget" and sub_anim_uis[words[1]]["animations"]["in_"]["type"] == "fade":
 				sub_anim_uis[words[1]]["animations"]["out"]["endValue"] = int(words[4]) / 255
-	
+
 	if name in rule_table:
 		for key in rule_table[name]:
 			ui_data[key] = rule_table[name][key]
-	
+
 	return ui_data
 
 #
@@ -552,11 +572,11 @@ def convert_ui(contents, rule_table, name = "root"):
 
 def convert_psys(contents):
 	particle_data = []
-	
+
 	spawner_name = None
 	spawner_data = None
 	spawner_flags = []
-	
+
 	lifespan_min = 0.0
 	lifespan_max = 0.0
 	spawn_radius_min_x = 0
@@ -574,7 +594,7 @@ def convert_psys(contents):
 	emitter_vel_min_y = 0
 	emitter_vel_max_x = 0
 	emitter_vel_max_y = 0
-	
+
 	for line in contents:
 		line = unindent(line)
 		if line == None:
@@ -582,7 +602,7 @@ def convert_psys(contents):
 		words = line.split(" ")
 		if words[0] == "//":
 			continue # we don't want comments
-		
+
 		if spawner_name == None:
 			if words[0] == "Emitter":
 				spawner_name = words[1]
@@ -616,7 +636,7 @@ def convert_psys(contents):
 			else:
 				print("Unknown type: " + words[0])
 			continue
-		
+
 		if words[0] == "}":
 			spawner_data["particleData"]["lifespan"] = collapse_random_number(lifespan_min, lifespan_max, True)
 			spawner_data["particleData"]["spawnScale"]["x"] = collapse_random_number(spawn_radius_min_x, spawn_radius_max_x, True)
@@ -625,7 +645,7 @@ def convert_psys(contents):
 			spawner_data["particleData"]["speed"]["y"] = collapse_random_number(start_vel_min_y, start_vel_max_y, True)
 			spawner_data["speed"]["x"] = collapse_random_number(emitter_vel_min_x, emitter_vel_max_x, True)
 			spawner_data["speed"]["y"] = collapse_random_number(emitter_vel_min_y, emitter_vel_max_y, True)
-			
+
 			if "EF_LIFESPAN_INFINITE" in spawner_flags:
 				spawner_data["particleData"]["lifespan"] = None
 			if "EF_ELIFESPAN_INFINITE" in spawner_flags:
@@ -646,11 +666,11 @@ def convert_psys(contents):
 				spawner_data["particleData"]["speedMode"] = "circle"
 				spawner_data["particleData"]["speed"] = spawner_data["particleData"]["speed"]["x"]
 				spawner_data["particleData"]["acceleration"] = spawner_data["particleData"]["acceleration"]["x"]
-			
+
 			particle_data.append(spawner_data)
 			spawner_name = None
 			continue
-		
+
 		if words[0] == "Flags":
 			spawner_flags = " ".join(words[2:]).split(" | ")
 		if words[0] == "StartParticles":
@@ -713,7 +733,7 @@ def convert_psys(contents):
 			spawner_data["acceleration"]["y"] = float(words[3])
 		if words[0] == "EmitterLifespan":
 			spawner_data["lifespan"] = collapse_random_number(float(words[2]), float(words[3]), True)
-	
+
 	return particle_data
 
 #
@@ -772,11 +792,11 @@ def convert_sounds(contents):
 		"score_tally":{"name":"ui_score_tally"},
 		"level_advance":{"name":"level_advance"}
 	}
-	
+
 	events = {}
 	name = ""
 	param_mode = False
-	
+
 	for line in contents:
 		line = unindent(line)
 		if line == None:
@@ -784,7 +804,7 @@ def convert_sounds(contents):
 		words = line.split(" ")
 		if words[0][:2] == "//":
 			continue # we don't want comments
-		
+
 		if line == "{":
 			param_mode = True
 		elif line == "}":
@@ -802,16 +822,16 @@ def convert_sounds(contents):
 					continue
 				data = mapping[words[0]]
 				name = data["name"]
-				
+
 				event = {}
 				event["path"] = resolve_path_sound(words[3])
 				if "loop" in data:
 					event["loop"] = data["loop"]
-				
+
 				events[name] = event
-	
+
 	events["warning_loop"] = {"path":None}
-	
+
 	return events
 
 #
@@ -820,37 +840,37 @@ def convert_sounds(contents):
 
 def main():
 	global CONVERSION_SCOPE
-	
+
 	# Utility (temps)
-	
+
 	# convert_map("data/maps/KhufusRevengest/", "output/maps/KhufusRevengest/")
 	# store_contents("output/levels/khufus_revengest.json", convert_level(get_contents("data/levels/KhufusRevengest.lvl")))
 	#convert_map("data/maps/Demo/", "output/maps/Demo/")
 	#store_contents("output/levels/level_0_0.json", convert_level(get_contents("data/levels/level_0_0.lvl")))
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
 	# rule_tables = json.loads("".join(get_contents("rule_tables.txt")))
-	
-	
-	
+
+
+
 	###############################################################################################   MAIN START
-	
+
 	# not that much of a constant? shhhhhh
 	if CONVERSION_SCOPE == []:
 		CONVERSION_SCOPE = ["sprites", "maps", "levels", "fonts", "particles", "sounds"]
 	counter = 0
-	
-	
-	
+
+
+
 	if "sprites" in CONVERSION_SCOPE:
 		counter += 1
 		print("\n\n\n\nConverting sprites (" + str(counter) + "/" + str(len(CONVERSION_SCOPE)) + ")...")
-		
+
 		### CONVERT SPRITES
 		for r, d, f in os.walk("data/sprites"):
 			for directory in d:
@@ -859,42 +879,42 @@ def main():
 						print(directory + "/" + file)
 						sprite_path = "data/sprites/" + directory + "/" + file
 						combine_alpha_sprite(sprite_path, "output/" + resolve_path_sprite(sprite_path), "output/" + resolve_path_image(sprite_path))
-		
+
 		# one more lone splash background is needed
 		combine_alpha_path("data/bitmaps/splash/background.jpg", None, "output/images/splash/background.png")
-		
+
 		# and some palettes, too
 		combine_alpha_path("data/bitmaps/powerups/wild_pal.jpg", None, "output/images/powerups/wild_pal.png")
 		for n in ["blue", "green", "orange", "pink", "purple", "red", "yellow"]:
 			combine_alpha_path("data/bitmaps/particles/gem_bloom_" + n + ".jpg", None, "output/images/particles/gem_bloom_" + n + ".png")
-		
+
 		# and that blinking cursor thingy
 		combine_alpha_sprite("data/fonts/dialog_body_cursor.spr", "output/sprites/fonts/dialog_body_cursor.json", "output/images/fonts/dialog_body_cursor.png")
-		
+
 		print("Done!")
-	
-	
-	
+
+
+
 	if "maps" in CONVERSION_SCOPE:
 		counter += 1
 		print("\n\n\n\nConverting maps (" + str(counter) + "/" + str(len(CONVERSION_SCOPE)) + ")...")
-		
+
 		### CONVERT MAPS
 		for r, d, f in os.walk("data/maps"):
 			for directory in d:
 				print(directory)
 				convert_map("data/maps/" + directory + "/", "output/maps/" + directory + "/")
 		print("Done!")
-	
-	
-	
+
+
+
 	if "levels" in CONVERSION_SCOPE:
 		counter += 1
 		print("\n\n\n\nConverting levels (" + str(counter) + "/" + str(len(CONVERSION_SCOPE)) + ")...")
-		
+
 		### CONVERT LEVELS
 		try_create_dir("output/config/levels/")
-		
+
 		for r, d, f in os.walk("data/levels"):
 			for file in f:
 				if file == "powerups.txt":
@@ -902,16 +922,16 @@ def main():
 				print(file)
 				store_contents("output/config/levels/" + rename_level(file[:-4]) + ".json", convert_level(get_contents("data/levels/" + file)))
 		print("Done!")
-	
-	
-	
+
+
+
 	if "fonts" in CONVERSION_SCOPE:
 		counter += 1
 		print("\n\n\n\nConverting fonts (" + str(counter) + "/" + str(len(CONVERSION_SCOPE)) + ")...")
-		
+
 		### CONVERT FONTS
 		try_create_dir("output/fonts/")
-		
+
 		for r, d, f in os.walk("data/fonts"):
 			for file in f:
 				if file == "dialog_body_cursor.spr":
@@ -919,16 +939,16 @@ def main():
 				print(file)
 				convert_font("data/fonts/" + file, "output/fonts/" + file[:-5] + ".json")
 		print("Done!")
-	
-	
-	
+
+
+
 	if "particles" in CONVERSION_SCOPE:
 		counter += 1
 		print("\n\n\n\nConverting particles (" + str(counter) + "/" + str(len(CONVERSION_SCOPE)) + ")...")
-		
+
 		### CONVERT PSYS
 		try_create_dir("output/particles/")
-		
+
 		for n in [
 			"powerup_wild","powerup_coin","powerup_lightning","powerup_reverse","powerup_slow","powerup_speed_shot","powerup_stop","powerup_bomb",
 			"powerup_bomb_color_1","powerup_bomb_color_2","powerup_bomb_color_3","powerup_bomb_color_4","powerup_bomb_color_5","powerup_bomb_color_6","powerup_bomb_color_7",
@@ -943,32 +963,32 @@ def main():
 		]:
 			print(n)
 			store_contents("output/particles/" + n + ".json", convert_psys(get_contents("data/psys/" + n + ".psys")))
-	
-	
+
+
 
 	if "sounds" in CONVERSION_SCOPE:
 		counter += 1
 		print("\n\n\n\nConverting sounds (" + str(counter) + "/" + str(len(CONVERSION_SCOPE)) + ")...")
-		
+
 		### CONVERT SOUNDS
 		try_create_dir("output/sound_events/")
-		
+
 		events = convert_sounds(get_contents("data/sound/sounds.sl3"))
-		
+
 		for n in events:
 			print(n)
 			store_contents("output/sound_events/" + n + ".json", events[n])
-	
+
 	###############################################################################################   MAIN END
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
+
 	### CONVERT UI (WIP)
 	# for name in ["profile_dup"]:
 		# # if name + ".ui" in rule_tables["ui"]:
@@ -976,12 +996,12 @@ def main():
 		# # else:
 		# rule_table = {}
 		# store_contents("output/ui/" + name + ".json", convert_ui(get_contents("data/uiscript/" + name + ".ui"), rule_table))
-	
-	
-	
+
+
+
 	#combine_alpha_path("warning.jpg", "warning_alpha.tga", "warning.png")
 	#combine_alpha_path("warning2.jpg", "", "warning_gem.png")
-	
+
 	if STANDALONE_MODE:
 		print("Everything is done!")
 		input("Press ENTER...")
