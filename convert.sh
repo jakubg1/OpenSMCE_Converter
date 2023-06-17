@@ -16,7 +16,7 @@ if [ $? -ne 0 ]; then
 fi
 
 if [ ! -d "./data" ]; then
-    printf "! Folder "data" does not exist !\n"
+    printf "! Folder \"data\" does not exist !\n"
     good=0
 fi
 
