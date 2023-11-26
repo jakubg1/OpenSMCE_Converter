@@ -129,6 +129,7 @@ printf "%s\n" '' '' '' '' \
 
 mv output Luxor
 rm -rf data assets Luxor_appendix
+mv Luxor/_config.json Luxor/config.json
 
 printf "%s\n" \
     "The converter finished its job, hopefully successfully." \

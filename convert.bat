@@ -66,10 +66,6 @@ echo If you haven't checked README file yet, just in case please do it before pr
 echo The original files will be available in "_BACKUP" directory. If you want, you can delete it afterwards.
 echo ===========================================
 echo The converter will start working once you press any key.
-
-rem                                   Don't care about this line, it's just a random command ------>                                     choice /m "Keep original files"
-rem                                   Don't care about this line, it's just a random command ------>                                     set /a keep=2-%errorlevel%
-
 pause
 echo.
 echo.
@@ -169,6 +165,7 @@ ren output Luxor
 rmdir /s /q data
 rmdir /s /q assets
 rmdir /s /q Luxor_appendix
+ren "Luxor\_config.json" "Luxor\config.json"
 echo The converter finished its job, hopefully successfully.
 echo If you haven't spotted any error in this console, you can launch OpenSMCE now..
 echo If you have spotted an error though, make sure you have Python installed and all required folders.
