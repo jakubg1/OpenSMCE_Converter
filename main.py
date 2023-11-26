@@ -1015,9 +1015,9 @@ if STANDALONE_MODE or sys.argv[0] == "main.py":
 	main()
 else:
 	print("Could not launch the script... Probably you have launched the wrong file.")
-	print("Launch convert.bat instead.")
+	print("Launch convert.bat (Windows) or convert.sh (Linux) instead.")
 	print()
-	print("If you see this message when you've launched convert.bat,")
+	print("If you see this message when you've launched convert.bat or convert.sh,")
 	print("it means there's probably a bug in either of these files.")
 	print("Contact me for support, and don't forget to screenshot the following information:")
 	print()
