@@ -165,7 +165,7 @@ ren output Luxor
 rmdir /s /q data
 rmdir /s /q assets
 rmdir /s /q Luxor_appendix
-ren "Luxor\_config.json" "Luxor\config.json"
+ren "Luxor\_config.json" "config.json"
 echo The converter finished its job, hopefully successfully.
 echo If you haven't spotted any error in this console, you can launch OpenSMCE now..
 echo If you have spotted an error though, make sure you have Python installed and all required folders.
