@@ -1,7 +1,8 @@
 {
-    "type": "near_end",
-    "select_chance": 0.25,
-    "paths_in_danger_only": true,
+    "$schema": "../../../../schemas/config/color_generator.json",
+    "type": "nearEnd",
+    "selectChance": 0.25,
+    "pathsInDangerOnly": true,
     "colors": [
         1,
         2,
@@ -12,7 +13,7 @@
         7
     ],
     "fallback": 0,
-    "colors_remove_if_nonexistent": [
+    "colorsRemoveIfNonexistent": [
         1,
         2,
         3,

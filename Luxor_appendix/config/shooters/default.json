@@ -80,10 +80,14 @@
     },
     "speedShotParticle": "particles/speed_shot_beam.json",
     "shootSpeed": 1000,
+    "shotCooldownFade": 0.1,
+    "destroySphereOnFail": true,
     "hitboxSize": {
         "x": 160,
         "y": 30
     },
-    "multishot": false,
-    "shotCooldown": 0
+    "hitboxOffset": {
+        "x": 0,
+        "y": 20
+    }
 }
