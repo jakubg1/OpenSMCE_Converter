@@ -13,7 +13,7 @@
     "shootSound": "sound_events/sphere_shoot_fire.json",
     "hitBehavior": {
         "type": "fireball",
-        "range": 125
+        "range": 75
     },
     "hitSound": "sound_events/sphere_hit_fire.json",
     "matches": [
