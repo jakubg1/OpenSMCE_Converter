@@ -588,7 +588,10 @@ def convert_ui(contents, rule_table, name = "root"):
 #
 
 def convert_psys(contents):
-	particle_data = []
+	particle_data = {
+		"$schema": "../../../schemas/particle.json",
+		"emitters": []
+	}
 
 	spawner_name = None
 	spawner_data = None
@@ -684,7 +687,7 @@ def convert_psys(contents):
 				spawner_data["particleData"]["speed"] = spawner_data["particleData"]["speed"]["x"]
 				spawner_data["particleData"]["acceleration"] = spawner_data["particleData"]["acceleration"]["x"]
 
-			particle_data.append(spawner_data)
+			particle_data["emitters"].append(spawner_data)
 			spawner_name = None
 			continue
 
@@ -706,7 +709,10 @@ def convert_psys(contents):
 			if "EF_USE_COLOR_RATE" in spawner_flags:
 				spawner_data["particleData"]["colorPaletteSpeed"] = 1000 / float(words[2])
 		if words[0] == "AnimRate":
-			spawner_data["particleData"]["animationSpeed"] = float(words[2])
+			value = float(words[2])
+			if value >= 100: # hack for the 600 speed on the how to play screen (shooter2.psys)
+				value = 1000 / value
+			spawner_data["particleData"]["animationSpeed"] = value
 		if words[0] == "FadeInEndTime":
 			spawner_data["particleData"]["fadeInPoint"] = float(words[2])
 		if words[0] == "FadeOutStartTime":
