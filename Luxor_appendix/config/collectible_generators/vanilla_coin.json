@@ -1,4 +1,5 @@
 {
+    "$schema": "../../../../schemas/config/collectible_generator.json",
     "type": "collectible",
     "name": "coin"
 }

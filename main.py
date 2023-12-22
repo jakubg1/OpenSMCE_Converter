@@ -189,16 +189,24 @@ def combine_alpha_path(img_path, alpha_path, result_path):
 #
 
 def combine_alpha_sprite(sprite_path, out_sprite_path, out_image_path, internal = False):
-	sprite_data = {"path":"","frame_size":{"x":1,"y":1},"states":[],"internal":internal,"batched":False}
+	sprite_data = {
+		"$schema":"",
+		"path":"",
+		"frameSize":{"x":1,"y":1},
+		"states":[],
+		"internal":internal,
+		"batched":False
+	}
 
 	contents = get_contents(sprite_path)
 	result = combine_alpha_path(contents[0], contents[1], out_image_path)
 	if not result:
 		return
 
+	sprite_data["$schema"] = "../" * len(out_image_path.split("/")) + "schemas/sprite.json"
 	sprite_data["path"] = "/".join(out_image_path.split("/")[1:])
-	sprite_data["frame_size"]["x"] = int(contents[2].split(" ")[0])
-	sprite_data["frame_size"]["y"] = int(contents[2].split(" ")[1])
+	sprite_data["frameSize"]["x"] = int(contents[2].split(" ")[0])
+	sprite_data["frameSize"]["y"] = int(contents[2].split(" ")[1])
 	for i in range(int(contents[3])):
 		n = 4 + i * 2
 		state = {"pos":{"x":0,"y":0},"frames":{"x":1,"y":1}}
@@ -247,11 +255,10 @@ def convert_path(contents):
 
 def convert_level(contents):
 	level_data = {
+		"$schema":"../../../../schemas/config/level.json",
 		"map":"",
 		"music":"level",
 		"dangerMusic":"danger",
-		"powerupGenerator":"vanilla_powerup.json",
-		"gemGenerator":"vanilla_gem.json",
 		"colorGeneratorNormal":"default",
 		"colorGeneratorDanger":"danger",
 		"matchEffect":"match",
@@ -358,7 +365,12 @@ def convert_map(input_path, output_path):
 	if not os.path.exists(output_path):
 		os.makedirs(output_path)
 
-	map_data = {"name":"","paths":[],"sprites":[]}
+	map_data = {
+		"$schema":"../../../../schemas/map.json",
+		"name":"",
+		"paths":[],
+		"sprites":[]
+	}
 
 	contents = get_contents(input_path + "map.ui")
 
@@ -402,7 +414,12 @@ def convert_map(input_path, output_path):
 #
 
 def convert_font(input_path, output_path):
-	font_data = {"type":"image","image":"","characters":{}}
+	font_data = {
+		"$schema":"../../../schemas/font.json",
+		"type":"image",
+		"image":"",
+		"characters":{}
+	}
 
 	contents = get_contents(input_path)
 

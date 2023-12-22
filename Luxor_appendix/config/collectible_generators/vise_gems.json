@@ -1,8 +1,0 @@
-{
-    "type": "repeat",
-    "entry": {
-        "type": "collectibleGenerator",
-        "name": "vanilla_gem.json"
-    },
-    "count": "ceil((1 - max([distance], 0)) * 5)"
-}
