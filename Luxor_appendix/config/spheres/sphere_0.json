@@ -1,5 +1,5 @@
 {
-    "$schema": "../../../../schemas/config/Sphere.json",
+    "$schema": "../../../../schemas/config/sphere.json",
     "sprite": "sprites/game/vise.json",
     "idleParticle": null,
     "destroyParticle": "particles/collapse_vise.json",

@@ -1,5 +1,5 @@
 {
-    "$schema": "../../../../schemas/config/Sphere.json",
+    "$schema": "../../../../schemas/config/sphere.json",
     "sprite": "sprites/game/ball_lightning.json",
     "spriteAnimationSpeed": 16,
     "idleParticle": "particles/idle_ball_lightning.json",
