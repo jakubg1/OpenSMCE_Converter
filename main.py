@@ -764,57 +764,7 @@ def convert_psys(contents):
 #
 
 def convert_sounds(contents):
-	mapping = {
-		"collapse_1":{"name":"sphere_destroy_1"},
-		"collapse_2":{"name":"sphere_destroy_2"},
-		"collapse_3":{"name":"sphere_destroy_3"},
-		"collapse_4":{"name":"sphere_destroy_4"},
-		"collapse_5":{"name":"sphere_destroy_5"},
-		"collide_spheres_path":{"name":"sphere_group_join"},
-		"collide_spheres_shot":{"name":"sphere_hit_normal"},
-		"launch_sphere":{"name":"sphere_shoot_normal"},
-		"click":{"name":"button_click"},
-		"highlight":{"name":"button_hover"},
-		"catch_coin":{"name":"collectible_catch_coin"},
-		"catch_gem":{"name":"collectible_catch_gem"},
-		"catch_powerup_fireball":{"name":"collectible_catch_powerup_bomb"},
-		"catch_powerup_lightning":{"name":"collectible_catch_powerup_lightning"},
-		"catch_powerup_wild":{"name":"collectible_catch_powerup_wild"},
-		"catch_powerup_shot_speed":{"name":"collectible_catch_powerup_shotspeed"},
-		"catch_powerup_color_bomb":{"name":"collectible_catch_powerup_colorbomb"},
-		"collapse_scarab":{"name":"sphere_destroy_vise"},
-		"launch_wild":{"name":"sphere_shoot_wild"},
-		"spawn_coin":{"name":"collectible_spawn_coin"},
-		"spawn_gem":{"name":"collectible_spawn_gem"},
-		"spawn_powerup":{"name":"collectible_spawn_powerup"},
-		"catch_powerup_reverse":{"name":"collectible_catch_powerup_reverse"},
-		"catch_powerup_slow":{"name":"collectible_catch_powerup_slow"},
-		"catch_powerup_stop":{"name":"collectible_catch_powerup_stop"},
-		"launch_fireball":{"name":"sphere_shoot_fire"},
-		"launch_lightning":{"name":"sphere_shoot_lightning"},
-		"collapse_fireball":{"name":"sphere_hit_fire"},
-		"warning":{"name":"warning"},
-		"bonus_scarab_collapse":{"name":"bonus_scarab"},
-		"bonus_scarab_move":{"name":"bonus_scarab_loop","loop":True},
-		"progress_complete":{"name":"ui_progress_complete"},
-		"bullet_reload":{"name":"shooter_fill"},
-		"bullet_swap":{"name":"shooter_swap"},
-		"level_complete":{"name":"ui_level_complete"},
-		"game_over":{"name":"ui_game_over"},
-		"game_win":{"name":"ui_game_win"},
-		"foul":{"name":"level_lose"},
-		"level_intro":{"name":"ui_level_start"},
-		"dialog_extro":{"name":"ui_dialog_hide"},
-		"dialog_intro":{"name":"ui_dialog_show"},
-		"highscore":{"name":"ui_highscore"},
-		"extra_life":{"name":"ui_extra_life"},
-		"spheres_roll":{"name":"sphere_roll","loop":True},
-		"stage_complete":{"name":"ui_stage_complete"},
-		"spawn_new_group":{"name":"sphere_chain_spawn"},
-		"new_record":{"name":"ui_level_record"},
-		"score_tally":{"name":"ui_score_tally"},
-		"level_advance":{"name":"level_advance"}
-	}
+	looping_sounds = ["bonus_scarab_move", "spheres_roll"]
 
 	events = {}
 	name = ""
@@ -840,20 +790,16 @@ def convert_sounds(contents):
 				else:
 					print("Unknown sound parameter: " + words[0] + " in sound event: " + name)
 			else:
-				if not words[0] in mapping:
-					print("Unknown sound event: " + words[0])
-					continue
-				data = mapping[words[0]]
-				name = data["name"]
+				name = words[0]
 
-				event = {}
-				event["path"] = resolve_path_sound(words[3])
-				if "loop" in data:
-					event["loop"] = data["loop"]
+				event = {
+					"$schema": "../../../schemas/sound_event.json",
+					"path": resolve_path_sound(words[3])
+				}
+				if name in looping_sounds:
+					event["loop"] = True
 
 				events[name] = event
-
-	events["warning_loop"] = {"path":None}
 
 	return events
 
