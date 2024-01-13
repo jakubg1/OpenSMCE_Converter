@@ -6,6 +6,11 @@
         "bonusDelay": 1.5,
         "wonDelay": 1.5
     },
+    "ui": {
+        "buttonClickSound": "sound_events/click.json",
+        "buttonHoverSound": "sound_events/highlight.json",
+        "levelAdvanceSound": "sound_events/level_advance.json"
+    },
     "sphereBehaviour": {
         "acceleration": 200,
         "attractionAcceleration": 500,
@@ -21,8 +26,8 @@
         "overspeedCheck": true,
         "invincibleScarabs": false,
 		"luxorized": true,
-        "joinSound": "sound_events/sphere_group_join.json",
-        "newGroupSound": "sound_events/sphere_chain_spawn.json",
+        "joinSound": "sound_events/collide_spheres_path.json",
+        "newGroupSound": "sound_events/spawn_new_group.json",
         "noScarabs": false,
         "permitLongMatches": true
     },
@@ -35,8 +40,8 @@
         "speed": 1000,
         "trailParticle": "particles/bonus_scarab_trail.json",
         "trailParticleDistance": 24,
-        "loopSound": "sound_events/bonus_scarab_loop.json",
-        "destroySound": "sound_events/bonus_scarab.json",
+        "loopSound": "sound_events/bonus_scarab_move.json",
+        "destroySound": "sound_events/bonus_scarab_collapse.json",
         "destroyParticle": "particles/collapse_vise.json",
         "scoreFont": "fonts/score0.json"
     }

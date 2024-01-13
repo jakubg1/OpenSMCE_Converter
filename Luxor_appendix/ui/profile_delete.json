@@ -151,7 +151,7 @@
     },
     "animations": {},
     "sounds": {
-        "in_": "sound_events/ui_dialog_show.json",
-        "out": "sound_events/ui_dialog_hide.json"
+        "in_": "sound_events/dialog_intro.json",
+        "out": "sound_events/dialog_extro.json"
     }
 }

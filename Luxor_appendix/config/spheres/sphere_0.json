@@ -3,8 +3,8 @@
     "sprite": "sprites/game/vise.json",
     "idleParticle": null,
     "destroyParticle": "particles/collapse_vise.json",
-    "destroyCollectible": "vanilla_vise.json",
-    "destroySound": "sound_events/sphere_destroy_vise.json",
+    "destroyCollectible": "vanilla_scarab.json",
+    "destroySound": "sound_events/collapse_scarab.json",
     "color": {
         "r": 1,
         "g": 1,
@@ -14,11 +14,11 @@
     "shootBehavior": {
         "type": "normal"
     },
-    "shootSound": "sound_events/sphere_shoot_normal.json",
+    "shootSound": "sound_events/launch_sphere.json",
     "hitBehavior": {
         "type": "normal"
     },
-    "hitSound": "sound_events/sphere_hit_normal.json",
+    "hitSound": "sound_events/collide_spheres_shot.json",
     "matches": [],
     "matchFont": "fonts/score0.json"
 }

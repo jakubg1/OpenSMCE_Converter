@@ -4,8 +4,8 @@
     "acceleration": "$expr{vec2(0, 400)}",
     "particle": "particles/powerup_bomb_color_1.json",
     "pickupParticle": "particles/powerup_catch.json",
-    "spawnSound": "sound_events/collectible_spawn_powerup.json",
-    "pickupSound": "sound_events/collectible_catch_powerup_colorbomb.json",
+    "spawnSound": "sound_events/spawn_powerup.json",
+    "pickupSound": "sound_events/catch_powerup_color_bomb.json",
     "pickupName": "COLOR BOMB!",
     "pickupFont": "fonts/score1.json",
     "effects": [

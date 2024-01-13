@@ -11,11 +11,11 @@
     "shootBehavior": {
         "type": "normal"
     },
-    "shootSound": "sound_events/sphere_shoot_normal.json",
+    "shootSound": "sound_events/launch_sphere.json",
     "hitBehavior": {
         "type": "normal"
     },
-    "hitSound": "sound_events/sphere_hit_normal.json",
+    "hitSound": "sound_events/collide_spheres_shot.json",
     "matches": [
         -1,
         2

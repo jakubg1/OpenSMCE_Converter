@@ -21,7 +21,7 @@
           "children": {},
           "animations": {},
           "sounds": {
-              "in_": "sound_events/ui_stage_complete.json"
+              "in_": "sound_events/stage_complete.json"
           },
           "layer": "MenuDialogControls2",
           "path": "particles/stage_complete2.json",

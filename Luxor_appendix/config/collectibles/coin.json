@@ -4,8 +4,8 @@
     "acceleration": "$expr{vec2(0, 300)}",
     "particle": "particles/powerup_coin.json",
     "pickupParticle": "particles/powerup_catch.json",
-    "spawnSound": "sound_events/collectible_spawn_coin.json",
-    "pickupSound": "sound_events/collectible_catch_coin.json",
+    "spawnSound": "sound_events/spawn_coin.json",
+    "pickupSound": "sound_events/catch_coin.json",
     "effects": [
         {
             "type": "grantScore",

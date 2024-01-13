@@ -90,7 +90,7 @@
     },
     "animations": {},
     "sounds": {
-        "in_": "sound_events/ui_game_over.json"
+        "in_": "sound_events/game_over.json"
     },
     "hideDelay": 2.5
 }

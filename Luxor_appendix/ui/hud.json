@@ -125,7 +125,7 @@
 					"children": {},
 					"animations": {},
 					"sounds":{
-						"in_":"sound_events/ui_extra_life.json"
+						"in_":"sound_events/extra_life.json"
 					},
 					"layer": "HudControls3",
 					"path": "particles/extra_life.json",
@@ -165,7 +165,7 @@
 						}
 					},
 					"sounds":{
-						"in_":"sound_events/ui_progress_complete.json"
+						"in_":"sound_events/progress_complete.json"
 					},
 					"children":{
 						"Psys_Progress_Complete":{

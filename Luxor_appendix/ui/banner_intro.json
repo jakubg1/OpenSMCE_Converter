@@ -110,7 +110,7 @@
     },
     "animations": {},
     "sounds": {
-        "in_": "sound_events/ui_level_start.json"
+        "in_": "sound_events/level_intro.json"
     },
     "hideDelay": 2.75
 }

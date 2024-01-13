@@ -4,8 +4,8 @@
     "acceleration": "$expr{vec2(0, 400)}",
     "particle": "particles/powerup_bomb.json",
     "pickupParticle": "particles/powerup_catch.json",
-    "spawnSound": "sound_events/collectible_spawn_powerup.json",
-    "pickupSound": "sound_events/collectible_catch_powerup_bomb.json",
+    "spawnSound": "sound_events/spawn_powerup.json",
+    "pickupSound": "sound_events/catch_powerup_fireball.json",
     "pickupName": "FIREBALL!",
     "pickupFont": "fonts/score0.json",
     "effects": [
