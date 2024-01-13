@@ -85,6 +85,19 @@ def try_create_dir(path):
 		pass
 
 #
+#  Attempts to create a folder structure with a given name if it doesn't exist yet.
+#
+
+def try_create_dirs(path):
+	total = ""
+	try:
+		for folder in path.split("/"):
+			total += folder + "/"
+			try_create_dir(total)
+	except:
+		pass
+
+#
 #  Changes i.e. "data\sprites\game\shooter.spr" to "images/game/shooter.png".
 #
 
@@ -106,11 +119,25 @@ def resolve_path_font(path):
 	return fix_path(path).replace("data/fonts", "fonts")[:-5] + ".json"
 
 #
+#  Changes i.e. "data\psys\powerup_stop.psys" to "particles/powerup_stop.json".
+#
+
+def resolve_path_particle(path):
+	return fix_path(path).replace("data/psys", "particles")[:-5] + ".json"
+
+#
 #  Changes i.e. "data\sound\collapse_1.ogg" to "sounds/collapse_1.ogg".
 #
 
 def resolve_path_sound(path):
 	return fix_path(path).replace("data/sound", "sounds")
+
+#
+#  Changes i.e. "data\music\menu.ogg" to "music/menu.ogg".
+#
+
+def resolve_path_music(path):
+	return fix_path(path).replace("data/music", "music")
 
 #
 #  If both values are identical, return that value. If not, return a random value generator dictionary, eg. {"type":"randomInt","min":1,"max":3}
@@ -257,8 +284,8 @@ def convert_level(contents):
 	level_data = {
 		"$schema":"../../../../schemas/config/level.json",
 		"map":"",
-		"music":"level",
-		"dangerMusic":"danger",
+		"music":"music_tracks/level_music.json",
+		"dangerMusic":"music_tracks/danger_music.json",
 		"colorGeneratorNormal":"default",
 		"colorGeneratorDanger":"danger",
 		"matchEffect":"match",
@@ -584,7 +611,7 @@ def convert_ui(contents, rule_table, name = "root"):
 	return ui_data
 
 #
-#  Takes .psys file contents and returns particle spawner data. THIS IS USED ONLY INTERNALLY AND THE RESULT NEEDS TO BE CHANGED TO MAKE SURE IT WORKS IN THE ENGINE???
+#  Takes .psys file contents and returns particle spawner data.
 #
 
 def convert_psys(contents):
@@ -704,7 +731,11 @@ def convert_psys(contents):
 			sprite_contents = get_contents(words[2])
 			spawner_data["particleData"]["animationFrameCount"] = int(sprite_contents[4])
 		if words[0] == "Palette":
-			spawner_data["particleData"]["colorPalette"] = words[2].replace("\\", "/").replace("data/bitmaps", "images")[:-4] + ".png"
+			image_file = words[2].replace("\\", "/").replace("data/bitmaps", "images").replace(".jpg", ".png")
+			color_palette_file = words[2].replace("\\", "/").replace("data/bitmaps", "color_palettes")
+			spawner_data["particleData"]["colorPalette"] = color_palette_file[:-4] + ".json"
+			# Create a new Color Palette alongside.
+			generate_color_palette(image_file)
 		if words[0] == "ColorRate":
 			if "EF_USE_COLOR_RATE" in spawner_flags:
 				spawner_data["particleData"]["colorPaletteSpeed"] = 1000 / float(words[2])
@@ -804,6 +835,60 @@ def convert_sounds(contents):
 	return events
 
 #
+#  Takes (music.sl3) file contents and generates music tracks that can be saved.
+#
+
+def convert_music(contents):
+	tracks = {}
+	name = ""
+	param_mode = False
+
+	for line in contents:
+		line = unindent(line)
+		if line == None:
+			continue
+		words = line.split(" ")
+		if words[0][:2] == "//":
+			continue # we don't want comments
+
+		if line == "{":
+			param_mode = True
+		elif line == "}":
+			param_mode = False
+		else:
+			if param_mode:
+				pass # we aren't interested in parameters
+			else:
+				name = words[0]
+				if words[2] == "playlist":
+					continue # we aren't interested in playlists (for now) - TODO: multi-track support
+
+				track = {
+					"$schema": "../../../schemas/music_track.json",
+					"audio": resolve_path_music(words[3])
+				}
+
+				tracks[name] = track
+
+	return tracks
+
+#
+#  Takes a path to the image and generates a Color Palette file pointing to it. Temporary function.
+#
+
+def generate_color_palette(image_path):
+	# TODO: Remove this function in favor of loading color palettes in immediate mode.
+	color_palette_data = {
+		"$schema": "../" * len(image_path.split("/")) + "schemas/color_palette.json",
+		"image": image_path
+	}
+
+	# File hierarchy analogic to the image file.
+	color_palette_path = image_path.replace("images", "color_palettes")
+	try_create_dirs("output/" + "/".join(color_palette_path.split("/")[:-1]))
+	store_contents("output/" + color_palette_path[:-4] + ".json", color_palette_data)
+
+#
 #  Entry point of the application.
 #
 
@@ -831,7 +916,7 @@ def main():
 
 	# not that much of a constant? shhhhhh
 	if CONVERSION_SCOPE == []:
-		CONVERSION_SCOPE = ["sprites", "maps", "levels", "fonts", "particles", "sounds"]
+		CONVERSION_SCOPE = ["sprites", "maps", "levels", "fonts", "particles", "sounds", "music"]
 	counter = 0
 
 
@@ -918,20 +1003,13 @@ def main():
 		### CONVERT PSYS
 		try_create_dir("output/particles/")
 
-		for n in [
-			"powerup_wild","powerup_coin","powerup_lightning","powerup_reverse","powerup_slow","powerup_speed_shot","powerup_stop","powerup_bomb",
-			"powerup_bomb_color_1","powerup_bomb_color_2","powerup_bomb_color_3","powerup_bomb_color_4","powerup_bomb_color_5","powerup_bomb_color_6","powerup_bomb_color_7",
-			"gem_1","gem_2","gem_3","gem_4","gem_5","gem_6","gem_7","gem_8","gem_9","gem_10","gem_11","gem_12","gem_13","gem_14","gem_15",
-			"collapse_ball_1","collapse_ball_2","collapse_ball_3","collapse_ball_4","collapse_ball_5","collapse_ball_6","collapse_ball_7",
-			"collapse_wild","collapse_vise","extra_life","level_score","level_stat","lightning_beam","powerup_catch","warning",
-			"idle_ball_bomb","idle_ball_lightning","idle_ball_wild","speed_shot_beam",
-			"collapse_ball_bomb",
-			"shooter1","shooter2","warning2",
-			"high_score",
-			"level","stage_complete","stage_complete2"
-		]:
-			print(n)
-			store_contents("output/particles/" + n + ".json", convert_psys(get_contents("data/psys/" + n + ".psys")))
+		for r, d, f in os.walk("data/psys"):
+			for file in f:
+				if file == "progress.psys":
+					continue
+				print(file)
+				store_contents("output/particles/" + file[:-5] + ".json", convert_psys(get_contents("data/psys/" + file)))
+		print("Done!")
 
 
 
@@ -947,6 +1025,21 @@ def main():
 		for n in events:
 			print(n)
 			store_contents("output/sound_events/" + n + ".json", events[n])
+
+
+
+	if "music" in CONVERSION_SCOPE:
+		counter += 1
+		print("\n\n\n\nConverting music (" + str(counter) + "/" + str(len(CONVERSION_SCOPE)) + ")...")
+
+		### CONVERT MUSIC
+		try_create_dir("output/music_tracks/")
+
+		tracks = convert_music(get_contents("data/music/music.sl3"))
+
+		for n in tracks:
+			print(n)
+			store_contents("output/music_tracks/" + n + ".json", tracks[n])
 
 	###############################################################################################   MAIN END
 
