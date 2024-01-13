@@ -298,6 +298,7 @@ def convert_level(contents):
 			{
 				"colors":[],
 				"colorStreak":0,
+				"forceDifferentColor":True,
 				"spawnRules":{"type":"waves","amount":0},
 				"spawnDistance":0,
 				"dangerDistance":0.75,
@@ -306,6 +307,7 @@ def convert_level(contents):
 			{
 				"colors":[],
 				"colorStreak":0,
+				"forceDifferentColor":True,
 				"spawnRules":{"type":"waves","amount":0},
 				"spawnDistance":0,
 				"dangerDistance":0.75,
@@ -337,8 +339,8 @@ def convert_level(contents):
 			level_data["pathsBehavior"][0]["colors"].append(int(words[0][11:]))
 			level_data["pathsBehavior"][1]["colors"].append(int(words[0][11:]))
 		if words[0] == "spawnStreak":
-			level_data["pathsBehavior"][0]["colorStreak"] = min(int(words[2]) / 300, 0.45)
-			level_data["pathsBehavior"][1]["colorStreak"] = min(int(words[2]) / 300, 0.45)
+			level_data["pathsBehavior"][0]["colorStreak"] = 0.45 #min(int(words[2]) / 300, 0.45)
+			level_data["pathsBehavior"][1]["colorStreak"] = 0.45 #min(int(words[2]) / 300, 0.45)
 		if words[0] == "winCondition":
 			level_data["objectives"][0]["target"] = int(words[2])
 		if words[0] == "viseGroupCount":
