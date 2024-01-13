@@ -215,13 +215,12 @@ def combine_alpha_path(img_path, alpha_path, result_path):
 #  As above, but these are read from a *.spr file. Also generates a sprite file.
 #
 
-def combine_alpha_sprite(sprite_path, out_sprite_path, out_image_path, internal = False):
+def combine_alpha_sprite(sprite_path, out_sprite_path, out_image_path):
 	sprite_data = {
 		"$schema":"",
 		"path":"",
 		"frameSize":{"x":1,"y":1},
 		"states":[],
-		"internal":internal,
 		"batched":False
 	}
 
@@ -414,8 +413,13 @@ def convert_map(input_path, output_path):
 			is_global = input_path.replace("/", "\\").lower() != ("\\".join(words[2].split("\\")[:-1]) + "\\").lower()
 			sprite_name = (words[2].replace("\\", "/").replace("data/sprites", "sprites")[:-4]) if is_global else words[2].split("\\")[-1][:-4]
 			if not is_global:
-				combine_alpha_sprite(input_path + sprite_name + ".spr", output_path + sprite_name + ".json", output_path + sprite_name + ".png", True)
-			sprite = {"x":0,"y":0,"path":sprite_name + ".json","internal":not is_global,"background":True}
+				combine_alpha_sprite(input_path + sprite_name + ".spr", output_path + sprite_name + ".json", output_path + sprite_name + ".png")
+			sprite = {
+				"x": 0,
+				"y": 0,
+				"path": ("" if is_global else ":") + sprite_name + ".json",
+				"background": True
+			}
 			map_data["sprites"].append(sprite)
 
 		if words[0] == "GLSprite":
@@ -423,8 +427,13 @@ def convert_map(input_path, output_path):
 			background = words[4] == "GamePieceHShadow"
 			sprite_name = (words[5].replace("\\", "/").replace("data/sprites", "sprites")[:-4]) if is_global else words[5].split("\\")[-1][:-4]
 			if not is_global:
-				combine_alpha_sprite(input_path + sprite_name + ".spr", output_path + sprite_name + ".json", output_path + sprite_name + ".png", True)
-			sprite = {"x":int(words[2]),"y":int(words[3]),"path":sprite_name + ".json","internal":not is_global,"background":background}
+				combine_alpha_sprite(input_path + sprite_name + ".spr", output_path + sprite_name + ".json", output_path + sprite_name + ".png")
+			sprite = {
+				"x": int(words[2]),
+				"y": int(words[3]),
+				"path": ("" if is_global else ":") + sprite_name + ".json",
+				"background": background
+			}
 			map_data["sprites"].append(sprite)
 
 		if words[0] == "Path":
