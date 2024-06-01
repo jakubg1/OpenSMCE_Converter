@@ -109,12 +109,12 @@ mv data/maps/ScrollofThoth data/maps/ScrollOfThoth
 python main.py
 if [ $? -ne 0 ]; then
     printf "%s\n" '' '' '' '' \
-	"===========================================" \
-	"Oh no! Something has gone wrong during the conversion process." \
-	"Please screenshot the console and send it to me via Discord!" \
-	"===========================================" \
-	"" \
-	"The converter will now close."
+    "===========================================" \
+    "Oh no! Something has gone wrong during the conversion process." \
+    "Please screenshot the console and send it to me via Discord!" \
+    "===========================================" \
+    "" \
+    "The converter will now close."
     read -rn1 -p "Would you like to revert the files to the original state? [Y/n]" keep
 
     if [[ $keep =~ [yY] ]]; then
@@ -124,7 +124,7 @@ if [ $? -ne 0 ]; then
         cp -aft . ./_BACKUP/data ./_BACKUP/english ./_BACKUP/assets ./_BACKUP/Luxor_appendix
         rm -rf _BACKUP
     fi
-	exit
+    exit
 fi
 
 printf "%s\n" '' '' '' '' \
