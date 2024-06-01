@@ -8,8 +8,8 @@
     "pickupSound": "sound_events/catch_coin.json",
     "effects": [
         {
-            "type": "grantScore",
-            "score": 250
+            "type": "executeScoreEvent",
+            "scoreEvent": "score_events/coin.json"
         },
         {
             "type": "grantCoin"

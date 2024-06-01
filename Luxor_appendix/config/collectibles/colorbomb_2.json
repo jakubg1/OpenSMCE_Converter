@@ -10,8 +10,9 @@
     "pickupFont": "fonts/score2.json",
     "effects": [
         {
-            "type": "destroyColor",
-            "color": 2
+            "type": "destroySpheres",
+            "selector": "sphere_selectors/color_bomb_2.json",
+            "scoreEvent": "score_events/color_bomb_2.json"
         }
     ]
 }

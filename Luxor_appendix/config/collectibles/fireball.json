@@ -6,7 +6,7 @@
     "pickupParticle": "particles/powerup_catch.json",
     "spawnSound": "sound_events/spawn_powerup.json",
     "pickupSound": "sound_events/catch_powerup_fireball.json",
-    "pickupName": "FIREBALL!",
+    "pickupName": "FIRE BALL!",
     "pickupFont": "fonts/score0.json",
     "effects": [
         {

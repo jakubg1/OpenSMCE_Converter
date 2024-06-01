@@ -1,0 +1,40 @@
+{
+    "$schema": "../../../schemas/sound_event.json",
+    "sounds": [
+        {
+            "sound": "sounds/collapse_1.ogg",
+            "pitch": "${1 + 0.1 * ([match.cascade] - 1)}",
+            "conditions": [
+                "${[match.length] == 3}"
+            ]
+        },
+        {
+            "sound": "sounds/collapse_2.ogg",
+            "pitch": "${1 + 0.1 * ([match.cascade] - 1)}",
+            "conditions": [
+                "${[match.length] == 4}"
+            ]
+        },
+        {
+            "sound": "sounds/collapse_3.ogg",
+            "pitch": "${1 + 0.1 * ([match.cascade] - 1)}",
+            "conditions": [
+                "${[match.length] == 5}"
+            ]
+        },
+        {
+            "sound": "sounds/collapse_4.ogg",
+            "pitch": "${1 + 0.1 * ([match.cascade] - 1)}",
+            "conditions": [
+                "${[match.length] == 6}"
+            ]
+        },
+        {
+            "sound": "sounds/collapse_5.ogg",
+            "pitch": "${1 + 0.1 * ([match.cascade] - 1)}",
+            "conditions": [
+                "${[match.length] >= 7}"
+            ]
+        }
+    ]
+}

@@ -1,17 +1,57 @@
 {
     "$schema": "../../../schemas/config/gameplay.json",
-    "level": {
-        "controlDelay": 2,
-        "finishDelay": 2,
-        "bonusDelay": 1.5,
-        "wonDelay": 1.5
-    },
+    "levelSequence": [
+        {
+            "type": "gameplay",
+            "warmupTime": 2,
+            "previewFirstShooterColor": false,
+            "onFail": 9
+        },
+        {
+            "type": "waitForCollectibles"
+        },
+        {
+            "type": "wait",
+            "delay": 2
+        },
+        {
+            "type": "clearBoard"
+        },
+        {
+            "type": "pathEntity",
+            "pathEntity": "path_entities/bonus_scarab.json",
+            "separatePaths": true,
+            "launchDelay": 1.5,
+            "waitUntilFinished": true,
+            "skippable": false
+        },
+        {
+            "type": "waitForCollectibles"
+        },
+        {
+            "type": "wait",
+            "delay": 1.5
+        },
+        {
+            "type": "end",
+            "status": "win"
+        },
+        {
+            "type": "fail",
+            "waitUntilFinished": true,
+            "skippable": false
+        },
+        {
+            "type": "end",
+            "status": "fail"
+        }
+    ],
     "ui": {
         "buttonClickSound": "sound_events/click.json",
         "buttonHoverSound": "sound_events/highlight.json",
         "levelAdvanceSound": "sound_events/level_advance.json"
     },
-    "sphereBehaviour": {
+    "sphereBehavior": {
         "acceleration": 200,
         "attractionAcceleration": 500,
         "attractionForwardDeccelerationScarab": 200,
@@ -30,19 +70,5 @@
         "newGroupSound": "sound_events/spawn_new_group.json",
         "noScarabs": false,
         "permitLongMatches": true
-    },
-    "bonusScarab": {
-        "sprite": "sprites/game/vise.json",
-        "shadowSprite": "sprites/game/ball_shadow.json",
-        "stepLength": 24,
-        "pointsPerStep": 50,
-        "coinDistance": 500,
-        "speed": 1000,
-        "trailParticle": "particles/bonus_scarab_trail.json",
-        "trailParticleDistance": 24,
-        "loopSound": "sound_events/bonus_scarab_move.json",
-        "destroySound": "sound_events/bonus_scarab_collapse.json",
-        "destroyParticle": "particles/collapse_vise.json",
-        "scoreFont": "fonts/score0.json"
     }
 }

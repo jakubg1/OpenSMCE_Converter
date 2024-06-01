@@ -1,0 +1,5 @@
+{
+    "$schema": "../../../schemas/score_event.json",
+    "score": "${[selector.sphereCount] * 100}",
+    "font": "fonts/score0.json"
+}

@@ -19,6 +19,5 @@
         "type": "normal"
     },
     "hitSound": "sound_events/collide_spheres_shot.json",
-    "matches": [],
-    "matchFont": "fonts/score0.json"
+    "matches": []
 }

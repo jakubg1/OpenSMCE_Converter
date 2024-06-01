@@ -8,8 +8,8 @@
     "pickupSound": "sound_events/catch_gem.json",
     "effects": [
         {
-            "type": "grantScore",
-            "score": 8000
+            "type": "executeScoreEvent",
+            "scoreEvent": "score_events/gem_8.json"
         },
         {
             "type": "incrementGemStat"

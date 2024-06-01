@@ -11,8 +11,9 @@
     },
     "interchangeable": true,
     "shootBehavior": {
-        "type": "lightning",
-        "range": 100
+        "type": "destroySpheres",
+        "selector": "sphere_selectors/lightning.json",
+        "scoreEvent": "score_events/lightning.json"
     },
     "shootEffects": [
         {
@@ -35,6 +36,5 @@
         6,
         7,
         10
-    ],
-    "matchFont": "fonts/score0.json"
+    ]
 }

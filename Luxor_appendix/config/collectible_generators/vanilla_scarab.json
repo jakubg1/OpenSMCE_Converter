@@ -5,7 +5,7 @@
 	"conditions": [
 		{
 			"type": "expression",
-			"expression": "![crushed]"
+			"expression": "![sphere.crushed]"
 		}
 	]
 }

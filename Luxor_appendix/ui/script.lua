@@ -16,7 +16,7 @@ local c = {}
 function c.init(f)
   f.getWidgetN("splash"):show()
   f.getWidgetN("splash"):setActive()
-  f.musicVolume("menu", 1)
+  f.musicVolume("music_tracks/menu_music.json", 1)
 end
 
 function c.splashStart(f)
@@ -302,7 +302,7 @@ function c.highscoreOk(f)
       c.Menu_Highscores:setActive()
       c.Menu_Highscores_Highlight.pos.y = c.highscorePlace * 45 + 62
       c.Menu_Highscores_Highlight:show()
-      f.musicVolume("menu", 1)
+      f.musicVolume("music_tracks/menu_music.json", 1)
     end
     )
   end
@@ -399,7 +399,7 @@ function c.quitMenuQuit(f)
         c.Banner_QuitBackground:clean()
         c.Main:show()
         c.Main:setActive()
-        f.musicVolume("menu", 1)
+        f.musicVolume("music_tracks/menu_music.json", 1)
       end
       )
     end
@@ -704,7 +704,7 @@ function c.mainContinueContinue(f)
   c.Menu_Continue_Background:scheduleFunction("hideEnd",
   function()
     c.Main:hide()
-    f.musicVolume("menu", 0)
+    f.musicVolume("music_tracks/menu_music.json", 0)
     c.Hud:show()
     c.Main_Background:scheduleFunction("hideEnd",
     function()
@@ -733,11 +733,11 @@ end
 
 -- WHEN CLICKED START ON LEVEL MAP
 function c.mainMapStart(f)
-  f.profileNewGame(c.newGameStage)
+  f.profileNewGame(c.newGameStage, "difficulties/default.json")
   c.Menu_StageSelect:hide()
   c.Menu_StageSelect_Frame:scheduleFunction("hideEnd",
   function()
-    f.musicVolume("menu", 0)
+    f.musicVolume("music_tracks/menu_music.json", 0)
     if not f.profileGetVariable("dontShowInstructions") then
       c.newGameStarting = true
       c.Menu_Instructions:show()
@@ -802,7 +802,7 @@ function c.gameMapCancel(f)
     c.Banner_StageMapTrans:clean()
     c.Main:show()
     c.Main:setActive()
-    f.musicVolume("menu", 1)
+    f.musicVolume("music_tracks/menu_music.json", 1)
   end
   )
 end
@@ -1028,7 +1028,7 @@ function c.gameOver(f)
         f.profileDeleteGame()
         c.Main:show()
         c.Main:setActive()
-        f.musicVolume("menu", 1)
+        f.musicVolume("music_tracks/menu_music.json", 1)
       end
       )
     end

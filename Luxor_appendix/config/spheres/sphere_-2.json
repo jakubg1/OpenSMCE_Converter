@@ -12,8 +12,9 @@
     },
     "shootSound": "sound_events/launch_fireball.json",
     "hitBehavior": {
-        "type": "fireball",
-        "range": 75
+        "type": "destroySpheres",
+        "selector": "sphere_selectors/fireball.json",
+        "scoreEvent": "score_events/fireball.json"
     },
     "hitSound": "sound_events/collapse_fireball.json",
     "matches": [
@@ -26,6 +27,5 @@
         6,
         7,
         10
-    ],
-    "matchFont": "fonts/score0.json"
+    ]
 }

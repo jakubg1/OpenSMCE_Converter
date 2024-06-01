@@ -8,7 +8,7 @@
             "conditions": [
                 {
                     "type": "expression",
-                    "expression": "([chainLv] == 1 && [comboBoost] && [comboLv] % 3 == 0) || [chainLv] % 3 == 0"
+                    "expression": "([match.cascade] == 1 && [match.streakBoost] && [match.streak] % 3 == 0) || [match.cascade] % 3 == 0"
                 }
             ]
         },
@@ -18,7 +18,7 @@
             "conditions": [
                 {
                     "type": "expression",
-                    "expression": "[length] > 4 && random() < ([length] - 3) * 0.25"
+                    "expression": "[match.length] > 4 && random() < ([match.length] - 3) * 0.25"
                 }
             ]
         }
