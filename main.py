@@ -836,7 +836,7 @@ def convert_sounds(contents):
 
 				event = {
 					"$schema": "../../../schemas/sound_event.json",
-					"path": resolve_path_sound(words[3])
+					"sound": resolve_path_sound(words[3])
 				}
 				if name in looping_sounds:
 					event["loop"] = True
