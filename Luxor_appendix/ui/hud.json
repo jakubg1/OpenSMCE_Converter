@@ -242,6 +242,7 @@
             "sounds": {}
         },
 		"Banner_GameOver":"ui/banner_gameover.json",
+		"Banner_GameWin":"ui/banner_gamewin.json",
 		"Banner_HighScore":"ui/banner_highscore.json",
 		"Banner_Intro":"ui/banner_intro.json",
 		"Banner_LevelComplete":"ui/banner_levelcomplete.json",

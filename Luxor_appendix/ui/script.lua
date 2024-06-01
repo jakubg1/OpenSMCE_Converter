@@ -56,6 +56,7 @@ function c.splashEnd(f)
   c.Menu_QuitGame = f.getWidgetN("root/Menu_QuitGame")
   c.Menu_QuitGame_Frame = f.getWidgetN("root/Menu_QuitGame/Frame")
   c.Menu_Credits = f.getWidgetN("root/Menu_Credits")
+  c.Menu_Credits_Frame = f.getWidgetN("root/Menu_Credits/Frame")
   c.Menu_Instructions = f.getWidgetN("root/Menu_Instructions")
   c.Menu_Instructions_Background = f.getWidgetN("root/Menu_Instructions/Background")
   c.Menu_Instructions_Frame = f.getWidgetN("root/Menu_Instructions/Frame")
@@ -90,6 +91,8 @@ function c.splashEnd(f)
   c.Banner_Intro_Panel = f.getWidgetN("root/Game/Hud/Banner_Intro/Panel")
   c.Banner_GameOver = f.getWidgetN("root/Game/Hud/Banner_GameOver")
   c.Banner_GameOver_Panel = f.getWidgetN("root/Game/Hud/Banner_GameOver/Panel")
+  c.Banner_GameWin = f.getWidgetN("root/Game/Hud/Banner_GameWin")
+  c.Banner_GameWin_Frame = f.getWidgetN("root/Game/Hud/Banner_GameWin/Frame")
 
 
 
@@ -288,23 +291,44 @@ end
 
 
 
+-- WHEN CLICKED DONE ON GAME WIN SCREEN
+function c.gameWinOk(f)
+  local place = f.profileHighscoreWrite()
+  if place then
+    c.highscorePlace = place
+    c.Banner_HighScore:show()
+    c.Banner_HighScore:setActive()
+  else
+    c.gameWinHide(f)
+  end
+end
+
+
+
 -- WHEN CLICKED "DONE" ON NEW HIGHSCORE SCREEN
 function c.highscoreOk(f)
   c.Banner_HighScore:hide()
   c.Banner_HighScore_Panel:scheduleFunction("hideEnd",
   function()
     c.Banner_HighScore:clean()
-    c.Hud:hide()
-    c.Hud:scheduleFunction("hideEnd",
-    function()
-      f.profileDeleteGame()
-      c.Menu_Highscores:show()
-      c.Menu_Highscores:setActive()
-      c.Menu_Highscores_Highlight.pos.y = c.highscorePlace * 45 + 62
-      c.Menu_Highscores_Highlight:show()
-      f.musicVolume("music_tracks/menu_music.json", 1)
+    -- Two possibilities:
+    -- 1. we won the game (show credits)
+    -- 2. we lost the game (kick to main menu)
+    if c.Banner_GameWin:isVisible() then
+      c.gameWinHide(f)
+    else
+      c.Hud:hide()
+      c.Hud:scheduleFunction("hideEnd",
+      function()
+        f.profileDeleteGame()
+        c.Menu_Highscores:show()
+        c.Menu_Highscores:setActive()
+        c.Menu_Highscores_Highlight.pos.y = c.highscorePlace * 45 + 62
+        c.Menu_Highscores_Highlight:show()
+        f.musicVolume("music_tracks/menu_music.json", 1)
+      end
+      )
     end
-    )
   end
   )
 end
@@ -433,7 +457,19 @@ end
 -- WHEN CLICKED "DONE" ON CREDITS MENU
 function c.creditsDone(f)
   c.Menu_Credits:hide()
-  c.Menu_Options:setActive()
+  -- Two possibilities:
+  -- 1. we came from options (activate options back)
+  -- 2. we came from game win (show main menu)
+  c.Menu_Credits_Frame:scheduleFunction("hideEnd",
+  function()
+    if c.Menu_Options:isVisible() then
+      c.Menu_Options:setActive()
+    else
+      c.Main:show()
+      c.Main:setActive()
+    end
+  end
+  )
 end
 
 
@@ -1088,12 +1124,9 @@ function c.stageMapShow(f, advance)
               c.Banner_StageMap:hide()
               c.Banner_StageMap_Frame:scheduleFunction("hideEnd",
               function()
-                -- If you've dug this deep, you should know that I'm leaving the "game win" feature to the very end of Beta state :)
-                c.Banner_StageMapTrans:hide()
-                c.Banner_StageMapTrans:clean()
-                c.Hud:hide()
-                c.Main:show()
-                c.Main:setActive()
+                -- Game Won!
+                c.Banner_GameWin:show()
+                c.Banner_GameWin:setActive()
               end
               )
             end
@@ -1228,6 +1261,28 @@ function c.profileManagerUpdateButtons(f)
   c.Profile_Manage_Button_Down:buttonSetEnabled(c.profileOffset < #names - #c.ProfileRows)
   c.Profile_Manage_Button_Delete:buttonSetEnabled(c.profileSelectID > 0)
   c.Profile_Manage_Button_Select:buttonSetEnabled(c.profileSelectID > 0)
+end
+
+
+
+function c.gameWinHide(f)
+  c.Hud:hide()
+  c.Hud:scheduleFunction("hideEnd",
+  function()
+    c.Banner_StageMapTrans:hide()
+    c.Banner_StageMapTrans:clean()
+  end
+  )
+  c.Banner_GameWin:hide()
+  c.Banner_GameWin_Frame:scheduleFunction("hideEnd",
+  function()
+    c.Banner_GameWin:clean()
+    f.profileDeleteGame()
+    c.Menu_Credits:show()
+    c.Menu_Credits:setActive()
+    f.musicVolume("music_tracks/menu_music.json", 1)
+  end
+  )
 end
 
 
