@@ -65,23 +65,23 @@ printf "%s\n" '' '' '' '' \
     "==========================================="
 
 if [ -d "./English" ]; then
-    printf "The \"English\" folder should be named \"english\" because Linux, fixing...\n"
+    printf "The \"English\" folder should be named \"english\" because Linux, fixing... "
     mv ./English ./english
-    printf "Done!"
+    printf "Done!\n"
 fi
 
 if [ -d "./data/data" ]; then
-    printf "The \"data\" folder is nested too deeply, fixing...\n"
+    printf "The \"data\" folder is nested too deeply, fixing... "
     cp -aflt ./data ./data/data/*
     rm -rf ./data/data
-    printf "Done!"
+    printf "Done!\n"
 fi
 
 if [ -d "./english/english" ]; then
-    printf "The \"english\" folder is nested too deeply, fixing...\n"
+    printf "The \"english\" folder is nested too deeply, fixing... "
     cp -aflt ./english ./english/english/*
     rm -rf ./english/english
-    printf "Done!"
+    printf "Done!\n"
 fi
 
 mkdir -p ./_BACKUP
