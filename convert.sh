@@ -20,7 +20,7 @@ if [ ! -d "./data" ]; then
     good=0
 fi
 
-if [ ! -d "./english" ]; then
+if [ ! -d "./english" ] && [ ! -d "./English" ]; then
     printf "! Folder \"english\" does not exist !\n"
     good=0
 fi
@@ -52,10 +52,10 @@ else
 fi
 
 printf "%s\n" '' '' \
-     "If you haven't checked README file yet, just in case please do it before proceeding!" \
-     "The original files will be available in \"_BACKUP\" directory. If you want, you can delete it afterwards." \
-     "===========================================" \
-     "The converter will start working once you press any key."
+    "If you haven't checked README file yet, just in case please do it before proceeding!" \
+    "The original files will be available in \"_BACKUP\" directory. If you want to, you can delete it afterwards." \
+    "===========================================" \
+    "The converter will start working once you press any key."
 
 read -rsn1
 
@@ -63,6 +63,12 @@ printf "%s\n" '' '' '' '' \
     "===========================================" \
     "Step 1. Preparing and backing up..." \
     "==========================================="
+
+if [ -d "./English" ]; then
+    printf "The \"English\" folder should be named \"english\" because Linux, fixing...\n"
+    mv ./English ./english
+    printf "Done!"
+fi
 
 if [ -d "./data/data" ]; then
     printf "The \"data\" folder is nested too deeply, fixing...\n"
@@ -95,6 +101,7 @@ printf "%s\n" '' '' '' '' \
     "Step 3. Converting..." \
     "==========================================="
 # Linux is case sensitive -_-
+# TODO: Move this logic to main.py!
 mv data/maps/PooloftheLotusBlossom data/maps/PoolOfTheLotusBlossom
 mv data/maps/ScrollofThoth data/maps/ScrollOfThoth
 
@@ -103,11 +110,20 @@ python main.py
 if [ $? -ne 0 ]; then
     printf "%s\n" '' '' '' '' \
 	"===========================================" \
-	"Oh no^^! Something has gone wrong during the conversion process." \
-	"Please screenshot the console and send it to me via Discord^^!" \
+	"Oh no! Something has gone wrong during the conversion process." \
+	"Please screenshot the console and send it to me via Discord!" \
 	"===========================================" \
 	"" \
 	"The converter will now close."
+    read -rn1 -p "Would you like to revert the files to the original state? [Y/n]" keep
+
+    if [[ $keep =~ [yY] ]]; then
+        printf "%s\n" '' \
+        "Okay, reverting..."
+        rm -rf output Luxor data assets Luxor_appendix
+        cp -aft . ./_BACKUP/data ./_BACKUP/english ./_BACKUP/assets ./_BACKUP/Luxor_appendix
+        rm -rf _BACKUP
+    fi
 	exit
 fi
 

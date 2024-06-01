@@ -3,7 +3,7 @@ from PIL import Image, ImageDraw
 
 
 
-### Change these two constanta to manipulate the purpose of this program.
+### Change these two constants to manipulate the purpose of this program.
 
 # Lets the program be able to be opened by itself. This will disable some automation, and you will have to copy the result and perform some checks manually.
 STANDALONE_MODE = False
@@ -40,7 +40,7 @@ def unindent(line):
 
 def fix_path(path):
 	path = path.replace("\\", "/")
-	if path.__contains__("data/maps"):
+	if "data/maps" in path:
 		path = path.replace("InTheShadowofthePyramids","InTheShadowOfThePyramids") \
 			.replace("InnerSanctumoftheTemple","InnerSanctumOfTheTemple") \
 			.replace("flightofthesacredibis","FlightOfTheSacredIbis") \
@@ -189,7 +189,7 @@ def combine_alpha(img, alpha = None):
 	return result
 
 #
-#  As above, but with paths instead to save typing. WARNING: extensions are needed!
+#  As above, but with paths instead to save typing. WARNING: extensions are required!
 #
 
 def combine_alpha_path(img_path, alpha_path, result_path):
@@ -541,7 +541,7 @@ def convert_ui(contents, rule_table, name = "root"):
 		if words[0] == "MaxX":
 			ui_data["bounds"][1] = int(words[2])
 		if words[0] == "File":
-			ui_data["path"] = words[2].replace("\\", "/").replace("data/psys", "particles")[:-5] + ".json"
+			ui_data["path"] = resolve_path_particle(words[2])
 		if words[0] == "Child":
 			if len(words) < 4:
 				continue
@@ -559,7 +559,7 @@ def convert_ui(contents, rule_table, name = "root"):
 			if words[3] in child_types:
 				child_type = child_types[words[3]]
 			else:
-				print("Unknown type! " + words[3])
+				print("Unknown UI widget type! " + words[3])
 				child_type = "none"
 			child_scan = True
 			child_scan_level = 0

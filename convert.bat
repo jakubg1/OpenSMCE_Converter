@@ -63,7 +63,7 @@ echo.
 echo.
 echo.
 echo If you haven't checked README file yet, just in case please do it before proceeding!
-echo The original files will be available in "_BACKUP" directory. If you want, you can delete it afterwards.
+echo The original files will be available in "_BACKUP" directory. If you want to, you can delete it afterwards.
 echo ===========================================
 echo The converter will start working once you press any key.
 pause
