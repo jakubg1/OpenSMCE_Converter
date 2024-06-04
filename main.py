@@ -50,7 +50,23 @@ def fix_path(path):
 			.replace("RasJourneytotheWest","RasJourneyToTheWest") \
 			.replace("ThePillarofOsiris","ThePillarOfOsiris") \
 			.replace("ScrollofThoth","ScrollOfThoth") \
-			.replace("PooloftheLotusBlossom","PoolOfTheLotusBlossom")
+			.replace("PooloftheLotusBlossom","PoolOfTheLotusBlossom") \
+			\
+			.replace("HalloftheApisBull","HallOfTheApisBull") \
+			.replace("QueenofDenial","QueenOfDenial") \
+			.replace("BastionoftheCatGoddess","BastionOfTheCatGoddess") \
+			.replace("WeighingoftheHeart","WeighingOfTheHeart") \
+			.replace("ReignoftheHereticKing","ReignOfTheHereticKing") \
+			.replace("TheTreasureCityofRameses","TheTreasureCityOfRameses") \
+			.replace("OpeningoftheMouthCeremony","OpeningOfTheMouthCeremony") \
+			.replace("FestivalofJubilee","FestivalOfJubilee") \
+			.replace("CrossingtheReedSea","CrossingTheReedSea") \
+			.replace("TheStellaeofThutmosis","TheStellaeOfThutmosis") \
+			.replace("ValleyoftheKings","ValleyOfTheKings") \
+			.replace("EyeofHorus","EyeOfHorus") \
+			.replace("InvasionoftheHyksos","InvasionOfTheHyksos") \
+			.replace("demo2","Demo2") \
+			.replace("narmerpalette","NarmerPalette")
 
 	return path
 
@@ -96,6 +112,18 @@ def try_create_dirs(path):
 			try_create_dir(total)
 	except:
 		pass
+
+#
+#  Returns True if a given file exists.
+#
+
+def file_exists(path):
+	try:
+		open(path, "r")
+	except:
+		return False
+	return True
+
 
 #
 #  Changes i.e. "data\sprites\game\shooter.spr" to "images/game/shooter.png".
@@ -922,6 +950,11 @@ def main():
 	# rule_tables = json.loads("".join(get_contents("rule_tables.txt")))
 
 
+
+	if file_exists("data/sprites/powerups/scorpion.spr"):
+		print("\n\nYOU ARE CONVERTING LUXOR AMUN RISING\n\n")
+	else:
+		print("\n\nYOU ARE CONVERTING LUXOR 1\n\n")
 
 	###############################################################################################   MAIN START
 

@@ -105,6 +105,20 @@ printf "%s\n" '' '' '' '' \
 mv data/maps/PooloftheLotusBlossom data/maps/PoolOfTheLotusBlossom
 mv data/maps/ScrollofThoth data/maps/ScrollOfThoth
 
+mv data/maps/BastionoftheCatGoddess data/maps/BastionOfTheCatGoddess
+mv data/maps/CrossingtheReedSea data/maps/CrossingTheReedSea
+mv data/maps/EyeofHorus data/maps/EyeOfHorus
+mv data/maps/FestivalofJubilee data/maps/FestivalOfJubilee
+mv data/maps/HalloftheApisBull data/maps/HallOfTheApisBull
+mv data/maps/InvasionoftheHyksos data/maps/InvasionOfTheHyksos
+mv data/maps/OpeningoftheMouthCeremony data/maps/OpeningOfTheMouthCeremony
+mv data/maps/QueenofDenial data/maps/QueenOfDenial
+mv data/maps/ReignoftheHereticKing data/maps/ReignOfTheHereticKing
+mv data/maps/TheStellaeofThutmosis data/maps/TheStellaeOfThutmosis
+mv data/maps/TheTreasureCityofRameses data/maps/TheTreasureCityOfRameses
+mv data/maps/ValleyoftheKings data/maps/ValleyOfTheKings
+mv data/maps/WeighingoftheHeart data/maps/WeighingOfTheHeart
+
 #python -m pip install pillow
 python main.py
 if [ $? -ne 0 ]; then
