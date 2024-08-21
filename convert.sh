@@ -48,6 +48,7 @@ else
         "===========================================" \
         "" \
         "The converter will now close."
+    read -n1 -r -p "Press any key to continue..."
     exit
 fi
 
