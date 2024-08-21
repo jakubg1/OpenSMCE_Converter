@@ -55,7 +55,7 @@
         "acceleration": 200,
         "attractionAcceleration": 500,
         "attractionForwardDeccelerationScarab": 200,
-        "decceleration": 500,
+        "decceleration": 300,
         "backwardsDecceleration": 800,
         "attractionSpeedBase": -5000,
         "attractionSpeedMult": 0,

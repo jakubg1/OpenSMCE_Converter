@@ -165,8 +165,7 @@
                 "conditions": [
                     {
                         "type": "cmpLatestCheckpoint",
-                        "min": 11,
-                        "max": 13
+                        "min": 11
                     }
                 ]
             }
@@ -178,8 +177,7 @@
                 "conditions": [
                     {
                         "type": "cmpLatestCheckpoint",
-                        "min": 12,
-                        "max": 13
+                        "min": 12
                     }
                 ]
             }
@@ -191,8 +189,7 @@
                 "conditions": [
                     {
                         "type": "cmpLatestCheckpoint",
-                        "min": 13,
-                        "max": 13
+                        "min": 13
                     }
                 ]
             }
