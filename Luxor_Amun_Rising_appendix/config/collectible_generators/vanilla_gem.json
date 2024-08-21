@@ -1,0 +1,198 @@
+{
+    "$schema": "../../../../schemas/config/collectible_generator.json",
+    "type": "randomPick",
+    "pool": [
+        {
+            "entry": {
+                "type": "collectible",
+                "name": "gem_1",
+                "conditions": [
+                    {
+                        "type": "cmpLatestCheckpoint",
+                        "min": 1,
+                        "max": 1
+                    }
+                ]
+            }
+        },
+        {
+            "entry": {
+                "type": "collectible",
+                "name": "gem_2",
+                "conditions": [
+                    {
+                        "type": "cmpLatestCheckpoint",
+                        "min": 1,
+                        "max": 2
+                    }
+                ]
+            }
+        },
+        {
+            "entry": {
+                "type": "collectible",
+                "name": "gem_3",
+                "conditions": [
+                    {
+                        "type": "cmpLatestCheckpoint",
+                        "min": 1,
+                        "max": 3
+                    }
+                ]
+            }
+        },
+        {
+            "entry": {
+                "type": "collectible",
+                "name": "gem_4",
+                "conditions": [
+                    {
+                        "type": "cmpLatestCheckpoint",
+                        "min": 2,
+                        "max": 4
+                    }
+                ]
+            }
+        },
+        {
+            "entry": {
+                "type": "collectible",
+                "name": "gem_5",
+                "conditions": [
+                    {
+                        "type": "cmpLatestCheckpoint",
+                        "min": 3,
+                        "max": 5
+                    }
+                ]
+            }
+        },
+        {
+            "entry": {
+                "type": "collectible",
+                "name": "gem_6",
+                "conditions": [
+                    {
+                        "type": "cmpLatestCheckpoint",
+                        "min": 4,
+                        "max": 6
+                    }
+                ]
+            }
+        },
+        {
+            "entry": {
+                "type": "collectible",
+                "name": "gem_7",
+                "conditions": [
+                    {
+                        "type": "cmpLatestCheckpoint",
+                        "min": 5,
+                        "max": 7
+                    }
+                ]
+            }
+        },
+        {
+            "entry": {
+                "type": "collectible",
+                "name": "gem_8",
+                "conditions": [
+                    {
+                        "type": "cmpLatestCheckpoint",
+                        "min": 6,
+                        "max": 8
+                    }
+                ]
+            }
+        },
+        {
+            "entry": {
+                "type": "collectible",
+                "name": "gem_9",
+                "conditions": [
+                    {
+                        "type": "cmpLatestCheckpoint",
+                        "min": 7,
+                        "max": 9
+                    }
+                ]
+            }
+        },
+        {
+            "entry": {
+                "type": "collectible",
+                "name": "gem_10",
+                "conditions": [
+                    {
+                        "type": "cmpLatestCheckpoint",
+                        "min": 8,
+                        "max": 10
+                    }
+                ]
+            }
+        },
+        {
+            "entry": {
+                "type": "collectible",
+                "name": "gem_11",
+                "conditions": [
+                    {
+                        "type": "cmpLatestCheckpoint",
+                        "min": 9,
+                        "max": 11
+                    }
+                ]
+            }
+        },
+        {
+            "entry": {
+                "type": "collectible",
+                "name": "gem_12",
+                "conditions": [
+                    {
+                        "type": "cmpLatestCheckpoint",
+                        "min": 10,
+                        "max": 12
+                    }
+                ]
+            }
+        },
+        {
+            "entry": {
+                "type": "collectible",
+                "name": "gem_13",
+                "conditions": [
+                    {
+                        "type": "cmpLatestCheckpoint",
+                        "min": 11
+                    }
+                ]
+            }
+        },
+        {
+            "entry": {
+                "type": "collectible",
+                "name": "gem_14",
+                "conditions": [
+                    {
+                        "type": "cmpLatestCheckpoint",
+                        "min": 12
+                    }
+                ]
+            }
+        },
+        {
+            "entry": {
+                "type": "collectible",
+                "name": "gem_15",
+                "conditions": [
+                    {
+                        "type": "cmpLatestCheckpoint",
+                        "min": 13
+                    }
+                ]
+            }
+        }
+    ]
+}

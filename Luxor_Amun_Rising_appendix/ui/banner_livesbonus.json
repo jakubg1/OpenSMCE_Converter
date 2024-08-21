@@ -1,0 +1,535 @@
+{
+    "inheritShow": true,
+    "inheritHide": true,
+    "type": "none",
+    "pos": {
+        "x": 0,
+        "y": 0
+    },
+    "alpha": 1,
+    "children": {
+        "Background": {
+            "inheritShow": true,
+            "inheritHide": true,
+            "type": "none",
+            "pos": {
+                "x": 0,
+                "y": 0
+            },
+            "alpha": 1.0,
+            "children": {
+                "Background": "ui/background.json"
+            },
+            "animations": {
+                "in_": {
+                    "type": "fade",
+                    "time": 0.0,
+                    "startValue": 1.0,
+                    "endValue": 1.0
+                },
+                "out": {
+                    "type": "fade",
+                    "time": 0.0,
+                    "startValue": 1.0,
+                    "endValue": 1.0
+                }
+            },
+            "sounds": {},
+            "layer": "BannerBackground"
+        },
+        "Frame": {
+            "inheritShow": true,
+            "inheritHide": true,
+            "type": "sprite",
+            "pos": {
+                "x": 125,
+                "y": 110
+            },
+            "alpha": 0.0,
+            "children": {
+                "Text_Title": {
+                    "inheritShow": true,
+                    "inheritHide": true,
+                    "type": "text",
+                    "pos": {
+                        "x": 275,
+                        "y": 15
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "MenuDialog2Controls",
+                    "font": "fonts/dialog_header.json",
+                    "align": {
+                        "x": 0.5,
+                        "y": 0
+                    },
+                    "text": "EXTRA LIVES BONUS"
+                },
+                "Text_1": {
+                    "inheritShow": true,
+                    "inheritHide": true,
+                    "type": "text",
+                    "pos": {
+                        "x": 275,
+                        "y": 73
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "MenuDialog2Controls",
+                    "font": "fonts/dialog_body2.json",
+                    "align": {
+                        "x": 0.5,
+                        "y": 0
+                    },
+                    "text": "YOU'VE EARNED BONUS POINTS\\nFOR YOUR REMAINING LIVES!"
+                },
+                "Text_Lives": {
+                    "inheritShow": true,
+                    "inheritHide": true,
+                    "type": "text",
+                    "pos": {
+                        "x": 294,
+                        "y": 125
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "MenuDialog2Controls",
+                    "font": "fonts/dialog_body2.json",
+                    "align": {
+                        "x": 1,
+                        "y": 0
+                    },
+                    "text": "LIVES REMAINING:"
+                },
+                "Text_Life_Bonus": {
+                    "inheritShow": true,
+                    "inheritHide": true,
+                    "type": "text",
+                    "pos": {
+                        "x": 294,
+                        "y": 157
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "MenuDialog2Controls",
+                    "font": "fonts/dialog_body2.json",
+                    "align": {
+                        "x": 1,
+                        "y": 0
+                    },
+                    "text": "LIFE BONUS:"
+                },
+                "Text_Final_Bonus": {
+                    "inheritShow": true,
+                    "inheritHide": true,
+                    "type": "text",
+                    "pos": {
+                        "x": 274,
+                        "y": 189
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "MenuDialog2Controls",
+                    "font": "fonts/dialog_body2.json",
+                    "align": {
+                        "x": 0.5,
+                        "y": 0
+                    },
+                    "text": "FINAL BONUS"
+                },
+                "Text_Congrats": {
+                    "inheritShow": true,
+                    "inheritHide": true,
+                    "type": "text",
+                    "pos": {
+                        "x": 274,
+                        "y": 255
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "MenuDialog2Controls",
+                    "font": "fonts/dialog_body2.json",
+                    "align": {
+                        "x": 0.5,
+                        "y": 0
+                    },
+                    "text": "CONGRATULATIONS!"
+                },
+                "VW_1": {
+                    "inheritShow": true,
+                    "inheritHide": true,
+                    "type": "sprite",
+                    "pos": {
+                        "x": 186,
+                        "y": 213
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "MenuDialog2Controls",
+                    "sprite": "sprites/dialogs/score_box.json"
+                },
+                "Container": {
+                    "inheritShow": true,
+                    "inheritHide": true,
+                    "type": "none",
+                    "pos": {
+                        "x": 0,
+                        "y": 0
+                    },
+                    "alpha": 1,
+                    "children": {
+                        "Text_Life_Bonus_Amount": {
+                            "inheritShow": true,
+                            "inheritHide": true,
+                            "type": "text",
+                            "pos": {
+                                "x": 302,
+                                "y": 125
+                            },
+                            "alpha": 1,
+                            "children": {},
+                            "animations": {},
+                            "sounds": {},
+                            "layer": "MenuDialog2Controls",
+                            "font": "fonts/dialog_body.json",
+                            "align": {
+                                "x": 0,
+                                "y": 0
+                            }
+                        },
+                        "Text_Lives_Amount": {
+                            "inheritShow": true,
+                            "inheritHide": true,
+                            "type": "text",
+                            "pos": {
+                                "x": 302,
+                                "y": 157
+                            },
+                            "alpha": 1,
+                            "children": {},
+                            "animations": {},
+                            "sounds": {},
+                            "layer": "MenuDialog2Controls",
+                            "font": "fonts/dialog_body.json",
+                            "align": {
+                                "x": 0,
+                                "y": 0
+                            }
+                        },
+                        "Text_Final_Bonus_Amount": {
+                            "inheritShow": true,
+                            "inheritHide": true,
+                            "type": "text",
+                            "pos": {
+                                "x": 274,
+                                "y": 220
+                            },
+                            "alpha": 1,
+                            "children": {},
+                            "animations": {},
+                            "sounds": {},
+                            "layer": "MenuDialog2Controls",
+                            "font": "fonts/dialog_body.json",
+                            "align": {
+                                "x": 0.5,
+                                "y": 0
+                            }
+                        }
+                    },
+                    "animations": {},
+                    "sounds": {}
+                },
+                "Button_Ok": {
+                    "inheritShow": true,
+                    "inheritHide": true,
+                    "type": "spriteButton",
+                    "pos": {
+                        "x": 225,
+                        "y": 280
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "MenuDialog2Controls",
+                    "sprite": "sprites/dialogs/button_done.json"
+                }
+            },
+            "animations": {
+                "in_": {
+                    "type": "fade",
+                    "time": 0.5,
+                    "startValue": 0.0,
+                    "endValue": 1.0
+                },
+                "out": {
+                    "type": "fade",
+                    "time": 0.5,
+                    "startValue": 1.0,
+                    "endValue": 0.0
+                }
+            },
+            "sounds": {},
+            "layer": "MenuDialog2",
+            "sprite": "sprites/dialogs/dialog_1.json"
+        },
+        "Reward_Gem_01": {
+            "inheritShow": true,
+            "inheritHide": true,
+            "type": "particle",
+            "pos": {
+                "x": -128,
+                "y": -128
+            },
+            "alpha": 1,
+            "children": {},
+            "animations": {},
+            "sounds": {},
+            "layer": "OTHER",
+            "path": "particles/gem_1.json"
+        },
+        "Reward_Gem_02": {
+            "inheritShow": true,
+            "inheritHide": true,
+            "type": "particle",
+            "pos": {
+                "x": -128,
+                "y": -128
+            },
+            "alpha": 1,
+            "children": {},
+            "animations": {},
+            "sounds": {},
+            "layer": "OTHER",
+            "path": "particles/gem_2.json"
+        },
+        "Reward_Gem_03": {
+            "inheritShow": true,
+            "inheritHide": true,
+            "type": "particle",
+            "pos": {
+                "x": -128,
+                "y": -128
+            },
+            "alpha": 1,
+            "children": {},
+            "animations": {},
+            "sounds": {},
+            "layer": "OTHER",
+            "path": "particles/gem_3.json"
+        },
+        "Reward_Gem_04": {
+            "inheritShow": true,
+            "inheritHide": true,
+            "type": "particle",
+            "pos": {
+                "x": -128,
+                "y": -128
+            },
+            "alpha": 1,
+            "children": {},
+            "animations": {},
+            "sounds": {},
+            "layer": "OTHER",
+            "path": "particles/gem_4.json"
+        },
+        "Reward_Gem_05": {
+            "inheritShow": true,
+            "inheritHide": true,
+            "type": "particle",
+            "pos": {
+                "x": -128,
+                "y": -128
+            },
+            "alpha": 1,
+            "children": {},
+            "animations": {},
+            "sounds": {},
+            "layer": "OTHER",
+            "path": "particles/gem_5.json"
+        },
+        "Reward_Gem_06": {
+            "inheritShow": true,
+            "inheritHide": true,
+            "type": "particle",
+            "pos": {
+                "x": -128,
+                "y": -128
+            },
+            "alpha": 1,
+            "children": {},
+            "animations": {},
+            "sounds": {},
+            "layer": "OTHER",
+            "path": "particles/gem_6.json"
+        },
+        "Reward_Gem_07": {
+            "inheritShow": true,
+            "inheritHide": true,
+            "type": "particle",
+            "pos": {
+                "x": -128,
+                "y": -128
+            },
+            "alpha": 1,
+            "children": {},
+            "animations": {},
+            "sounds": {},
+            "layer": "OTHER",
+            "path": "particles/gem_7.json"
+        },
+        "Reward_Gem_08": {
+            "inheritShow": true,
+            "inheritHide": true,
+            "type": "particle",
+            "pos": {
+                "x": -128,
+                "y": -128
+            },
+            "alpha": 1,
+            "children": {},
+            "animations": {},
+            "sounds": {},
+            "layer": "OTHER",
+            "path": "particles/gem_8.json"
+        },
+        "Reward_Gem_09": {
+            "inheritShow": true,
+            "inheritHide": true,
+            "type": "particle",
+            "pos": {
+                "x": -128,
+                "y": -128
+            },
+            "alpha": 1,
+            "children": {},
+            "animations": {},
+            "sounds": {},
+            "layer": "OTHER",
+            "path": "particles/gem_9.json"
+        },
+        "Reward_Gem_10": {
+            "inheritShow": true,
+            "inheritHide": true,
+            "type": "particle",
+            "pos": {
+                "x": -128,
+                "y": -128
+            },
+            "alpha": 1,
+            "children": {},
+            "animations": {},
+            "sounds": {},
+            "layer": "OTHER",
+            "path": "particles/gem_10.json"
+        },
+        "Reward_Gem_11": {
+            "inheritShow": true,
+            "inheritHide": true,
+            "type": "particle",
+            "pos": {
+                "x": -128,
+                "y": -128
+            },
+            "alpha": 1,
+            "children": {},
+            "animations": {},
+            "sounds": {},
+            "layer": "OTHER",
+            "path": "particles/gem_11.json"
+        },
+        "Reward_Gem_12": {
+            "inheritShow": true,
+            "inheritHide": true,
+            "type": "particle",
+            "pos": {
+                "x": -128,
+                "y": -128
+            },
+            "alpha": 1,
+            "children": {},
+            "animations": {},
+            "sounds": {},
+            "layer": "OTHER",
+            "path": "particles/gem_12.json"
+        },
+        "Reward_Gem_13": {
+            "inheritShow": true,
+            "inheritHide": true,
+            "type": "particle",
+            "pos": {
+                "x": -128,
+                "y": -128
+            },
+            "alpha": 1,
+            "children": {},
+            "animations": {},
+            "sounds": {},
+            "layer": "OTHER",
+            "path": "particles/gem_13.json"
+        },
+        "Reward_Gem_14": {
+            "inheritShow": true,
+            "inheritHide": true,
+            "type": "particle",
+            "pos": {
+                "x": -128,
+                "y": -128
+            },
+            "alpha": 1,
+            "children": {},
+            "animations": {},
+            "sounds": {},
+            "layer": "OTHER",
+            "path": "particles/gem_14.json"
+        },
+        "Reward_Gem_15": {
+            "inheritShow": true,
+            "inheritHide": true,
+            "type": "particle",
+            "pos": {
+                "x": -128,
+                "y": -128
+            },
+            "alpha": 1,
+            "children": {},
+            "animations": {},
+            "sounds": {},
+            "layer": "OTHER",
+            "path": "particles/gem_15.json"
+        },
+        "Reward_Coin": {
+            "inheritShow": true,
+            "inheritHide": true,
+            "type": "particle",
+            "pos": {
+                "x": -128,
+                "y": -128
+            },
+            "alpha": 1,
+            "children": {},
+            "animations": {},
+            "sounds": {},
+            "layer": "OTHER",
+            "path": "particles/powerup_coin.json"
+        }
+    },
+    "animations": {},
+    "sounds": {
+        "in_": "sounds/highscore.ogg"
+    }
+}

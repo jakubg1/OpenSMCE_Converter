@@ -1,0 +1,11 @@
+{
+    "$schema": "../../../../schemas/config/collectible_generator.json",
+	"type": "collectibleGenerator",
+	"name": "vanilla_gem.json",
+	"conditions": [
+		{
+			"type": "expression",
+			"expression": "![sphere.crushed]"
+		}
+	]
+}

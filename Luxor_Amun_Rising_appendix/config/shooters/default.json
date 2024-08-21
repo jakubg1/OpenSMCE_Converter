@@ -1,0 +1,93 @@
+{
+    "$schema": "../../../../schemas/config/shooter.json",
+    "movement": {
+        "type": "linear",
+        "xMin": 20,
+        "xMax": 780,
+        "y": 526,
+        "angle": 0
+    },
+    "sprite": "sprites/game/shooter.json",
+    "spriteOffset": {
+        "x": 0,
+        "y": 0
+    },
+    "spriteAnchor": {
+        "x": 0.5,
+        "y": 0
+    },
+    "shadowSprite": "sprites/game/shooter_shadow.json",
+    "shadowSpriteOffset": {
+        "x": 4,
+        "y": 4
+    },
+    "shadowSpriteAnchor": {
+        "x": 0.5,
+        "y": 0
+    },
+    "nextBallOffset": {
+        "x": 0,
+        "y": 21
+    },
+    "nextBallAnchor": {
+        "x": 0.5,
+        "y": 0
+    },
+    "nextBallSprites": {
+        "-3": {
+            "sprite": "sprites/game/next_ball_lightning.json"
+        },
+        "-2": {
+            "sprite": "sprites/game/next_ball_bomb.json"
+        },
+        "-1": {
+            "sprite": "sprites/game/next_ball_wild.json"
+        },
+        "0": {
+            "sprite": "sprites/game/next_ball_0.json"
+        },
+        "1": {
+            "sprite": "sprites/game/next_ball_1.json"
+        },
+        "2": {
+            "sprite": "sprites/game/next_ball_2.json"
+        },
+        "3": {
+            "sprite": "sprites/game/next_ball_3.json"
+        },
+        "4": {
+            "sprite": "sprites/game/next_ball_4.json"
+        },
+        "5": {
+            "sprite": "sprites/game/next_ball_5.json"
+        },
+        "6": {
+            "sprite": "sprites/game/next_ball_6.json"
+        },
+        "7": {
+            "sprite": "sprites/game/next_ball_7.json"
+        }
+    },
+    "speedShotBeam": {
+        "sprite": "sprites/particles/speed_shot_beam.json",
+        "fadeTime": 0.5,
+        "renderingType": "cut",
+        "colored": false
+    },
+    "sounds": {
+        "sphereSwap": "sound_events/bullet_swap.json",
+        "sphereFill": "sound_events/bullet_reload.json"
+    },
+    "speedShotParticle": "particles/speed_shot_beam.json",
+    "shootSpeed": 1000,
+    "shotCooldownFade": 0.1,
+    "destroySphereOnFail": true,
+    "hitboxSize": {
+        "x": 160,
+        "y": 30
+    },
+    "hitboxOffset": {
+        "x": 0,
+        "y": 20
+    }
+}

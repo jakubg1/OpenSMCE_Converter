@@ -1,0 +1,23 @@
+{
+    "$schema": "../../../../schemas/config/sphere.json",
+    "sprite": "sprites/game/ball_7.json",
+    "destroyParticle": "particles/collapse_ball_7.json",
+    "color": {
+        "r": 0,
+        "g": 0,
+        "b": 0
+    },
+    "interchangeable": true,
+    "shootBehavior": {
+        "type": "normal"
+    },
+    "shootSound": "sound_events/launch_sphere.json",
+    "hitBehavior": {
+        "type": "normal"
+    },
+    "hitSound": "sound_events/collide_spheres_shot.json",
+    "matches": [
+        -1,
+        7
+    ]
+}

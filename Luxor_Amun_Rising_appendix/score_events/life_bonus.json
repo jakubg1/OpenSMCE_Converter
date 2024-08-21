@@ -1,0 +1,4 @@
+{
+    "$schema": "../../../schemas/score_event.json",
+    "score": "${[session.lives] * 50000}"
+}

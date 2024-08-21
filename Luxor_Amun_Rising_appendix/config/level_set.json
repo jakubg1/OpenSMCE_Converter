@@ -1,0 +1,502 @@
+{
+    "levelOrder": [
+        {
+            "type": "level",
+            "level": 101,
+            "name": "1-1"
+        },
+        {
+            "type": "level",
+            "level": 102,
+            "name": "1-2"
+        },
+        {
+            "type": "level",
+            "level": 103,
+            "name": "1-3"
+        },
+        {
+            "type": "level",
+            "level": 104,
+            "name": "1-4",
+            "unlockCheckpointsOnBeat": [
+                2
+            ]
+        },
+        {
+            "type": "level",
+            "level": 201,
+            "name": "2-1"
+        },
+        {
+            "type": "level",
+            "level": 202,
+            "name": "2-2"
+        },
+        {
+            "type": "level",
+            "level": 203,
+            "name": "2-3"
+        },
+        {
+            "type": "level",
+            "level": 204,
+            "name": "2-4"
+        },
+        {
+            "type": "level",
+            "level": 205,
+            "name": "2-5",
+            "unlockCheckpointsOnBeat": [
+                3
+            ]
+        },
+        {
+            "type": "level",
+            "level": 301,
+            "name": "3-1"
+        },
+        {
+            "type": "level",
+            "level": 302,
+            "name": "3-2"
+        },
+        {
+            "type": "level",
+            "level": 303,
+            "name": "3-3"
+        },
+        {
+            "type": "level",
+            "level": 304,
+            "name": "3-4"
+        },
+        {
+            "type": "level",
+            "level": 305,
+            "name": "3-5"
+        },
+        {
+            "type": "level",
+            "level": 306,
+            "name": "3-6",
+            "unlockCheckpointsOnBeat": [
+                4
+            ]
+        },
+        {
+            "type": "level",
+            "level": 401,
+            "name": "4-1"
+        },
+        {
+            "type": "level",
+            "level": 402,
+            "name": "4-2"
+        },
+        {
+            "type": "level",
+            "level": 403,
+            "name": "4-3"
+        },
+        {
+            "type": "level",
+            "level": 404,
+            "name": "4-4"
+        },
+        {
+            "type": "level",
+            "level": 405,
+            "name": "4-5",
+            "unlockCheckpointsOnBeat": [
+                5
+            ]
+        },
+        {
+            "type": "level",
+            "level": 501,
+            "name": "5-1"
+        },
+        {
+            "type": "level",
+            "level": 502,
+            "name": "5-2"
+        },
+        {
+            "type": "level",
+            "level": 503,
+            "name": "5-3"
+        },
+        {
+            "type": "level",
+            "level": 504,
+            "name": "5-4"
+        },
+        {
+            "type": "level",
+            "level": 505,
+            "name": "5-5"
+        },
+        {
+            "type": "level",
+            "level": 506,
+            "name": "5-6",
+            "unlockCheckpointsOnBeat": [
+                6
+            ]
+        },
+        {
+            "type": "level",
+            "level": 601,
+            "name": "6-1"
+        },
+        {
+            "type": "level",
+            "level": 602,
+            "name": "6-2"
+        },
+        {
+            "type": "level",
+            "level": 603,
+            "name": "6-3"
+        },
+        {
+            "type": "level",
+            "level": 604,
+            "name": "6-4"
+        },
+        {
+            "type": "level",
+            "level": 605,
+            "name": "6-5"
+        },
+        {
+            "type": "level",
+            "level": 606,
+            "name": "6-6"
+        },
+        {
+            "type": "level",
+            "level": 607,
+            "name": "6-7",
+            "unlockCheckpointsOnBeat": [
+                7
+            ]
+        },
+        {
+            "type": "level",
+            "level": 701,
+            "name": "7-1"
+        },
+        {
+            "type": "level",
+            "level": 702,
+            "name": "7-2"
+        },
+        {
+            "type": "level",
+            "level": 703,
+            "name": "7-3"
+        },
+        {
+            "type": "level",
+            "level": 704,
+            "name": "7-4"
+        },
+        {
+            "type": "level",
+            "level": 705,
+            "name": "7-5"
+        },
+        {
+            "type": "level",
+            "level": 706,
+            "name": "7-6",
+            "unlockCheckpointsOnBeat": [
+                8
+            ]
+        },
+        {
+            "type": "level",
+            "level": 801,
+            "name": "8-1"
+        },
+        {
+            "type": "level",
+            "level": 802,
+            "name": "8-2"
+        },
+        {
+            "type": "level",
+            "level": 803,
+            "name": "8-3"
+        },
+        {
+            "type": "level",
+            "level": 804,
+            "name": "8-4"
+        },
+        {
+            "type": "level",
+            "level": 805,
+            "name": "8-5"
+        },
+        {
+            "type": "level",
+            "level": 806,
+            "name": "8-6"
+        },
+        {
+            "type": "level",
+            "level": 807,
+            "name": "8-7",
+            "unlockCheckpointsOnBeat": [
+                9
+            ]
+        },
+        {
+            "type": "level",
+            "level": 901,
+            "name": "9-1"
+        },
+        {
+            "type": "level",
+            "level": 902,
+            "name": "9-2"
+        },
+        {
+            "type": "level",
+            "level": 903,
+            "name": "9-3"
+        },
+        {
+            "type": "level",
+            "level": 904,
+            "name": "9-4"
+        },
+        {
+            "type": "level",
+            "level": 905,
+            "name": "9-5"
+        },
+        {
+            "type": "level",
+            "level": 906,
+            "name": "9-6"
+        },
+        {
+            "type": "level",
+            "level": 907,
+            "name": "9-7"
+        },
+        {
+            "type": "level",
+            "level": 908,
+            "name": "9-8",
+            "unlockCheckpointsOnBeat": [
+                10
+            ]
+        },
+        {
+            "type": "level",
+            "level": 1001,
+            "name": "10-1"
+        },
+        {
+            "type": "level",
+            "level": 1002,
+            "name": "10-2"
+        },
+        {
+            "type": "level",
+            "level": 1003,
+            "name": "10-3"
+        },
+        {
+            "type": "level",
+            "level": 1004,
+            "name": "10-4"
+        },
+        {
+            "type": "level",
+            "level": 1005,
+            "name": "10-5"
+        },
+        {
+            "type": "level",
+            "level": 1006,
+            "name": "10-6"
+        },
+        {
+            "type": "level",
+            "level": 1007,
+            "name": "10-7",
+            "unlockCheckpointsOnBeat": [
+                11
+            ]
+        },
+        {
+            "type": "level",
+            "level": 1101,
+            "name": "11-1"
+        },
+        {
+            "type": "level",
+            "level": 1102,
+            "name": "11-2"
+        },
+        {
+            "type": "level",
+            "level": 1103,
+            "name": "11-3"
+        },
+        {
+            "type": "level",
+            "level": 1104,
+            "name": "11-4"
+        },
+        {
+            "type": "level",
+            "level": 1105,
+            "name": "11-5"
+        },
+        {
+            "type": "level",
+            "level": 1106,
+            "name": "11-6"
+        },
+        {
+            "type": "level",
+            "level": 1107,
+            "name": "11-7"
+        },
+        {
+            "type": "level",
+            "level": 1108,
+            "name": "11-8",
+            "unlockCheckpointsOnBeat": [
+                12
+            ]
+        },
+        {
+            "type": "level",
+            "level": 1201,
+            "name": "12-1"
+        },
+        {
+            "type": "level",
+            "level": 1202,
+            "name": "12-2"
+        },
+        {
+            "type": "level",
+            "level": 1203,
+            "name": "12-3"
+        },
+        {
+            "type": "level",
+            "level": 1204,
+            "name": "12-4"
+        },
+        {
+            "type": "level",
+            "level": 1205,
+            "name": "12-5"
+        },
+        {
+            "type": "level",
+            "level": 1206,
+            "name": "12-6"
+        },
+        {
+            "type": "level",
+            "level": 1207,
+            "name": "12-7"
+        },
+        {
+            "type": "level",
+            "level": 1208,
+            "name": "12-8"
+        },
+        {
+            "type": "level",
+            "level": 1209,
+            "name": "12-9",
+            "unlockCheckpointsOnBeat": [
+                13
+            ]
+        },
+        {
+            "type": "level",
+            "level": 1301,
+            "name": "13-1"
+        },
+        {
+            "type": "level",
+            "level": 1302,
+            "name": "13-2"
+        },
+        {
+            "type": "level",
+            "level": 1303,
+            "name": "13-3"
+        },
+        {
+            "type": "level",
+            "level": 1304,
+            "name": "13-4"
+        },
+        {
+            "type": "level",
+            "level": 1305,
+            "name": "13-5",
+            "unlockCheckpointsOnBeat": [
+                14
+            ]
+        },
+        {
+            "type": "level",
+            "level": 1401,
+            "name": "14-1"
+        },
+        {
+            "type": "level",
+            "level": 1402,
+            "name": "14-2"
+        },
+        {
+            "type": "level",
+            "level": 1403,
+            "name": "14-3"
+        },
+        {
+            "type": "level",
+            "level": 1404,
+            "name": "14-4"
+        },
+        {
+            "type": "level",
+            "level": 1405,
+            "name": "14-5"
+        }
+    ],
+    "checkpoints": [
+        1,
+        5,
+        10,
+        16,
+        21,
+        27,
+        34,
+        40,
+        47,
+        55,
+        62,
+        70,
+        79,
+        84
+    ],
+    "startCheckpoints": [
+        1
+    ]
+}

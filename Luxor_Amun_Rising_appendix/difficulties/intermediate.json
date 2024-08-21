@@ -1,0 +1,5 @@
+{
+    "$schema": "../../../schemas/difficulty.json",
+    "speedMultiplier": 0.75,
+    "scoreMultiplier": 1.5
+}

@@ -1,0 +1,18 @@
+{
+    "$schema": "../../../../schemas/config/collectible.json",
+    "speed": "$expr{vec2(randomf(-100, 100), randomf(-125, -50)+randomf(-125, -50))}",
+    "acceleration": "$expr{vec2(0, 300)}",
+    "particle": "particles/powerup_coin.json",
+    "pickupParticle": "particles/powerup_catch.json",
+    "spawnSound": "sound_events/spawn_coin.json",
+    "pickupSound": "sound_events/catch_coin.json",
+    "effects": [
+        {
+            "type": "executeScoreEvent",
+            "scoreEvent": "score_events/coin.json"
+        },
+        {
+            "type": "grantCoin"
+        }
+    ]
+}

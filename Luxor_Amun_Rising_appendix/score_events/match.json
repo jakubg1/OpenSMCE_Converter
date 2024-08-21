@@ -1,0 +1,18 @@
+{
+    "$schema": "../../../schemas/score_event.json",
+    "score": "${([match.length] * 100 + ([match.streakBoost] ? max([match.streak] - 2, 0) * 100 : 0)) * [match.cascade]}",
+    "text": "${strnum([event.score]) .. ([match.streakBoost] && [match.streak] > 2 ? '\nCOMBO X' .. [match.streak] : '') .. ([match.cascade] > 1 ? '\nCHAIN X' .. [match.cascade] : '')}",
+    "fonts": {
+        "options": [
+            "fonts/score1.json",
+            "fonts/score2.json",
+            "fonts/score3.json",
+            "fonts/score4.json",
+            "fonts/score5.json",
+            "fonts/score6.json",
+            "fonts/score7.json"
+        ],
+        "default": "fonts/score0.json",
+        "choice": "${[match.color]}"
+    }
+}

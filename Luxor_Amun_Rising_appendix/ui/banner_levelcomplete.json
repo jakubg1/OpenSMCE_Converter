@@ -1,0 +1,618 @@
+{
+	"inheritShow":false,
+	"inheritHide":false,
+	"inheritPos":false,
+    "type": "none",
+    "pos": {
+        "x": 0,
+        "y": 0
+    },
+    "alpha": 1,
+    "children": {
+        "Background": {
+			"inheritShow":true,
+			"inheritHide":true,
+            "type": "none",
+            "pos": {
+                "x": 0,
+                "y": 0
+            },
+            "alpha": 0.0,
+            "children": {
+                "Background": "ui/background.json"
+            },
+            "animations": {
+                "in_": {
+                    "type": "fade",
+                    "time": 0.5,
+                    "startValue": 0.0,
+                    "endValue": 0.5019607843137255
+                },
+                "out": {
+                    "type": "fade",
+                    "time": 0.5,
+                    "startValue": 0.5019607843137255,
+                    "endValue": 1.0
+                }
+            },
+            "sounds": {},
+            "layer": "BannerBackground"
+        },
+        "Frame": {
+			"inheritShow":true,
+			"inheritHide":true,
+            "type": "sprite",
+            "pos": {
+                "x": 125,
+                "y": 110
+            },
+            "alpha": 0.0,
+            "children": {
+                "Text_LevelComplete": {
+					"inheritShow":true,
+					"inheritHide":true,
+                    "type": "text",
+                    "pos": {
+                        "x": 275,
+                        "y": 15
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "BannerControls",
+                    "font": "fonts/dialog_header.json",
+                    "align": {
+                        "x": 0.5,
+                        "y": 0
+                    },
+                    "text": "LEVEL COMPLETE"
+                },
+                "Text_Stage": {
+					"inheritShow":true,
+					"inheritHide":true,
+                    "type": "text",
+                    "pos": {
+                        "x": 275,
+                        "y": 65
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "BannerControls",
+                    "font": "fonts/dialog_body2.json",
+                    "align": {
+                        "x": 0.5,
+                        "y": 0
+                    },
+                    "text": ""
+                },
+                "Text_MapName": {
+					"inheritShow":true,
+					"inheritHide":true,
+                    "type": "text",
+                    "pos": {
+                        "x": 275,
+                        "y": 88
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "BannerControls",
+                    "font": "fonts/dialog_body.json",
+                    "align": {
+                        "x": 0.5,
+                        "y": 0
+                    },
+                    "text": ""
+                },
+                "Text_LS": {
+					"inheritShow":true,
+					"inheritHide":true,
+                    "type": "text",
+                    "pos": {
+                        "x": 275,
+                        "y": 112
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "BannerControls",
+                    "font": "fonts/dialog_body2.json",
+                    "align": {
+                        "x": 0.5,
+                        "y": 0
+                    },
+                    "text": "LEVEL SCORE:"
+                },
+                "Text_TS": {
+					"inheritShow":true,
+					"inheritHide":true,
+                    "type": "text",
+                    "pos": {
+                        "x": 206,
+                        "y": -800
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "BannerControls",
+                    "font": "fonts/dialog_body2.json",
+                    "align": {
+                        "x": 1,
+                        "y": 0
+                    },
+                    "text": "TOTAL SCORE:"
+                },
+                "Text_SF": {
+					"inheritShow":true,
+					"inheritHide":true,
+                    "type": "text",
+                    "pos": {
+                        "x": 206,
+                        "y": 200
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "BannerControls",
+                    "font": "fonts/dialog_body2.json",
+                    "align": {
+                        "x": 1,
+                        "y": 0
+                    },
+                    "text": "SHOTS FIRED:"
+                },
+                "Text_MC": {
+					"inheritShow":true,
+					"inheritHide":true,
+                    "type": "text",
+                    "pos": {
+                        "x": 440,
+                        "y": 200
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "BannerControls",
+                    "font": "fonts/dialog_body2.json",
+                    "align": {
+                        "x": 1,
+                        "y": 0
+                    },
+                    "text": "MAX COMBO:"
+                },
+                "Text_C": {
+					"inheritShow":true,
+					"inheritHide":true,
+                    "type": "text",
+                    "pos": {
+                        "x": 206,
+                        "y": 230
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "BannerControls",
+                    "font": "fonts/dialog_body2.json",
+                    "align": {
+                        "x": 1,
+                        "y": 0
+                    },
+                    "text": "COINS:"
+                },
+                "Text_MCH": {
+					"inheritShow":true,
+					"inheritHide":true,
+                    "type": "text",
+                    "pos": {
+                        "x": 440,
+                        "y": 230
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "BannerControls",
+                    "font": "fonts/dialog_body2.json",
+                    "align": {
+                        "x": 1,
+                        "y": 0
+                    },
+                    "text": "MAX CHAIN:"
+                },
+                "Text_G": {
+					"inheritShow":true,
+					"inheritHide":true,
+                    "type": "text",
+                    "pos": {
+                        "x": 206,
+                        "y": 260
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "BannerControls",
+                    "font": "fonts/dialog_body2.json",
+                    "align": {
+                        "x": 1,
+                        "y": 0
+                    },
+                    "text": "GEMS:"
+                },
+                "Text_S": {
+					"inheritShow":true,
+					"inheritHide":true,
+                    "type": "text",
+                    "pos": {
+                        "x": 440,
+                        "y": 260
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "BannerControls",
+                    "font": "fonts/dialog_body2.json",
+                    "align": {
+                        "x": 1,
+                        "y": 0
+                    },
+                    "text": "SEGMENTS:"
+                },
+                "Container": {
+					"inheritShow":true,
+					"inheritHide":true,
+                    "type": "none",
+                    "pos": {
+                        "x": 0,
+                        "y": 0
+                    },
+                    "alpha": 1,
+                    "children": {
+                        "Text_LevelScore": {
+							"inheritShow":false,
+							"inheritHide":true,
+                            "type": "text",
+                            "pos": {
+                                "x": 275,
+                                "y": 135
+                            },
+                            "alpha": 0,
+                            "children": {
+                                "Psys_LevelScore": {
+									"inheritShow":true,
+									"inheritHide":true,
+                                    "type": "particle",
+                                    "pos": {
+                                        "x": 0,
+                                        "y": 0
+                                    },
+                                    "alpha": 1,
+                                    "children": {},
+                                    "animations": {},
+                                    "sounds": {},
+                                    "layer": "BannerControls2",
+                                    "path": "particles/level_score.json"
+                                }
+                            },
+                            "animations": {},
+                            "sounds": {
+                                "in_": "sound_events/score_tally.json"
+                            },
+                            "layer": "BannerControls",
+                            "font": "fonts/dialog_score.json",
+                            "align": {
+                                "x": 0.5,
+                                "y": 0
+                            },
+                            "text": "",
+                            "showDelay": 0.5
+                        },
+                        "VW_LevelScoreRecord": {
+							"inheritShow":false,
+							"inheritHide":true,
+                            "type": "sprite",
+                            "pos": {
+                                "x": 218,
+                                "y": 176
+                            },
+                            "alpha": 0,
+                            "children": {},
+                            "animations": {},
+                            "sounds": {
+                                "in_": "sound_events/new_record.json"
+                            },
+                            "layer": "BannerControls",
+                            "sprite": "sprites/dialogs/new_record.json",
+                            "showDelay": 1
+                        },
+                        "Text_ShotsFired": {
+							"inheritShow":false,
+							"inheritHide":true,
+                            "type": "text",
+                            "pos": {
+                                "x": 217,
+                                "y": 200
+                            },
+                            "alpha": 0,
+                            "children": {
+                                "Psys_ShotsFired": {
+									"inheritShow":true,
+									"inheritHide":true,
+                                    "type": "particle",
+                                    "pos": {
+                                        "x": 0,
+                                        "y": 0
+                                    },
+                                    "alpha": 1,
+                                    "children": {},
+                                    "animations": {},
+                                    "sounds": {},
+                                    "layer": "BannerControls2",
+                                    "path": "particles/level_stat.json"
+                                }
+                            },
+                            "animations": {},
+                            "sounds": {
+                                "in_": "sound_events/score_tally.json"
+                            },
+                            "layer": "BannerControls",
+                            "font": "fonts/dialog_body.json",
+                            "align": {
+                                "x": 0,
+                                "y": 0
+                            },
+                            "text": "",
+                            "showDelay": 1.25
+                        },
+                        "Text_MaxCombo": {
+							"inheritShow":false,
+							"inheritHide":true,
+                            "type": "text",
+                            "pos": {
+                                "x": 448,
+                                "y": 200
+                            },
+                            "alpha": 0,
+                            "children": {
+                                "Psys_MaxCombo": {
+									"inheritShow":true,
+									"inheritHide":true,
+                                    "type": "particle",
+                                    "pos": {
+                                        "x": 0,
+                                        "y": 0
+                                    },
+                                    "alpha": 1,
+                                    "children": {},
+                                    "animations": {},
+                                    "sounds": {},
+                                    "layer": "BannerControls2",
+                                    "path": "particles/level_stat.json"
+                                }
+                            },
+                            "animations": {},
+                            "sounds": {
+                                "in_": "sound_events/score_tally.json"
+                            },
+                            "layer": "BannerControls",
+                            "font": "fonts/dialog_body.json",
+                            "align": {
+                                "x": 0,
+                                "y": 0
+                            },
+                            "text": "",
+                            "showDelay": 1.5
+                        },
+                        "Text_Coins": {
+							"inheritShow":false,
+							"inheritHide":true,
+                            "type": "text",
+                            "pos": {
+                                "x": 217,
+                                "y": 230
+                            },
+                            "alpha": 0,
+                            "children": {
+                                "Psys_Coins": {
+									"inheritShow":true,
+									"inheritHide":true,
+                                    "type": "particle",
+                                    "pos": {
+                                        "x": 0,
+                                        "y": 0
+                                    },
+                                    "alpha": 1,
+                                    "children": {},
+                                    "animations": {},
+                                    "sounds": {},
+                                    "layer": "BannerControls2",
+                                    "path": "particles/level_stat.json"
+                                }
+                            },
+                            "animations": {},
+                            "sounds": {
+                                "in_": "sound_events/score_tally.json"
+                            },
+                            "layer": "BannerControls",
+                            "font": "fonts/dialog_body.json",
+                            "align": {
+                                "x": 0,
+                                "y": 0
+                            },
+                            "text": "",
+                            "showDelay": 1.75
+                        },
+                        "Text_MaxChain": {
+							"inheritShow":false,
+							"inheritHide":true,
+                            "type": "text",
+                            "pos": {
+                                "x": 448,
+                                "y": 230
+                            },
+                            "alpha": 0,
+                            "children": {
+                                "Psys_MaxChain": {
+									"inheritShow":true,
+									"inheritHide":true,
+                                    "type": "particle",
+                                    "pos": {
+                                        "x": 0,
+                                        "y": 0
+                                    },
+                                    "alpha": 1,
+                                    "children": {},
+                                    "animations": {},
+                                    "sounds": {},
+                                    "layer": "BannerControls2",
+                                    "path": "particles/level_stat.json"
+                                }
+                            },
+                            "animations": {},
+                            "sounds": {
+                                "in_": "sound_events/score_tally.json"
+                            },
+                            "layer": "BannerControls",
+                            "font": "fonts/dialog_body.json",
+                            "align": {
+                                "x": 0,
+                                "y": 0
+                            },
+                            "text": "",
+                            "showDelay": 2
+                        },
+                        "Text_Gems": {
+							"inheritShow":false,
+							"inheritHide":true,
+                            "type": "text",
+                            "pos": {
+                                "x": 217,
+                                "y": 260
+                            },
+                            "alpha": 0,
+                            "children": {
+                                "Psys_Gems": {
+									"inheritShow":true,
+									"inheritHide":true,
+                                    "type": "particle",
+                                    "pos": {
+                                        "x": 0,
+                                        "y": 0
+                                    },
+                                    "alpha": 1,
+                                    "children": {},
+                                    "animations": {},
+                                    "sounds": {},
+                                    "layer": "BannerControls2",
+                                    "path": "particles/level_stat.json"
+                                }
+                            },
+                            "animations": {},
+                            "sounds": {
+                                "in_": "sound_events/score_tally.json"
+                            },
+                            "layer": "BannerControls",
+                            "font": "fonts/dialog_body.json",
+                            "align": {
+                                "x": 0,
+                                "y": 0
+                            },
+                            "text": "",
+                            "showDelay": 2.25
+                        },
+                        "Text_Segments": {
+							"inheritShow":false,
+							"inheritHide":true,
+                            "type": "text",
+                            "pos": {
+                                "x": 448,
+                                "y": 260
+                            },
+                            "alpha": 0,
+                            "children": {
+                                "Psys_Segments": {
+									"inheritShow":true,
+									"inheritHide":true,
+                                    "type": "particle",
+                                    "pos": {
+                                        "x": 0,
+                                        "y": 0
+                                    },
+                                    "alpha": 1,
+                                    "children": {},
+                                    "animations": {},
+                                    "sounds": {},
+                                    "layer": "BannerControls2",
+                                    "path": "particles/level_stat.json"
+                                }
+                            },
+                            "animations": {},
+                            "sounds": {
+                                "in_": "sound_events/score_tally.json"
+                            },
+                            "layer": "BannerControls",
+                            "font": "fonts/dialog_body.json",
+                            "align": {
+                                "x": 0,
+                                "y": 0
+                            },
+                            "text": "",
+                            "showDelay": 2.5
+                        }
+                    },
+                    "animations": {},
+                    "sounds": {}
+                },
+                "Button_Ok": {
+					"inheritShow":true,
+					"inheritHide":true,
+                    "type": "spriteButton",
+                    "pos": {
+                        "x": 225,
+                        "y": 287
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "BannerControls",
+                    "sprite": "sprites/dialogs/button_done.json",
+					"callbacks": {
+						"buttonClick": "levelCompleteOk"
+					}
+                }
+            },
+            "animations": {
+                "in_": {
+                    "type": "fade",
+                    "time": 0.5,
+                    "startValue": 0.0,
+                    "endValue": 1.0
+                },
+                "out": {
+                    "type": "fade",
+                    "time": 0.5,
+                    "startValue": 1.0,
+                    "endValue": 0.0
+                }
+            },
+            "sounds": {},
+            "layer": "Banner",
+            "sprite": "sprites/dialogs/dialog_1.json"
+        }
+    },
+    "animations": {},
+    "sounds": {
+        "in_": "sound_events/level_complete.json"
+    }
+}

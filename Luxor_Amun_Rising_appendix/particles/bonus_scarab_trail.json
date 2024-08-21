@@ -1,0 +1,46 @@
+{
+    "$schema": "../../../schemas/particle.json",
+    "emitters": [
+        {
+            "pos": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "speed": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "acceleration": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "lifespan": 0.5,
+            "spawnCount": 1,
+            "spawnMax": 1,
+            "spawnDelay": null,
+            "particleData": {
+                "speedMode": "loose",
+                "spawnScale": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "speed": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "acceleration": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "lifespan": 0.25,
+                "sprite": "sprites/particles/vise.json",
+                "animationFrameCount": 8,
+                "animationSpeed": 30.0,
+                "animationLoop": false,
+                "animationFrameRandom": false,
+                "fadeInPoint": 0.0,
+                "fadeOutPoint": 1.0
+            }
+        }
+    ]
+}

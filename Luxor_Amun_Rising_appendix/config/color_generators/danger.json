@@ -1,0 +1,25 @@
+{
+    "$schema": "../../../../schemas/config/color_generator.json",
+    "type": "nearEnd",
+    "selectChance": 0.25,
+    "pathsInDangerOnly": true,
+    "colors": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+    ],
+    "fallback": 0,
+    "colorsRemoveIfNonexistent": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+    ]
+}

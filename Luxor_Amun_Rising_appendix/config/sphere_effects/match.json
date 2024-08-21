@@ -1,0 +1,17 @@
+{
+    "$schema": "../../../../schemas/config/sphere_effect.json",
+    "time": 0,
+    "infectionSize": 0,
+    "infectionTime": 0,
+    "destroySound": "sound_events/collapse.json",
+    "destroyScoreEvent": "score_events/match.json",
+    "destroyCollectible": "vanilla_match.json",
+    "levelLossProtection": true,
+    "immobile": false,
+    "fragile": false,
+    "canBoostCombo": true,
+    "canBoostChain": true,
+    "applyChainMultiplier": true,
+    "canKeepCombo": true,
+    "causeCheck": true
+}

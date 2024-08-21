@@ -1,0 +1,37 @@
+{
+    "$schema": "../../../../schemas/config/color_generator.json",
+    "type": "random",
+    "hasToExist": true,
+    "colors": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+    ],
+    "fallback": {
+        "type": "random",
+        "hasToExist": false,
+        "colors": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+        ],
+        "fallback": 0
+    },
+    "colorsRemoveIfNonexistent": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+    ]
+}

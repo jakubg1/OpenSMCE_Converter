@@ -1,0 +1,9 @@
+{
+    "$schema": "../../../schemas/sphere_selector.json",
+    "operations": [
+        {
+            "type": "add",
+            "condition": "${![sphere.isOffscreen] && [sphere.color] == 2}"
+        }
+    ]
+}

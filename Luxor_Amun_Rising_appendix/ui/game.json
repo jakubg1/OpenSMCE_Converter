@@ -1,0 +1,15 @@
+{
+	"inheritShow":true,
+	"inheritHide":true,
+    "type": "none",
+    "pos": {
+        "x": 0,
+        "y": 0
+    },
+    "alpha": 1,
+    "children": {
+		"Hud":"ui/hud.json"
+	},
+	"animations": {},
+    "sounds": {}
+}

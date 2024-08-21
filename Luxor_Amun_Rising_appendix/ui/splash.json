@@ -1,0 +1,97 @@
+{
+	"inheritShow":false,
+	"inheritHide":false,
+    "type": "none",
+    "pos": {
+        "x": 0,
+        "y": 0
+    },
+    "alpha": 1,
+    "children": {
+        "Background": {
+			"inheritShow":true,
+			"inheritHide":true,
+            "type": "none",
+            "pos": {
+                "x": 0,
+                "y": 0
+            },
+            "alpha": 1.0,
+            "children": {
+                "Background": "ui/background.json"
+            },
+            "animations": {
+                "in_": {
+                    "type": "fade",
+                    "time": 0.5,
+                    "startValue": 1.0,
+                    "endValue": 0.0
+                },
+                "out": {
+                    "type": "fade",
+                    "time": 0.5,
+                    "startValue": 0.0,
+                    "endValue": 1.0
+                }
+            },
+            "sounds": {},
+            "layer": "MenuBackgroundMask",
+			"callbacks": {
+				"showEnd": "splashStart",
+				"hideEnd": "splashEnd"
+			}
+        },
+        "Frame": {
+			"inheritShow":true,
+			"inheritHide":true,
+            "type": "sprite",
+            "pos": {
+                "x": 0,
+                "y": 0
+            },
+            "alpha": 1,
+            "children": {
+                "Progress": {
+					"inheritShow":true,
+					"inheritHide":true,
+                    "type": "spriteProgress",
+                    "pos": {
+                        "x": 265,
+                        "y": 436
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "MenuControls",
+                    "sprite": "sprites/splash/progressbar.json",
+					"value": 0.5
+                },
+                "Button_Play": {
+					"inheritShow":false,
+					"inheritHide":true,
+                    "type": "spriteButton",
+                    "pos": {
+                        "x": 265,
+                        "y": 436
+                    },
+                    "alpha": 0,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "sprite": "sprites/splash/button_play.json",
+                    "layer": "MenuControls2",
+					"callbacks": {
+						"buttonClick": "splashClick"
+					}
+                }
+            },
+            "animations": {},
+            "sounds": {},
+            "layer": "MenuBackground",
+            "sprite": "sprites/splash/background.json"
+        }
+    },
+    "animations": {},
+    "sounds": {}
+}

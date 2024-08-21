@@ -1,0 +1,11 @@
+{
+    "$schema": "../../../schemas/sound_event.json",
+    "sounds": [
+        {
+            "sound": "sounds/collapse_scarab.ogg",
+            "conditions": [
+                "${[sphere.crushed]}"
+            ]
+        }
+    ]
+}

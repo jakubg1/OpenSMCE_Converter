@@ -1,0 +1,157 @@
+{
+    "inheritShow": false,
+    "inheritHide": false,
+    "type": "none",
+    "pos": {
+        "x": 0,
+        "y": 0
+    },
+    "alpha": 1,
+    "children": {
+        "Frame": {
+            "inheritShow": true,
+            "inheritHide": true,
+            "type": "sprite",
+            "pos": {
+                "x": 227,
+                "y": 175
+            },
+            "alpha": 0.0,
+            "children": {
+                "Text_Title": {
+                    "inheritShow": true,
+                    "inheritHide": true,
+                    "type": "text",
+                    "pos": {
+                        "x": 172,
+                        "y": 14
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "MenuDialog3Controls",
+                    "font": "fonts/dialog_header.json",
+                    "align": {
+                        "x": 0.5,
+                        "y": 0
+                    },
+                    "text": "DELETE PLAYER"
+                },
+                "Text_1": {
+                    "inheritShow": true,
+                    "inheritHide": true,
+                    "type": "text",
+                    "pos": {
+                        "x": 172,
+                        "y": 64
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "MenuDialog3Controls",
+                    "font": "fonts/dialog_body.json",
+                    "align": {
+                        "x": 0.5,
+                        "y": 0
+                    },
+                    "text": "ARE YOU SURE YOU\nWANT TO DELETE:"
+                },
+                "VW_Entry": {
+                    "inheritShow": true,
+                    "inheritHide": true,
+                    "type": "sprite",
+                    "pos": {
+                        "x": 55,
+                        "y": 117
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "MenuDialog3Controls",
+                    "sprite": "sprites/dialogs/name_entry.json"
+                },
+                "Text_Name": {
+                    "inheritShow": true,
+                    "inheritHide": true,
+                    "type": "text",
+                    "pos": {
+                        "x": 173,
+                        "y": 123
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "MenuDialog3Controls2",
+                    "font": "fonts/dialog_body.json",
+                    "align": {
+                        "x": 0.5,
+                        "y": 0
+                    },
+                    "text": ""
+                },
+                "Button_Delete": {
+                    "inheritShow": true,
+                    "inheritHide": true,
+                    "type": "spriteButton",
+                    "pos": {
+                        "x": 63,
+                        "y": 153
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "sprite": "sprites/dialogs/button_delete.json",
+                    "layer": "MenuDialog3Controls",
+          					"callbacks": {
+          						"buttonClick": "profilesDeleteYes"
+          					}
+                },
+                "Button_Cancel": {
+                    "inheritShow": true,
+                    "inheritHide": true,
+                    "type": "spriteButton",
+                    "pos": {
+                        "x": 183,
+                        "y": 153
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "sprite": "sprites/dialogs/button_cancel.json",
+                    "layer": "MenuDialog3Controls",
+          					"callbacks": {
+          						"buttonClick": "profilesDeleteNo"
+          					}
+                }
+            },
+            "animations": {
+                "in_": {
+                    "type": "fade",
+                    "time": 0.25,
+                    "startValue": 0.0,
+                    "endValue": 1.0
+                },
+                "out": {
+                    "type": "fade",
+                    "time": 0.25,
+                    "startValue": 1.0,
+                    "endValue": 0.0
+                }
+            },
+            "sounds": {},
+            "layer": "MenuDialog3",
+            "sprite": "sprites/dialogs/dialog_2.json"
+        }
+    },
+    "animations": {},
+    "sounds": {
+        "in_": "sound_events/dialog_intro.json",
+        "out": "sound_events/dialog_extro.json"
+    }
+}

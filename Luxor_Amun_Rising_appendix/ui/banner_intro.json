@@ -1,0 +1,116 @@
+{
+	"inheritShow":false,
+	"inheritHide":false,
+	"inheritPos":false,
+    "type": "none",
+    "pos": {
+        "x": 0,
+        "y": 0
+    },
+    "alpha": 1,
+    "children": {
+        "Background": {
+			"inheritShow":true,
+			"inheritHide":true,
+            "type": "none",
+            "pos": {
+                "x": 0,
+                "y": 0
+            },
+            "alpha": 1.0,
+            "children": {
+                "Background": "ui/background.json"
+            },
+            "animations": {
+                "in_": {
+                    "type": "fade",
+                    "time": 0.5,
+                    "startValue": 1.0,
+                    "endValue": 0.5019607843137255
+                },
+                "out": {
+                    "type": "fade",
+                    "time": 0.5,
+                    "startValue": 0.5019607843137255,
+                    "endValue": 0.0
+                }
+            },
+            "sounds": {},
+            "layer": "BannerBackground"
+        },
+        "Panel": {
+			"inheritShow":true,
+			"inheritHide":true,
+            "type": "sprite",
+            "pos": {
+                "x": 250,
+                "y": 214
+            },
+            "alpha": 0.0,
+            "children": {
+                "Text_Stage": {
+					"inheritShow":true,
+					"inheritHide":true,
+                    "type": "text",
+                    "pos": {
+                        "x": 155,
+                        "y": 24
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "BannerControls",
+                    "font": "fonts/banner1.json",
+                    "align": {
+                        "x": 0.5,
+                        "y": 0
+                    },
+                    "text": ""
+                },
+                "Text_Map": {
+					"inheritShow":true,
+					"inheritHide":true,
+                    "type": "text",
+                    "pos": {
+                        "x": 155,
+                        "y": 70
+                    },
+                    "alpha": 1,
+                    "children": {},
+                    "animations": {},
+                    "sounds": {},
+                    "layer": "BannerControls",
+                    "font": "fonts/banner2.json",
+                    "align": {
+                        "x": 0.5,
+                        "y": 0
+                    },
+                    "text": ""
+                }
+            },
+            "animations": {
+                "in_": {
+                    "type": "fade",
+                    "time": 0.5,
+                    "startValue": 0.0,
+                    "endValue": 1.0
+                },
+                "out": {
+                    "type": "fade",
+                    "time": 0.5,
+                    "startValue": 1.0,
+                    "endValue": 0.0
+                }
+            },
+            "sounds": {},
+            "layer": "Banner",
+            "sprite": "sprites/banners/banner_intro.json"
+        }
+    },
+    "animations": {},
+    "sounds": {
+        "in_": "sound_events/level_intro.json"
+    },
+    "hideDelay": 2.75
+}

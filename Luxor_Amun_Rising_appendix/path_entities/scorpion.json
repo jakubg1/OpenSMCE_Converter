@@ -1,0 +1,17 @@
+{
+    "$schema": "../../../schemas/path_entity.json",
+    "sprite": "sprites/game/scorpion.json",
+    "shadowSprite": "sprites/game/ball_shadow.json",
+    "spawnPlacement": "end",
+    "speed": 1400,
+    "destroyWhenPathEmpty": true,
+    "loopSound": "sound_events/scorpion_move.json",
+    "destroyParticle": "particles/collapse_wild.json",
+    "destroySound": "sound_events/collapse_scorpion.json",
+    "destroyScoreEvent": "score_events/scorpion.json",
+    "destroyCollectibleGenerator": "vanilla_coin.json",
+    "canDestroySpheres": true,
+    "sphereDestroySound": "sound_events/collide_spheres_path.json",
+    "maxSpheresDestroyed": 10,
+    "maxSphereChainsDestroyed": 1
+}

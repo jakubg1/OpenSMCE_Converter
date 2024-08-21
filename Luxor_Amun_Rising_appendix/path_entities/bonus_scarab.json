@@ -1,0 +1,15 @@
+{
+    "$schema": "../../../schemas/path_entity.json",
+    "sprite": "sprites/game/vise.json",
+    "shadowSprite": "sprites/game/ball_shadow.json",
+    "spawnPlacement": "end",
+    "speed": 1000,
+    "destroyOffset": 32,
+    "destroyAtClearOffset": true,
+    "particle": "particles/bonus_scarab_trail.json",
+    "particleSeparation": 24,
+    "loopSound": "sound_events/bonus_scarab_move.json",
+    "destroyParticle": "particles/collapse_vise.json",
+    "destroySound": "sound_events/bonus_scarab_collapse.json",
+    "destroyScoreEvent": "score_events/bonus_scarab.json"
+}
