@@ -367,8 +367,8 @@ def convert_level(contents):
 			level_data["pathsBehavior"][0]["colors"].append(int(words[0][11:]))
 			level_data["pathsBehavior"][1]["colors"].append(int(words[0][11:]))
 		if words[0] == "spawnStreak":
-			level_data["pathsBehavior"][0]["colorStreak"] = 0.45 #min(int(words[2]) / 300, 0.45)
-			level_data["pathsBehavior"][1]["colorStreak"] = 0.45 #min(int(words[2]) / 300, 0.45)
+			level_data["pathsBehavior"][0]["colorStreak"] = 0.3 #min(int(words[2]) / 300, 0.45)
+			level_data["pathsBehavior"][1]["colorStreak"] = 0.3 #min(int(words[2]) / 300, 0.45)
 		if words[0] == "winCondition":
 			level_data["objectives"][0]["target"] = int(words[2])
 		if words[0] == "viseGroupCount":
@@ -455,6 +455,7 @@ def convert_map(input_path, output_path):
 		if words[0] == "GLSprite":
 			is_global = input_path.replace("/", "\\").lower() != ("\\".join(words[5].split("\\")[:-1]) + "\\").lower()
 			background = words[4] == "GamePieceHShadow"
+			foreground = words[4] == "MenuControls"
 			sprite_name = (words[5].replace("\\", "/").replace("data/sprites", "sprites")[:-4]) if is_global else words[5].split("\\")[-1][:-4]
 			if not is_global:
 				combine_alpha_sprite(input_path + sprite_name + ".spr", output_path + sprite_name + ".json", output_path + sprite_name + ".png")
@@ -464,6 +465,8 @@ def convert_map(input_path, output_path):
 				"path": ("" if is_global else ":") + sprite_name + ".json",
 				"background": background
 			}
+			if foreground:
+				sprite["foreground"] = foreground
 			map_data["sprites"].append(sprite)
 
 		if words[0] == "Path":

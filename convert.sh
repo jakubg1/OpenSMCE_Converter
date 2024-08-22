@@ -30,8 +30,16 @@ if [ ! -d "./assets" ]; then
     good=0
 fi
 
-if [ ! -d "./Luxor_appendix" ]; then
-    printf "! Folder \"/Luxor_appendix\" does not exist !\n"
+if [ -e "./data/sprites/powerups/scorpion.spr" ] || [ -e "./data/data/sprites/powerups/scorpion.spr" ]; then
+    outfolder="Luxor Amun Rising"
+    appendix="Luxor_Amun_Rising_appendix"
+else
+    outfolder="Luxor"
+    appendix="Luxor_appendix"
+fi
+
+if [ ! -d "./$appendix" ]; then
+    printf "! Folder \"/$appendix\" does not exist !\n"
     good=0
 fi
 
@@ -51,6 +59,8 @@ else
     read -n1 -r -p "Press any key to continue..."
     exit
 fi
+
+printf "Detected game: $outfolder"
 
 printf "%s\n" '' '' \
     "If you haven't checked README file yet, just in case please do it before proceeding!" \
@@ -86,7 +96,7 @@ if [ -d "./english/english" ]; then
 fi
 
 mkdir -p ./_BACKUP
-cp -aft ./_BACKUP ./data ./english ./assets ./Luxor_appendix
+cp -aft ./_BACKUP ./data ./english ./assets ./$appendix
 
 printf "%s\n" '' '' '' '' \
     "===========================================" \
@@ -135,8 +145,8 @@ if [ $? -ne 0 ]; then
     if [[ $keep =~ [yY] ]]; then
         printf "%s\n" '' \
         "Okay, reverting..."
-        rm -rf output Luxor data assets Luxor_appendix
-        cp -aft . ./_BACKUP/data ./_BACKUP/english ./_BACKUP/assets ./_BACKUP/Luxor_appendix
+        rm -rf output "$outfolder" data assets $appendix
+        cp -aft . ./_BACKUP/data ./_BACKUP/english ./_BACKUP/assets ./_BACKUP/$appendix
         rm -rf _BACKUP
     fi
     exit
@@ -149,7 +159,7 @@ printf "%s\n" '' '' '' '' \
 mkdir -p ./output/music ./output/sounds
 cp -aft ./output/music ./data/music/*
 cp -aft ./output/sounds ./data/sound/*
-cp -aft ./output/ ./Luxor_appendix/*
+cp -aft ./output/ ./$appendix/*
 rm -f ./output/music/*.sl3
 rm -f ./output/sounds/*.sl3
 
@@ -158,9 +168,9 @@ printf "%s\n" '' '' '' '' \
     "Step 5. Cleaning up..." \
     "==========================================="
 
-mv output Luxor
-rm -rf data assets Luxor_appendix
-mv Luxor/_config.json Luxor/config.json
+mv output "$outfolder"
+rm -rf data assets $appendix
+mv "$outfolder/_config.json" "$outfolder/config.json"
 
 printf "%s\n" \
     "The converter finished its job, hopefully successfully." \

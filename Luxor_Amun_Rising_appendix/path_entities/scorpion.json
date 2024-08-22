@@ -7,7 +7,7 @@
     "destroyWhenPathEmpty": true,
     "loopSound": "sound_events/scorpion_move.json",
     "destroyParticle": "particles/collapse_wild.json",
-    "destroySound": "sound_events/collapse_scorpion.json",
+    "destroySound": "sound_events/collapse_scarab.json",
     "destroyScoreEvent": "score_events/scorpion.json",
     "destroyCollectibleGenerator": "vanilla_coin.json",
     "canDestroySpheres": true,

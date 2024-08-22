@@ -38,8 +38,19 @@ if not exist assets\ (
 	set good=0
 )
 
-if not exist Luxor_appendix\ (
-	echo ! Folder "Luxor_appendix" does not exist !
+if exist data\sprites\powerups\scorpion.spr (
+	set outfolder="Luxor Amun Rising"
+	set appendix="Luxor_Amun_Rising_appendix"
+) else if exist data\data\sprites\powerups\scorpion.spr (
+	set outfolder="Luxor Amun Rising"
+	set appendix="Luxor_Amun_Rising_appendix"
+) else (
+	set outfolder="Luxor"
+	set appendix="Luxor_appendix"
+)
+
+if not exist %appendix%\ (
+	echo ! Folder "%appendix%" does not exist !
 	set good=0
 )
 
@@ -58,6 +69,8 @@ if %good% equ 1 (
 	pause
 	goto exit
 )
+
+echo Detected game: %outfolder%
 
 echo.
 echo.
@@ -91,7 +104,7 @@ mkdir "_BACKUP"
 xcopy /q /s /y "data\" "_BACKUP\data\"
 xcopy /q /s /y "English\" "_BACKUP\English\"
 xcopy /q /s /y "assets\" "_BACKUP\assets\"
-xcopy /q /s /y "Luxor_appendix\" "_BACKUP\Luxor_appendix\"
+xcopy /q /s /y "%appendix%\" "_BACKUP\%appendix%\"
 echo.
 echo.
 echo.
@@ -127,14 +140,14 @@ if %errorlevel% neq 0 (
 		echo.
 		echo Okay, reverting...
 		rmdir /s /q output
-		rmdir /s /q Luxor
+		rmdir /s /q %outfolder%
 		rmdir /s /q data
 		rmdir /s /q assets
-		rmdir /s /q Luxor_appendix
+		rmdir /s /q %appendix%
 		xcopy /q /s /y "_BACKUP\data\" "data\"
 		xcopy /q /s /y "_BACKUP\English\" "English\"
 		xcopy /q /s /y "_BACKUP\assets\" "assets\"
-		xcopy /q /s /y "_BACKUP\Luxor_appendix\" "Luxor_appendix\"
+		xcopy /q /s /y "_BACKUP\%appendix%\" "%appendix%\"
 		rmdir /s /q _BACKUP
 	)
 	goto exit
@@ -150,7 +163,7 @@ echo Step 4. Copying additional files...
 echo ===========================================
 xcopy /q /s "data\music\" "output\music\"
 xcopy /q /s "data\sound\" "output\sounds\"
-xcopy /q /s "Luxor_appendix\*" "output\"
+xcopy /q /s "%appendix%\*" "output\"
 del "output\music\*.sl3"
 del "output\sounds\*.sl3"
 echo.
@@ -161,11 +174,11 @@ echo.
 echo ===========================================
 echo Step 5. Cleaning up...
 echo ===========================================
-ren output Luxor
+ren output %outfolder%
 rmdir /s /q data
 rmdir /s /q assets
-rmdir /s /q Luxor_appendix
-ren "Luxor\_config.json" "config.json"
+rmdir /s /q %appendix%
+ren "%outfolder%\_config.json" "config.json"
 echo The converter finished its job, hopefully successfully.
 echo If you haven't spotted any error in this console, you can launch OpenSMCE now..
 echo If you have spotted an error though, make sure you have Python installed and all required folders.
