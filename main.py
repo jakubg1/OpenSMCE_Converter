@@ -3,11 +3,7 @@ from PIL import Image, ImageDraw
 
 
 
-### Change these two constants to manipulate the purpose of this program.
-
-# Lets the program be able to be opened by itself. This will disable some automation, and you will have to copy the result and perform some checks manually.
-STANDALONE_MODE = False
-# A list of stuff to convert. Leave empty to convert everything. Allowed values: "sprites", "maps", "levels", "fonts", "particles", "sounds".
+# A list of stuff to convert. See `convert()` for available values.
 CONVERSION_SCOPE = []
 
 
@@ -833,7 +829,7 @@ def convert_psys(contents):
 #  Takes (sounds.sl3) file contents and generates sound events that can be saved.
 #
 
-def convert_sounds(contents):
+def convert_sounds_from_sl3(contents):
 	looping_sounds = ["bonus_scarab_move", "spheres_roll"]
 
 	events = {}
@@ -877,7 +873,7 @@ def convert_sounds(contents):
 #  Takes (music.sl3) file contents and generates music tracks that can be saved.
 #
 
-def convert_music(contents):
+def convert_music_from_sl3(contents):
 	tracks = {}
 	name = ""
 	param_mode = False
@@ -927,29 +923,129 @@ def generate_color_palette(image_path):
 	try_create_dirs("output/" + "/".join(color_palette_path.split("/")[:-1]))
 	store_contents("output/" + color_palette_path[:-4] + ".json", color_palette_data)
 
-#
-#  Entry point of the application.
-#
-
-def main():
-	global CONVERSION_SCOPE
-
-	# Utility (temps)
-
-	# convert_map("data/maps/KhufusRevengest/", "output/maps/KhufusRevengest/")
-	# store_contents("output/levels/khufus_revengest.json", convert_level(get_contents("data/levels/KhufusRevengest.lvl")))
-	#convert_map("data/maps/Demo/", "output/maps/Demo/")
-	#store_contents("output/levels/level_0_0.json", convert_level(get_contents("data/levels/level_0_0.lvl")))
 
 
+### Converts sprites and images.
+### Input: data/sprites/**/*.spr + .tga and .jpg files specified inside
+### Output: output/sprites/**/*.json + combined output/images/**/*.png
+### Plus, extra images.
+def convert_sprites():
+	# TODO: Convert all images specified as color palettes or in particles.
+	# TODO: Don't restrict to data/sprites, scan everything.
+	# TODO: Don't change the directory structure for the dialog cursor.
+	for r, d, f in os.walk("data/sprites"):
+		for directory in d:
+			for r, d, f in os.walk("data/sprites/" + directory):
+				for file in f:
+					print(directory + "/" + file)
+					sprite_path = "data/sprites/" + directory + "/" + file
+					combine_alpha_sprite(sprite_path, "output/" + resolve_path_sprite(sprite_path), "output/" + resolve_path_image(sprite_path))
+
+	# one more lone splash background is needed
+	combine_alpha_path("data/bitmaps/splash/background.jpg", None, "output/images/splash/background.png")
+
+	# and some palettes, too
+	combine_alpha_path("data/bitmaps/powerups/wild_pal.jpg", None, "output/images/powerups/wild_pal.png")
+	for n in ["blue", "green", "orange", "pink", "purple", "red", "yellow"]:
+		combine_alpha_path("data/bitmaps/particles/gem_bloom_" + n + ".jpg", None, "output/images/particles/gem_bloom_" + n + ".png")
+
+	# and that blinking cursor thingy
+	combine_alpha_sprite("data/fonts/dialog_body_cursor.spr", "output/sprites/fonts/dialog_body_cursor.json", "output/images/fonts/dialog_body_cursor.png")
 
 
 
+### Converts maps and sprites belonging to maps.
+### Input: data/maps/**
+### Output: output/maps/**
+def convert_maps():
+	# TODO: Map sprites should be converted by the methods above...?
+	for r, d, f in os.walk("data/maps"):
+		for directory in d:
+			print(directory)
+			convert_map("data/maps/" + directory + "/", "output/maps/" + directory + "/")
 
 
-	# rule_tables = json.loads("".join(get_contents("rule_tables.txt")))
+
+### Converts level files.
+### Input: data/levels/*.lvl
+### Output: output/config/levels/*.json
+def convert_levels():
+	try_create_dir("output/config/levels/")
+
+	for r, d, f in os.walk("data/levels"):
+		for file in f:
+			if file == "powerups.txt":
+				continue
+			print(file)
+			store_contents("output/config/levels/" + rename_level(file[:-4]) + ".json", convert_level(get_contents("data/levels/" + file)))
 
 
+
+### Converts fonts.
+### Input: data/fonts/*.font
+### Output: output/fonts/*.json
+def convert_fonts():
+	try_create_dir("output/fonts/")
+
+	for r, d, f in os.walk("data/fonts"):
+		for file in f:
+			if file == "dialog_body_cursor.spr":
+				continue
+			print(file)
+			convert_font("data/fonts/" + file, "output/fonts/" + file[:-5] + ".json")
+
+
+
+### Converts particles.
+### Input: data/psys/*.psys (minus progress.psys)
+### Output: output/particles/*.json
+def convert_particles():
+	try_create_dir("output/particles/")
+
+	for r, d, f in os.walk("data/psys"):
+		for file in f:
+			if file == "progress.psys":
+				continue
+			print(file)
+			store_contents("output/particles/" + file[:-5] + ".json", convert_psys(get_contents("data/psys/" + file)))
+
+
+
+### Converts sound events.
+### Input: data/sound/sounds.sl3
+### Output: output/sound_events/*.json
+def convert_sounds():
+	try_create_dir("output/sound_events/")
+
+	events = convert_sounds_from_sl3(get_contents("data/sound/sounds.sl3"))
+
+	for event_name in events:
+		print(event_name)
+		store_contents("output/sound_events/" + event_name + ".json", events[event_name])
+
+
+
+### Converts music tracks.
+### Input: data/music/music.sl3
+### Output: output/music_tracks/*.json
+def convert_music():
+	try_create_dir("output/music_tracks/")
+
+	tracks = convert_music_from_sl3(get_contents("data/music/music.sl3"))
+
+	for n in tracks:
+		print(n)
+		store_contents("output/music_tracks/" + n + ".json", tracks[n])
+
+
+
+### Main conversion function.
+def convert():
+	# Sample manual conversion functions:
+	# combine_alpha_path("warning.jpg", "warning_alpha.tga", "warning.png")
+	# combine_alpha_path("warning2.jpg", "", "warning_gem.png")
+	# convert_map("data/maps/Demo/", "output/maps/Demo/")
+	# store_contents("output/levels/level_0_0.json", convert_level(get_contents("data/levels/level_0_0.lvl")))
 
 	if file_exists("data/sprites/powerups/scorpion.spr"):
 		print("\n\nYOU ARE CONVERTING LUXOR AMUN RISING\n\n")
@@ -958,142 +1054,23 @@ def main():
 
 	###############################################################################################   MAIN START
 
-	# not that much of a constant? shhhhhh
-	if CONVERSION_SCOPE == []:
-		CONVERSION_SCOPE = ["sprites", "maps", "levels", "fonts", "particles", "sounds", "music"]
-	counter = 0
+	CONVERSION_FUNCTIONS = {
+		"sprites": convert_sprites,
+		"maps": convert_maps,
+		"levels": convert_levels,
+		"fonts": convert_fonts,
+		"particles": convert_particles,
+		"sounds": convert_sounds,
+		"music": convert_music
+	}
 
-
-
-	if "sprites" in CONVERSION_SCOPE:
-		counter += 1
-		print("\n\n\n\nConverting sprites (" + str(counter) + "/" + str(len(CONVERSION_SCOPE)) + ")...")
-
-		### CONVERT SPRITES
-		for r, d, f in os.walk("data/sprites"):
-			for directory in d:
-				for r, d, f in os.walk("data/sprites/" + directory):
-					for file in f:
-						print(directory + "/" + file)
-						sprite_path = "data/sprites/" + directory + "/" + file
-						combine_alpha_sprite(sprite_path, "output/" + resolve_path_sprite(sprite_path), "output/" + resolve_path_image(sprite_path))
-
-		# one more lone splash background is needed
-		combine_alpha_path("data/bitmaps/splash/background.jpg", None, "output/images/splash/background.png")
-
-		# and some palettes, too
-		combine_alpha_path("data/bitmaps/powerups/wild_pal.jpg", None, "output/images/powerups/wild_pal.png")
-		for n in ["blue", "green", "orange", "pink", "purple", "red", "yellow"]:
-			combine_alpha_path("data/bitmaps/particles/gem_bloom_" + n + ".jpg", None, "output/images/particles/gem_bloom_" + n + ".png")
-
-		# and that blinking cursor thingy
-		combine_alpha_sprite("data/fonts/dialog_body_cursor.spr", "output/sprites/fonts/dialog_body_cursor.json", "output/images/fonts/dialog_body_cursor.png")
-
+	for i in range(len(CONVERSION_SCOPE)):
+		registry = CONVERSION_SCOPE[i]
+		print("\n\n\n\nConverting " + registry + " (" + str(i + 1) + "/" + str(len(CONVERSION_SCOPE)) + ")...")
+		CONVERSION_FUNCTIONS[registry]()
 		print("Done!")
-
-
-
-	if "maps" in CONVERSION_SCOPE:
-		counter += 1
-		print("\n\n\n\nConverting maps (" + str(counter) + "/" + str(len(CONVERSION_SCOPE)) + ")...")
-
-		### CONVERT MAPS
-		for r, d, f in os.walk("data/maps"):
-			for directory in d:
-				print(directory)
-				convert_map("data/maps/" + directory + "/", "output/maps/" + directory + "/")
-		print("Done!")
-
-
-
-	if "levels" in CONVERSION_SCOPE:
-		counter += 1
-		print("\n\n\n\nConverting levels (" + str(counter) + "/" + str(len(CONVERSION_SCOPE)) + ")...")
-
-		### CONVERT LEVELS
-		try_create_dir("output/config/levels/")
-
-		for r, d, f in os.walk("data/levels"):
-			for file in f:
-				if file == "powerups.txt":
-					continue
-				print(file)
-				store_contents("output/config/levels/" + rename_level(file[:-4]) + ".json", convert_level(get_contents("data/levels/" + file)))
-		print("Done!")
-
-
-
-	if "fonts" in CONVERSION_SCOPE:
-		counter += 1
-		print("\n\n\n\nConverting fonts (" + str(counter) + "/" + str(len(CONVERSION_SCOPE)) + ")...")
-
-		### CONVERT FONTS
-		try_create_dir("output/fonts/")
-
-		for r, d, f in os.walk("data/fonts"):
-			for file in f:
-				if file == "dialog_body_cursor.spr":
-					continue
-				print(file)
-				convert_font("data/fonts/" + file, "output/fonts/" + file[:-5] + ".json")
-		print("Done!")
-
-
-
-	if "particles" in CONVERSION_SCOPE:
-		counter += 1
-		print("\n\n\n\nConverting particles (" + str(counter) + "/" + str(len(CONVERSION_SCOPE)) + ")...")
-
-		### CONVERT PSYS
-		try_create_dir("output/particles/")
-
-		for r, d, f in os.walk("data/psys"):
-			for file in f:
-				if file == "progress.psys":
-					continue
-				print(file)
-				store_contents("output/particles/" + file[:-5] + ".json", convert_psys(get_contents("data/psys/" + file)))
-		print("Done!")
-
-
-
-	if "sounds" in CONVERSION_SCOPE:
-		counter += 1
-		print("\n\n\n\nConverting sounds (" + str(counter) + "/" + str(len(CONVERSION_SCOPE)) + ")...")
-
-		### CONVERT SOUNDS
-		try_create_dir("output/sound_events/")
-
-		events = convert_sounds(get_contents("data/sound/sounds.sl3"))
-
-		for n in events:
-			print(n)
-			store_contents("output/sound_events/" + n + ".json", events[n])
-
-
-
-	if "music" in CONVERSION_SCOPE:
-		counter += 1
-		print("\n\n\n\nConverting music (" + str(counter) + "/" + str(len(CONVERSION_SCOPE)) + ")...")
-
-		### CONVERT MUSIC
-		try_create_dir("output/music_tracks/")
-
-		tracks = convert_music(get_contents("data/music/music.sl3"))
-
-		for n in tracks:
-			print(n)
-			store_contents("output/music_tracks/" + n + ".json", tracks[n])
 
 	###############################################################################################   MAIN END
-
-
-
-
-
-
-
-
 
 	### CONVERT UI (WIP)
 	# for name in ["profile_dup"]:
@@ -1105,31 +1082,54 @@ def main():
 
 
 
-	#combine_alpha_path("warning.jpg", "warning_alpha.tga", "warning.png")
-	#combine_alpha_path("warning2.jpg", "", "warning_gem.png")
+### Entry point of the application. Handles the commandline arguments.
+def main():
+	global CONVERSION_SCOPE
 
-	if STANDALONE_MODE:
-		print("Everything is done!")
-		input("Press ENTER...")
+	if len(sys.argv) == 1 or (len(sys.argv) == 2 and sys.argv[1] == "--help"):
+		print("Welcome to OpenSMCE Converter!")
+		print("Supported games: Luxor, Luxor Amun Rising. Mods not supported!")
+		print()
+		print("Usage: main.py [arguments]")
+		print()
+		print("Possible arguments:")
+		print("    --all - Converts all supported assets.")
+		print("    --sprites - Converts sprites and images.")
+		print("    --maps - Converts maps.")
+		print("    --levels - Converts levels.")
+		print("    --fonts - Converts fonts.")
+		print("    --particles - Converts particles.")
+		print("    --sounds - Converts sounds.")
+		print("    --music - Converts music.")
+		print()
+		print("    --help - Prints this message.")
+	else:
+		CONVERSION_SCOPE_KEYS = {
+			"--sprites": "sprites",
+			"--maps": "maps",
+			"--levels": "levels",
+			"--fonts": "fonts",
+			"--particles": "particles",
+			"--sounds": "sounds",
+			"--music": "music"
+		}
+		for i in range(len(sys.argv) - 1):
+			arg = sys.argv[i + 1]
+			if arg == "--all":
+				CONVERSION_SCOPE = ["sprites", "maps", "levels", "fonts", "particles", "sounds", "music"]
+			elif arg in CONVERSION_SCOPE_KEYS:
+				registry = CONVERSION_SCOPE_KEYS[arg]
+				if registry in CONVERSION_SCOPE:
+					print("Error: key " + arg + " is invalid: duplicate or used with --all!")
+					exit(1)
+				else:
+					CONVERSION_SCOPE.append(registry)
+			else:
+				print("Error: key " + arg + " unrecognized")
+				exit(1)
+		convert()
+		
 
 
 
-if STANDALONE_MODE or sys.argv[0] == "main.py":
-	if sys.argv[0] == "main.py":
-		# Never let the shell converter script to convert only some of the game files.
-		CONVERSION_SCOPE = []
-	main()
-else:
-	print("Could not launch the script... Probably you have launched the wrong file.")
-	print("Launch convert.bat (Windows) or convert.sh (Linux) instead.")
-	print()
-	print("If you see this message when you've launched convert.bat or convert.sh,")
-	print("it means there's probably a bug in either of these files.")
-	print("Contact me for support, and don't forget to screenshot the following information:")
-	print()
-	print("sys.argv[0] = " + sys.argv[0])
-	print()
-	print()
-	print()
-	input("Press ENTER to leave this window.")
-	exit(69)
+main()

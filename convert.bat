@@ -125,7 +125,7 @@ echo Step 3. Converting...
 echo ===========================================
 setlocal enabledelayedexpansion
 py -m pip install pillow
-py main.py
+py main.py --all
 if %errorlevel% neq 0 (
 	echo ===========================================
 	echo Oh no^^! Something has gone wrong during the conversion process.

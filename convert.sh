@@ -131,7 +131,7 @@ mv data/maps/ValleyoftheKings data/maps/ValleyOfTheKings
 mv data/maps/WeighingoftheHeart data/maps/WeighingOfTheHeart
 
 #python -m pip install pillow
-python main.py
+python main.py --all
 if [ $? -ne 0 ]; then
     printf "%s\n" '' '' '' '' \
     "===========================================" \
