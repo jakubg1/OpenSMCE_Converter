@@ -39,7 +39,7 @@ else
 fi
 
 if [ ! -d "./$appendix" ]; then
-    printf "! Folder \"/$appendix\" does not exist !\n"
+    printf "! Folder \"$appendix\" does not exist !\n"
     good=0
 fi
 
