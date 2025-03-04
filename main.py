@@ -453,8 +453,8 @@ def convert_map(input_path, output_path):
 			map_data["name"] = " ".join(words[2:])[1:-1]
 
 		if words[0] == "Sprite":
-			is_global = input_path.replace("/", "\\").lower() != ("\\".join(words[2].split("\\")[:-1]) + "\\").lower()
-			sprite_name = (words[2].replace("\\", "/").replace(FDATA + "/sprites", "sprites")[:-4]) if is_global else words[2].split("\\")[-1][:-4]
+			is_global = "\\".join(input_path.replace("/", "\\").split("\\")[1:]).lower() != ("\\".join(words[2].split("\\")[1:-1]) + "\\").lower()
+			sprite_name = (words[2].replace("\\", "/").replace("data/sprites", "sprites")[:-4]) if is_global else words[2].split("\\")[-1][:-4]
 			if not is_global:
 				combine_alpha_sprite(input_path + sprite_name + ".spr", output_path + sprite_name + ".json", output_path + sprite_name + ".png")
 			sprite = {
@@ -466,10 +466,10 @@ def convert_map(input_path, output_path):
 			map_data["sprites"].append(sprite)
 
 		if words[0] == "GLSprite":
-			is_global = input_path.replace("/", "\\").lower() != ("\\".join(words[5].split("\\")[:-1]) + "\\").lower()
+			is_global = "\\".join(input_path.replace("/", "\\").split("\\")[1:]).lower() != ("\\".join(words[5].split("\\")[1:-1]) + "\\").lower()
 			background = words[4] == "GamePieceHShadow"
 			foreground = words[4] == "MenuControls"
-			sprite_name = (words[5].replace("\\", "/").replace(FDATA + "/sprites", "sprites")[:-4]) if is_global else words[5].split("\\")[-1][:-4]
+			sprite_name = (words[5].replace("\\", "/").replace("data/sprites", "sprites")[:-4]) if is_global else words[5].split("\\")[-1][:-4]
 			if not is_global:
 				combine_alpha_sprite(input_path + sprite_name + ".spr", output_path + sprite_name + ".json", output_path + sprite_name + ".png")
 			sprite = {
