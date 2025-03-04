@@ -1100,7 +1100,7 @@ def convert():
 
 ### Entry point of the application. Handles the commandline arguments.
 def main():
-	global CONVERSION_SCOPE
+	global CONVERSION_SCOPE, FDATA
 
 	if len(sys.argv) == 1 or (len(sys.argv) == 2 and sys.argv[1] == "--help"):
 		print("Welcome to OpenSMCE Converter!")
