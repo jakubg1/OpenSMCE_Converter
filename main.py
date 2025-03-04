@@ -39,6 +39,7 @@ def unindent(line):
 
 def fix_path(path):
 	path = path.replace("\\", "/")
+	path = path.replace("data/", FDATA + "/")
 	if FDATA + "/maps" in path:
 		path = path.replace("InTheShadowofthePyramids","InTheShadowOfThePyramids") \
 			.replace("InnerSanctumoftheTemple","InnerSanctumOfTheTemple") \
@@ -227,7 +228,7 @@ def combine_alpha_path(img_path, alpha_path, result_path):
 	try:
 		img = Image.open(fix_path(img_path))
 	except:
-		print("Unknown image: " + img_path)
+		print("Unknown image: " + fix_path(img_path))
 		return False
 
 	try:
@@ -504,7 +505,7 @@ def convert_font(input_path, output_path):
 
 	contents = get_contents(input_path)
 
-	image_name = contents[0].replace("\\", "/").replace(FDATA + "/bitmaps", "images")[:-4]
+	image_name = contents[0].replace("\\", "/").replace("data/bitmaps", "images")[:-4]
 	combine_alpha_path(contents[0].replace("\\", "/"), contents[1].replace("\\", "/"), "output/" + image_name + ".png")
 	font_data["image"] = image_name + ".png"
 
