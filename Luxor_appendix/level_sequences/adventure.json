@@ -1,0 +1,58 @@
+{
+    "$schema": "../../../schemas/level_sequence.json",
+    "sequence": [
+        {
+            "type": "uiCallback",
+            "callback": "levelStart",
+            "waitUntilFinished": true,
+            "muteMusic": true
+        },
+        {
+            "type": "gameplay",
+            "warmupTime": 2,
+            "previewFirstShooterColor": false,
+            "onFail": 9
+        },
+        {
+            "type": "waitForCollectibles"
+        },
+        {
+            "type": "wait",
+            "delay": 2
+        },
+        {
+            "type": "clearBoard"
+        },
+        {
+            "type": "pathEntity",
+            "pathEntity": "path_entities/bonus_scarab.json",
+            "separatePaths": true,
+            "launchDelay": 1.5,
+            "waitUntilFinished": true,
+            "skippable": false
+        },
+        {
+            "type": "waitForCollectibles"
+        },
+        {
+            "type": "wait",
+            "delay": 1.5
+        },
+        {
+            "type": "end",
+            "status": "win",
+            "muteMusic": true
+        },
+        {
+            "type": "fail",
+            "waitUntilFinished": true,
+            "skippable": false,
+            "muteMusic": true
+        },
+        {
+            "type": "end",
+            "status": "fail",
+            "muteMusic": true
+        }
+    ]
+}

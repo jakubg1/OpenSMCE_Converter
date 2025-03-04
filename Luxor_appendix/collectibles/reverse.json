@@ -1,0 +1,20 @@
+{
+    "$schema": "../../../schemas/collectible.json",
+    "speed": "${vec2(randomf(-100, 100), randomf(-125, -50)+randomf(-125, -50))}",
+    "acceleration": "${vec2(0, 400)}",
+    "particle": "particles/powerup_reverse.json",
+    "pickupParticle": "particles/powerup_catch.json",
+    "spawnSound": "sound_events/spawn_powerup.json",
+    "pickupSound": "sound_events/catch_powerup_reverse.json",
+    "pickupName": "REVERSE!",
+    "pickupFont": "fonts/score0.json",
+    "effects": [
+        {
+            "type": "speedOverride",
+            "speedBase": -100,
+            "speedMultiplier": 0,
+            "decceleration": 1000000,
+            "time": 3
+        }
+    ]
+}

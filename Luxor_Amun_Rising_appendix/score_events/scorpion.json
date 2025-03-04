@@ -1,5 +1,5 @@
 {
     "$schema": "../../../schemas/score_event.json",
-    "score": "${[entity.destroyedSpheres] * 100}",
+    "score": "${500 + [entity.destroyedSpheres] * 100}",
     "font": "fonts/score0.json"
 }

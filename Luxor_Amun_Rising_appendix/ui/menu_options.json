@@ -114,7 +114,8 @@
                             "bounds": [
                                 2,
                                 369
-                            ]
+                            ],
+                            "releaseSound": "sound_events/catch_powerup_shot_speed.json"
                         }
                     },
                     "animations": {},

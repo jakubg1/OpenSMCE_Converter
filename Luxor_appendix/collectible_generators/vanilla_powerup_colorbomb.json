@@ -1,0 +1,69 @@
+{
+  "$schema": "../../../schemas/collectible_generator.json",
+  "type": "randomPick",
+  "pool": [
+    {
+      "entry": {
+        "type": "collectible",
+        "name": "colorbomb_1",
+        "conditions": [
+          "${[color.1] > 0}"
+        ]
+      }
+    },
+    {
+      "entry": {
+        "type": "collectible",
+        "name": "colorbomb_2",
+        "conditions": [
+          "${[color.2] > 0}"
+        ]
+      }
+    },
+    {
+      "entry": {
+        "type": "collectible",
+        "name": "colorbomb_3",
+        "conditions": [
+          "${[color.3] > 0}"
+        ]
+      }
+    },
+    {
+      "entry": {
+        "type": "collectible",
+        "name": "colorbomb_4",
+        "conditions": [
+          "${[color.4] > 0}"
+        ]
+      }
+    },
+    {
+      "entry": {
+        "type": "collectible",
+        "name": "colorbomb_5",
+        "conditions": [
+          "${[color.5] > 0}"
+        ]
+      }
+    },
+    {
+      "entry": {
+        "type": "collectible",
+        "name": "colorbomb_6",
+        "conditions": [
+          "${[color.6] > 0}"
+        ]
+      }
+    },
+    {
+      "entry": {
+        "type": "collectible",
+        "name": "colorbomb_7",
+        "conditions": [
+          "${[color.7] > 0}"
+        ]
+      }
+    }
+  ]
+}

@@ -9,7 +9,7 @@
     "destroyParticle": "particles/collapse_wild.json",
     "destroySound": "sound_events/collapse_scarab.json",
     "destroyScoreEvent": "score_events/scorpion.json",
-    "destroyCollectibleGenerator": "vanilla_coin.json",
+    "destroyCollectibleGenerator": "collectible_generators/vanilla_scorpion.json",
     "canDestroySpheres": true,
     "sphereDestroySound": "sound_events/collide_spheres_path.json",
     "maxSpheresDestroyed": 10,

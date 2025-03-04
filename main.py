@@ -3,6 +3,9 @@ from PIL import Image, ImageDraw
 
 
 
+# The paths to the data folder.
+FDATA = "data"
+
 # A list of stuff to convert. See `convert()` for available values.
 CONVERSION_SCOPE = []
 
@@ -36,7 +39,7 @@ def unindent(line):
 
 def fix_path(path):
 	path = path.replace("\\", "/")
-	if "data/maps" in path:
+	if FDATA + "/maps" in path:
 		path = path.replace("InTheShadowofthePyramids","InTheShadowOfThePyramids") \
 			.replace("InnerSanctumoftheTemple","InnerSanctumOfTheTemple") \
 			.replace("flightofthesacredibis","FlightOfTheSacredIbis") \
@@ -126,42 +129,42 @@ def file_exists(path):
 #
 
 def resolve_path_image(path):
-	return fix_path(path).replace("data/sprites", "images")[:-4] + ".png"
+	return fix_path(path).replace(FDATA + "/sprites", "images")[:-4] + ".png"
 
 #
 #  Changes i.e. "data\sprites\game\shooter.spr" to "sprites/game/shooter.json".
 #
 
 def resolve_path_sprite(path):
-	return fix_path(path).replace("data/sprites", "sprites")[:-4] + ".json"
+	return fix_path(path).replace(FDATA + "/sprites", "sprites")[:-4] + ".json"
 
 #
 #  Changes i.e. "data\fonts\score4.font" to "fonts/score4.json".
 #
 
 def resolve_path_font(path):
-	return fix_path(path).replace("data/fonts", "fonts")[:-5] + ".json"
+	return fix_path(path).replace(FDATA + "/fonts", "fonts")[:-5] + ".json"
 
 #
 #  Changes i.e. "data\psys\powerup_stop.psys" to "particles/powerup_stop.json".
 #
 
 def resolve_path_particle(path):
-	return fix_path(path).replace("data/psys", "particles")[:-5] + ".json"
+	return fix_path(path).replace(FDATA + "/psys", "particles")[:-5] + ".json"
 
 #
 #  Changes i.e. "data\sound\collapse_1.ogg" to "sounds/collapse_1.ogg".
 #
 
 def resolve_path_sound(path):
-	return fix_path(path).replace("data/sound", "sounds")
+	return fix_path(path).replace(FDATA + "/sound", "sounds")
 
 #
 #  Changes i.e. "data\music\menu.ogg" to "music/menu.ogg".
 #
 
 def resolve_path_music(path):
-	return fix_path(path).replace("data/music", "music")
+	return fix_path(path).replace(FDATA + "/music", "music")
 
 #
 #  If both values are identical, return that value. If not, return a random value generator dictionary, eg. {"type":"randomInt","min":1,"max":3}
@@ -241,11 +244,11 @@ def combine_alpha_path(img_path, alpha_path, result_path):
 
 def combine_alpha_sprite(sprite_path, out_sprite_path, out_image_path):
 	sprite_data = {
-		"$schema":"",
-		"path":"",
-		"frameSize":{"x":1,"y":1},
-		"states":[],
-		"batched":False
+		"$schema": "",
+		"image": "",
+		"frameSize": {"x":1,"y":1},
+		"states": [],
+		"batched": False
 	}
 
 	contents = get_contents(sprite_path)
@@ -254,7 +257,7 @@ def combine_alpha_sprite(sprite_path, out_sprite_path, out_image_path):
 		return
 
 	sprite_data["$schema"] = "../" * len(out_image_path.split("/")) + "schemas/sprite.json"
-	sprite_data["path"] = "/".join(out_image_path.split("/")[1:])
+	sprite_data["image"] = "/".join(out_image_path.split("/")[1:])
 	sprite_data["frameSize"]["x"] = int(contents[2].split(" ")[0])
 	sprite_data["frameSize"]["y"] = int(contents[2].split(" ")[1])
 	for i in range(int(contents[3])):
@@ -266,7 +269,7 @@ def combine_alpha_sprite(sprite_path, out_sprite_path, out_image_path):
 		sprite_data["states"].append(state)
 
 	# hacks for various sprites
-	if sprite_path == "data/sprites/particles/speed_shot_beam.spr":
+	if sprite_path == FDATA + "/sprites/particles/speed_shot_beam.spr":
 		sprite_data["states"][0]["frames"]["x"] = 1
 
 	result_path = out_sprite_path
@@ -305,37 +308,50 @@ def convert_path(contents):
 
 def convert_level(contents):
 	level_data = {
-		"$schema":"../../../../schemas/config/level.json",
-		"map":"",
-		"music":"music_tracks/level_music.json",
-		"dangerMusic":"music_tracks/danger_music.json",
-		"colorGeneratorNormal":"default",
-		"colorGeneratorDanger":"danger",
-		"matchEffect":"match",
-		"objectives":[
+		"$schema": "../../../../schemas/config/level.json",
+		"map": "",
+		"sequence": "level_sequences/adventure.json",
+		"music": "music_tracks/level_music.json",
+		"dangerMusic": "music_tracks/danger_music.json",
+		"colorGeneratorNormal": "default",
+		"colorGeneratorDanger": "danger",
+		"matchEffect": "match",
+		"objectives": [
 			{
 				"type": "destroyedSpheres",
 				"target": 0
 			}
 		],
-		"pathsBehavior":[
+		"pathsBehavior": [
 			{
-				"colors":[],
-				"colorStreak":0,
-				"forceDifferentColor":True,
-				"spawnRules":{"type":"waves","amount":0},
-				"spawnDistance":0,
-				"dangerDistance":0.75,
-				"speeds":[]
+				"colorRules": {
+					"type": "random",
+					"colors": [],
+					"colorStreak": 0,
+					"forceDifferentColor": True
+				},
+				"spawnRules": {
+					"type": "waves",
+					"amount": 0
+				},
+				"spawnDistance": 0,
+				"dangerDistance": 0.75,
+				"speeds": []
 			},
 			{
-				"colors":[],
-				"colorStreak":0,
-				"forceDifferentColor":True,
-				"spawnRules":{"type":"waves","amount":0},
-				"spawnDistance":0,
-				"dangerDistance":0.75,
-				"speeds":[]
+				"colorRules": {
+					"type": "random",
+					"colors": [],
+					"colorStreak": 0,
+					"forceDifferentColor": True
+				},
+				"spawnRules": {
+					"type": "waves",
+					"amount": 0
+				},
+				"spawnDistance": 0,
+				"dangerDistance": 0.75,
+				"speeds": []
 			}
 		]
 	}
@@ -360,11 +376,11 @@ def convert_level(contents):
 		if words[0] == "mapFile":
 			level_data["map"] = convert_pascal(" ".join(words[2:])[1:-1]).replace("'", "")
 		if words[0][:11] == "spawnColor_" and words[2] == "true":
-			level_data["pathsBehavior"][0]["colors"].append(int(words[0][11:]))
-			level_data["pathsBehavior"][1]["colors"].append(int(words[0][11:]))
+			level_data["pathsBehavior"][0]["colorRules"]["colors"].append(int(words[0][11:]))
+			level_data["pathsBehavior"][1]["colorRules"]["colors"].append(int(words[0][11:]))
 		if words[0] == "spawnStreak":
-			level_data["pathsBehavior"][0]["colorStreak"] = 0.3 #min(int(words[2]) / 300, 0.45)
-			level_data["pathsBehavior"][1]["colorStreak"] = 0.3 #min(int(words[2]) / 300, 0.45)
+			level_data["pathsBehavior"][0]["colorRules"]["colorStreak"] = 0.45 #min(int(words[2]) / 300, 0.45)
+			level_data["pathsBehavior"][1]["colorRules"]["colorStreak"] = 0.45 #min(int(words[2]) / 300, 0.45)
 		if words[0] == "winCondition":
 			level_data["objectives"][0]["target"] = int(words[2])
 		if words[0] == "viseGroupCount":
@@ -437,7 +453,7 @@ def convert_map(input_path, output_path):
 
 		if words[0] == "Sprite":
 			is_global = input_path.replace("/", "\\").lower() != ("\\".join(words[2].split("\\")[:-1]) + "\\").lower()
-			sprite_name = (words[2].replace("\\", "/").replace("data/sprites", "sprites")[:-4]) if is_global else words[2].split("\\")[-1][:-4]
+			sprite_name = (words[2].replace("\\", "/").replace(FDATA + "/sprites", "sprites")[:-4]) if is_global else words[2].split("\\")[-1][:-4]
 			if not is_global:
 				combine_alpha_sprite(input_path + sprite_name + ".spr", output_path + sprite_name + ".json", output_path + sprite_name + ".png")
 			sprite = {
@@ -452,7 +468,7 @@ def convert_map(input_path, output_path):
 			is_global = input_path.replace("/", "\\").lower() != ("\\".join(words[5].split("\\")[:-1]) + "\\").lower()
 			background = words[4] == "GamePieceHShadow"
 			foreground = words[4] == "MenuControls"
-			sprite_name = (words[5].replace("\\", "/").replace("data/sprites", "sprites")[:-4]) if is_global else words[5].split("\\")[-1][:-4]
+			sprite_name = (words[5].replace("\\", "/").replace(FDATA + "/sprites", "sprites")[:-4]) if is_global else words[5].split("\\")[-1][:-4]
 			if not is_global:
 				combine_alpha_sprite(input_path + sprite_name + ".spr", output_path + sprite_name + ".json", output_path + sprite_name + ".png")
 			sprite = {
@@ -488,7 +504,7 @@ def convert_font(input_path, output_path):
 
 	contents = get_contents(input_path)
 
-	image_name = contents[0].replace("\\", "/").replace("data/bitmaps", "images")[:-4]
+	image_name = contents[0].replace("\\", "/").replace(FDATA + "/bitmaps", "images")[:-4]
 	combine_alpha_path(contents[0].replace("\\", "/"), contents[1].replace("\\", "/"), "output/" + image_name + ".png")
 	font_data["image"] = image_name + ".png"
 
@@ -769,8 +785,8 @@ def convert_psys(contents):
 			sprite_contents = get_contents(words[2])
 			spawner_data["particleData"]["animationFrameCount"] = int(sprite_contents[4])
 		if words[0] == "Palette":
-			image_file = words[2].replace("\\", "/").replace("data/bitmaps", "images").replace(".jpg", ".png")
-			color_palette_file = words[2].replace("\\", "/").replace("data/bitmaps", "color_palettes")
+			image_file = words[2].replace("\\", "/").replace(FDATA + "/bitmaps", "images").replace(".jpg", ".png")
+			color_palette_file = words[2].replace("\\", "/").replace(FDATA + "/bitmaps", "color_palettes")
 			spawner_data["particleData"]["colorPalette"] = color_palette_file[:-4] + ".json"
 			# Create a new Color Palette alongside.
 			generate_color_palette(image_file)
@@ -933,24 +949,24 @@ def convert_sprites():
 	# TODO: Convert all images specified as color palettes or in particles.
 	# TODO: Don't restrict to data/sprites, scan everything.
 	# TODO: Don't change the directory structure for the dialog cursor.
-	for r, d, f in os.walk("data/sprites"):
+	for r, d, f in os.walk(FDATA + "/sprites"):
 		for directory in d:
-			for r, d, f in os.walk("data/sprites/" + directory):
+			for r, d, f in os.walk(FDATA + "/sprites/" + directory):
 				for file in f:
 					print(directory + "/" + file)
-					sprite_path = "data/sprites/" + directory + "/" + file
+					sprite_path = FDATA + "/sprites/" + directory + "/" + file
 					combine_alpha_sprite(sprite_path, "output/" + resolve_path_sprite(sprite_path), "output/" + resolve_path_image(sprite_path))
 
 	# one more lone splash background is needed
-	combine_alpha_path("data/bitmaps/splash/background.jpg", None, "output/images/splash/background.png")
+	combine_alpha_path(FDATA + "/bitmaps/splash/background.jpg", None, "output/images/splash/background.png")
 
 	# and some palettes, too
-	combine_alpha_path("data/bitmaps/powerups/wild_pal.jpg", None, "output/images/powerups/wild_pal.png")
+	combine_alpha_path(FDATA + "/bitmaps/powerups/wild_pal.jpg", None, "output/images/powerups/wild_pal.png")
 	for n in ["blue", "green", "orange", "pink", "purple", "red", "yellow"]:
-		combine_alpha_path("data/bitmaps/particles/gem_bloom_" + n + ".jpg", None, "output/images/particles/gem_bloom_" + n + ".png")
+		combine_alpha_path(FDATA + "/bitmaps/particles/gem_bloom_" + n + ".jpg", None, "output/images/particles/gem_bloom_" + n + ".png")
 
 	# and that blinking cursor thingy
-	combine_alpha_sprite("data/fonts/dialog_body_cursor.spr", "output/sprites/fonts/dialog_body_cursor.json", "output/images/fonts/dialog_body_cursor.png")
+	combine_alpha_sprite(FDATA + "/fonts/dialog_body_cursor.spr", "output/sprites/fonts/dialog_body_cursor.json", "output/images/fonts/dialog_body_cursor.png")
 
 
 
@@ -959,10 +975,10 @@ def convert_sprites():
 ### Output: output/maps/**
 def convert_maps():
 	# TODO: Map sprites should be converted by the methods above...?
-	for r, d, f in os.walk("data/maps"):
+	for r, d, f in os.walk(FDATA + "/maps"):
 		for directory in d:
 			print(directory)
-			convert_map("data/maps/" + directory + "/", "output/maps/" + directory + "/")
+			convert_map(FDATA + "/maps/" + directory + "/", "output/maps/" + directory + "/")
 
 
 
@@ -972,12 +988,12 @@ def convert_maps():
 def convert_levels():
 	try_create_dir("output/config/levels/")
 
-	for r, d, f in os.walk("data/levels"):
+	for r, d, f in os.walk(FDATA + "/levels"):
 		for file in f:
 			if file == "powerups.txt":
 				continue
 			print(file)
-			store_contents("output/config/levels/" + rename_level(file[:-4]) + ".json", convert_level(get_contents("data/levels/" + file)))
+			store_contents("output/config/levels/" + rename_level(file[:-4]) + ".json", convert_level(get_contents(FDATA + "/levels/" + file)))
 
 
 
@@ -987,12 +1003,12 @@ def convert_levels():
 def convert_fonts():
 	try_create_dir("output/fonts/")
 
-	for r, d, f in os.walk("data/fonts"):
+	for r, d, f in os.walk(FDATA + "/fonts"):
 		for file in f:
 			if file == "dialog_body_cursor.spr":
 				continue
 			print(file)
-			convert_font("data/fonts/" + file, "output/fonts/" + file[:-5] + ".json")
+			convert_font(FDATA + "/fonts/" + file, "output/fonts/" + file[:-5] + ".json")
 
 
 
@@ -1002,12 +1018,12 @@ def convert_fonts():
 def convert_particles():
 	try_create_dir("output/particles/")
 
-	for r, d, f in os.walk("data/psys"):
+	for r, d, f in os.walk(FDATA + "/psys"):
 		for file in f:
 			if file == "progress.psys":
 				continue
 			print(file)
-			store_contents("output/particles/" + file[:-5] + ".json", convert_psys(get_contents("data/psys/" + file)))
+			store_contents("output/particles/" + file[:-5] + ".json", convert_psys(get_contents(FDATA + "/psys/" + file)))
 
 
 
@@ -1017,7 +1033,7 @@ def convert_particles():
 def convert_sounds():
 	try_create_dir("output/sound_events/")
 
-	events = convert_sounds_from_sl3(get_contents("data/sound/sounds.sl3"))
+	events = convert_sounds_from_sl3(get_contents(FDATA + "/sound/sounds.sl3"))
 
 	for event_name in events:
 		print(event_name)
@@ -1031,7 +1047,7 @@ def convert_sounds():
 def convert_music():
 	try_create_dir("output/music_tracks/")
 
-	tracks = convert_music_from_sl3(get_contents("data/music/music.sl3"))
+	tracks = convert_music_from_sl3(get_contents(FDATA + "/music/music.sl3"))
 
 	for n in tracks:
 		print(n)
@@ -1044,10 +1060,10 @@ def convert():
 	# Sample manual conversion functions:
 	# combine_alpha_path("warning.jpg", "warning_alpha.tga", "warning.png")
 	# combine_alpha_path("warning2.jpg", "", "warning_gem.png")
-	# convert_map("data/maps/Demo/", "output/maps/Demo/")
-	# store_contents("output/levels/level_0_0.json", convert_level(get_contents("data/levels/level_0_0.lvl")))
+	# convert_map(FDATA + "/maps/Demo/", "output/maps/Demo/")
+	# store_contents("output/levels/level_0_0.json", convert_level(get_contents(FDATA + "/levels/level_0_0.lvl")))
 
-	if file_exists("data/sprites/powerups/scorpion.spr"):
+	if file_exists(FDATA + "/sprites/powerups/scorpion.spr"):
 		print("\n\nYOU ARE CONVERTING LUXOR AMUN RISING\n\n")
 	else:
 		print("\n\nYOU ARE CONVERTING LUXOR 1\n\n")
@@ -1078,7 +1094,7 @@ def convert():
 			# # rule_table = rule_tables["ui"][name + ".ui"]
 		# # else:
 		# rule_table = {}
-		# store_contents("output/ui/" + name + ".json", convert_ui(get_contents("data/uiscript/" + name + ".ui"), rule_table))
+		# store_contents("output/ui/" + name + ".json", convert_ui(get_contents(FDATA + "/uiscript/" + name + ".ui"), rule_table))
 
 
 
@@ -1102,6 +1118,8 @@ def main():
 		print("    --sounds - Converts sounds.")
 		print("    --music - Converts music.")
 		print()
+		print("    -d <folder> - Specify a different input folder, defaults to 'data'.")
+		print()
 		print("    --help - Prints this message.")
 	else:
 		CONVERSION_SCOPE_KEYS = {
@@ -1113,20 +1131,27 @@ def main():
 			"--sounds": "sounds",
 			"--music": "music"
 		}
+		next_value = None
 		for i in range(len(sys.argv) - 1):
 			arg = sys.argv[i + 1]
-			if arg == "--all":
-				CONVERSION_SCOPE = ["sprites", "maps", "levels", "fonts", "particles", "sounds", "music"]
-			elif arg in CONVERSION_SCOPE_KEYS:
-				registry = CONVERSION_SCOPE_KEYS[arg]
-				if registry in CONVERSION_SCOPE:
-					print("Error: key " + arg + " is invalid: duplicate or used with --all!")
-					exit(1)
+			if next_value == None:
+				if arg == "--all":
+					CONVERSION_SCOPE = ["sprites", "maps", "levels", "fonts", "particles", "sounds", "music"]
+				elif arg in CONVERSION_SCOPE_KEYS:
+					registry = CONVERSION_SCOPE_KEYS[arg]
+					if registry in CONVERSION_SCOPE:
+						print("Error: key " + arg + " is invalid: duplicate or used with --all!")
+						exit(1)
+					else:
+						CONVERSION_SCOPE.append(registry)
+				elif arg == "-d":
+					next_value = arg
 				else:
-					CONVERSION_SCOPE.append(registry)
-			else:
-				print("Error: key " + arg + " unrecognized")
-				exit(1)
+					print("Error: key " + arg + " unrecognized")
+					exit(1)
+			elif next_value == "-d":
+				FDATA = arg
+				next_value = None
 		convert()
 		
 

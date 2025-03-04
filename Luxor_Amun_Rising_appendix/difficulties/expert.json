@@ -1,5 +1,10 @@
 {
     "$schema": "../../../schemas/difficulty.json",
     "speedMultiplier": 1,
-    "scoreMultiplier": 2
+    "scoreMultiplier": 2,
+    "lifeConfig": {
+        "type": "coins",
+        "coinsPerLife": 30,
+        "startingLives": 2
+    }
 }

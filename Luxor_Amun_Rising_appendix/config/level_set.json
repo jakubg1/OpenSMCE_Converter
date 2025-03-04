@@ -1,9 +1,14 @@
 {
+    "$schema": "../../../schemas/config/level_set.json",
     "levelOrder": [
         {
             "type": "level",
             "level": 101,
-            "name": "1-1"
+            "name": "1-1",
+            "checkpoint": {
+                "id": 1,
+                "unlockedOnStart": true
+            }
         },
         {
             "type": "level",
@@ -26,7 +31,10 @@
         {
             "type": "level",
             "level": 201,
-            "name": "2-1"
+            "name": "2-1",
+            "checkpoint": {
+                "id": 2
+            }
         },
         {
             "type": "level",
@@ -54,7 +62,10 @@
         {
             "type": "level",
             "level": 301,
-            "name": "3-1"
+            "name": "3-1",
+            "checkpoint": {
+                "id": 3
+            }
         },
         {
             "type": "level",
@@ -87,7 +98,10 @@
         {
             "type": "level",
             "level": 401,
-            "name": "4-1"
+            "name": "4-1",
+            "checkpoint": {
+                "id": 4
+            }
         },
         {
             "type": "level",
@@ -115,7 +129,10 @@
         {
             "type": "level",
             "level": 501,
-            "name": "5-1"
+            "name": "5-1",
+            "checkpoint": {
+                "id": 5
+            }
         },
         {
             "type": "level",
@@ -148,7 +165,10 @@
         {
             "type": "level",
             "level": 601,
-            "name": "6-1"
+            "name": "6-1",
+            "checkpoint": {
+                "id": 6
+            }
         },
         {
             "type": "level",
@@ -186,7 +206,10 @@
         {
             "type": "level",
             "level": 701,
-            "name": "7-1"
+            "name": "7-1",
+            "checkpoint": {
+                "id": 7
+            }
         },
         {
             "type": "level",
@@ -219,7 +242,10 @@
         {
             "type": "level",
             "level": 801,
-            "name": "8-1"
+            "name": "8-1",
+            "checkpoint": {
+                "id": 8
+            }
         },
         {
             "type": "level",
@@ -257,7 +283,10 @@
         {
             "type": "level",
             "level": 901,
-            "name": "9-1"
+            "name": "9-1",
+            "checkpoint": {
+                "id": 9
+            }
         },
         {
             "type": "level",
@@ -300,7 +329,10 @@
         {
             "type": "level",
             "level": 1001,
-            "name": "10-1"
+            "name": "10-1",
+            "checkpoint": {
+                "id": 10
+            }
         },
         {
             "type": "level",
@@ -338,7 +370,10 @@
         {
             "type": "level",
             "level": 1101,
-            "name": "11-1"
+            "name": "11-1",
+            "checkpoint": {
+                "id": 11
+            }
         },
         {
             "type": "level",
@@ -381,7 +416,10 @@
         {
             "type": "level",
             "level": 1201,
-            "name": "12-1"
+            "name": "12-1",
+            "checkpoint": {
+                "id": 12
+            }
         },
         {
             "type": "level",
@@ -429,7 +467,10 @@
         {
             "type": "level",
             "level": 1301,
-            "name": "13-1"
+            "name": "13-1",
+            "checkpoint": {
+                "id": 13
+            }
         },
         {
             "type": "level",
@@ -457,7 +498,10 @@
         {
             "type": "level",
             "level": 1401,
-            "name": "14-1"
+            "name": "14-1",
+            "checkpoint": {
+                "id": 14
+            }
         },
         {
             "type": "level",
@@ -479,24 +523,5 @@
             "level": 1405,
             "name": "14-5"
         }
-    ],
-    "checkpoints": [
-        1,
-        5,
-        10,
-        16,
-        21,
-        27,
-        34,
-        40,
-        47,
-        55,
-        62,
-        70,
-        79,
-        84
-    ],
-    "startCheckpoints": [
-        1
     ]
 }

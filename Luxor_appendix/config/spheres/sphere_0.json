@@ -3,7 +3,7 @@
     "sprite": "sprites/game/vise.json",
     "idleParticle": null,
     "destroyParticle": "particles/collapse_vise.json",
-    "destroyCollectible": "vanilla_scarab.json",
+    "destroyCollectible": "collectible_generators/vanilla_scarab.json",
     "destroySound": "sound_events/collapse_scarab.json",
     "color": {
         "r": 1,

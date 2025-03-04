@@ -1,0 +1,20 @@
+{
+    "$schema": "../../../schemas/collectible_generator.json",
+    "type": "combine",
+    "entries": [
+        {
+            "type": "collectibleGenerator",
+            "generator": "collectible_generators/vanilla_powerup.json",
+            "conditions": [
+                "${([match.cascade] == 1 && [match.streakBoost] && [match.streak] % 3 == 0) || [match.cascade] % 3 == 0}"
+            ]
+        },
+        {
+            "type": "collectibleGenerator",
+            "generator": "collectible_generators/vanilla_coin.json",
+            "conditions": [
+                "${[match.length] > 4 && random() < ([match.length] - 3) * 0.25}"
+            ]
+        }
+    ]
+}

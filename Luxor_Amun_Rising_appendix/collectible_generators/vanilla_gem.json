@@ -1,0 +1,141 @@
+{
+    "$schema": "../../../schemas/collectible_generator.json",
+    "type": "randomPick",
+    "pool": [
+        {
+            "entry": {
+                "type": "collectible",
+                "name": "gem_1",
+                "conditions": [
+                    "${[generator.latestCheckpoint] <= 1}"
+                ]
+            }
+        },
+        {
+            "entry": {
+                "type": "collectible",
+                "name": "gem_2",
+                "conditions": [
+                    "${[generator.latestCheckpoint] <= 2}"
+                ]
+            }
+        },
+        {
+            "entry": {
+                "type": "collectible",
+                "name": "gem_3",
+                "conditions": [
+                    "${[generator.latestCheckpoint] <= 3}"
+                ]
+            }
+        },
+        {
+            "entry": {
+                "type": "collectible",
+                "name": "gem_4",
+                "conditions": [
+                    "${[generator.latestCheckpoint] >= 2 && [generator.latestCheckpoint] <= 4}"
+                ]
+            }
+        },
+        {
+            "entry": {
+                "type": "collectible",
+                "name": "gem_5",
+                "conditions": [
+                    "${[generator.latestCheckpoint] >= 3 && [generator.latestCheckpoint] <= 5}"
+                ]
+            }
+        },
+        {
+            "entry": {
+                "type": "collectible",
+                "name": "gem_6",
+                "conditions": [
+                    "${[generator.latestCheckpoint] >= 4 && [generator.latestCheckpoint] <= 6}"
+                ]
+            }
+        },
+        {
+            "entry": {
+                "type": "collectible",
+                "name": "gem_7",
+                "conditions": [
+                    "${[generator.latestCheckpoint] >= 5 && [generator.latestCheckpoint] <= 7}"
+                ]
+            }
+        },
+        {
+            "entry": {
+                "type": "collectible",
+                "name": "gem_8",
+                "conditions": [
+                    "${[generator.latestCheckpoint] >= 6 && [generator.latestCheckpoint] <= 8}"
+                ]
+            }
+        },
+        {
+            "entry": {
+                "type": "collectible",
+                "name": "gem_9",
+                "conditions": [
+                    "${[generator.latestCheckpoint] >= 7 && [generator.latestCheckpoint] <= 9}"
+                ]
+            }
+        },
+        {
+            "entry": {
+                "type": "collectible",
+                "name": "gem_10",
+                "conditions": [
+                    "${[generator.latestCheckpoint] >= 8 && [generator.latestCheckpoint] <= 10}"
+                ]
+            }
+        },
+        {
+            "entry": {
+                "type": "collectible",
+                "name": "gem_11",
+                "conditions": [
+                    "${[generator.latestCheckpoint] >= 9 && [generator.latestCheckpoint] <= 11}"
+                ]
+            }
+        },
+        {
+            "entry": {
+                "type": "collectible",
+                "name": "gem_12",
+                "conditions": [
+                    "${[generator.latestCheckpoint] >= 10 && [generator.latestCheckpoint] <= 12}"
+                ]
+            }
+        },
+        {
+            "entry": {
+                "type": "collectible",
+                "name": "gem_13",
+                "conditions": [
+                    "${[generator.latestCheckpoint] >= 11}"
+                ]
+            }
+        },
+        {
+            "entry": {
+                "type": "collectible",
+                "name": "gem_14",
+                "conditions": [
+                    "${[generator.latestCheckpoint] >= 12}"
+                ]
+            }
+        },
+        {
+            "entry": {
+                "type": "collectible",
+                "name": "gem_15",
+                "conditions": [
+                    "${[generator.latestCheckpoint] >= 13}"
+                ]
+            }
+        }
+    ]
+}

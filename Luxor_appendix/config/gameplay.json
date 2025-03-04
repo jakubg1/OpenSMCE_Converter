@@ -1,55 +1,8 @@
 {
     "$schema": "../../../schemas/config/gameplay.json",
-    "levelSequence": [
-        {
-            "type": "gameplay",
-            "warmupTime": 2,
-            "previewFirstShooterColor": false,
-            "onFail": 9
-        },
-        {
-            "type": "waitForCollectibles"
-        },
-        {
-            "type": "wait",
-            "delay": 2
-        },
-        {
-            "type": "clearBoard"
-        },
-        {
-            "type": "pathEntity",
-            "pathEntity": "path_entities/bonus_scarab.json",
-            "separatePaths": true,
-            "launchDelay": 1.5,
-            "waitUntilFinished": true,
-            "skippable": false
-        },
-        {
-            "type": "waitForCollectibles"
-        },
-        {
-            "type": "wait",
-            "delay": 1.5
-        },
-        {
-            "type": "end",
-            "status": "win"
-        },
-        {
-            "type": "fail",
-            "waitUntilFinished": true,
-            "skippable": false
-        },
-        {
-            "type": "end",
-            "status": "fail"
-        }
-    ],
     "ui": {
         "buttonClickSound": "sound_events/click.json",
-        "buttonHoverSound": "sound_events/highlight.json",
-        "levelAdvanceSound": "sound_events/level_advance.json"
+        "buttonHoverSound": "sound_events/highlight.json"
     },
     "sphereBehavior": {
         "acceleration": 200,

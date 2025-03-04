@@ -1,0 +1,18 @@
+{
+    "$schema": "../../../schemas/collectible.json",
+    "speed": "${vec2(randomf(-100, 100), randomf(-125, -50)+randomf(-125, -50))}",
+    "acceleration": "${vec2(0, 400)}",
+    "particle": "particles/powerup_bomb_color_3.json",
+    "pickupParticle": "particles/powerup_catch.json",
+    "spawnSound": "sound_events/spawn_powerup.json",
+    "pickupSound": "sound_events/catch_powerup_color_bomb.json",
+    "pickupName": "COLOR BOMB!",
+    "pickupFont": "fonts/score3.json",
+    "effects": [
+        {
+            "type": "destroySpheres",
+            "selector": "sphere_selectors/color_bomb_3.json",
+            "scoreEvent": "score_events/color_bomb_3.json"
+        }
+    ]
+}

@@ -16,7 +16,7 @@ local c = {}
 function c.init(f)
   f.getWidgetN("splash"):show()
   f.getWidgetN("splash"):setActive()
-  f.musicVolume("music_tracks/menu_music.json", 1)
+  f.musicVolume("music_tracks/menu_music.json", 1, 1)
 end
 
 function c.splashStart(f)
@@ -329,7 +329,7 @@ function c.highscoreOk(f)
         c.Menu_Highscores:setActive()
         c.Menu_Highscores_Highlight.pos.y = c.highscorePlace * 45 + 62
         c.Menu_Highscores_Highlight:show()
-        f.musicVolume("music_tracks/menu_music.json", 1)
+        f.musicVolume("music_tracks/menu_music.json", 1, 1)
       end
       )
     end
@@ -427,7 +427,7 @@ function c.quitMenuQuit(f)
         c.Banner_QuitBackground:clean()
         c.Main:show()
         c.Main:setActive()
-        f.musicVolume("music_tracks/menu_music.json", 1)
+        f.musicVolume("music_tracks/menu_music.json", 1, 1)
       end
       )
     end
@@ -750,7 +750,7 @@ function c.mainContinueContinue(f)
   c.Menu_Continue_Background:scheduleFunction("hideEnd",
   function()
     c.Main:hide()
-    f.musicVolume("music_tracks/menu_music.json", 0)
+    f.musicVolume("music_tracks/menu_music.json", 0, 1)
     c.Hud:show()
     c.Main_Background:scheduleFunction("hideEnd",
     function()
@@ -801,7 +801,7 @@ function c.mainMapStart(f)
   c.Menu_StageSelect:hide()
   c.Menu_StageSelect_Frame:scheduleFunction("hideEnd",
   function()
-    f.musicVolume("music_tracks/menu_music.json", 0)
+    f.musicVolume("music_tracks/menu_music.json", 0, 1)
     if not f.profileGetVariable("dontShowInstructions") then
       c.newGameStarting = true
       c.Menu_Instructions:show()
@@ -866,7 +866,7 @@ function c.gameMapCancel(f)
     c.Banner_StageMapTrans:clean()
     c.Main:show()
     c.Main:setActive()
-    f.musicVolume("music_tracks/menu_music.json", 1)
+    f.musicVolume("music_tracks/menu_music.json", 1, 1)
   end
   )
 end
@@ -922,13 +922,13 @@ function c.tick(f)
         local lives = tostring(f.profileGetLives())
         local coins = tostring(f.profileGetCoins())
         local score = f.profileGetScore()
-        local scoreStr = _NumStr(score)
+        local scoreStr = _Utils.formatNumber(score)
         if c.scoreDisplay < score then
           c.scoreDisplay = c.scoreDisplay + math.ceil((score - c.scoreDisplay) / 10)
         elseif c.scoreDisplay > score then
           c.scoreDisplay = c.scoreDisplay + math.floor((score - c.scoreDisplay) / 10)
         end
-        local scoreAnim = _NumStr(c.scoreDisplay)
+        local scoreAnim = _Utils.formatNumber(c.scoreDisplay)
         local levelName = f.profileGetLevelName()
         local levelMapName = f.profileGetMap().name
         local stageName = c.stageNames[f.profileGetLatestCheckpoint()]
@@ -954,7 +954,7 @@ function c.tick(f)
         -- Level
         if f.levelExists() then
           local levelProgress = f.levelGetProgress()
-          local levelScore = _NumStr(f.levelGetScore())
+          local levelScore = _Utils.formatNumber(f.levelGetScore())
           local levelShots = tostring(f.levelGetShots())
           local levelCoins = tostring(f.levelGetCoins())
           local levelGems = tostring(f.levelGetGems())
@@ -1002,7 +1002,7 @@ function c.tick(f)
       row.name.widget.text = entry.name
       row.name2.widget.text = entry.name
       row.level.widget.text = entry.level
-      row.score.widget.text = _NumStr(entry.score)
+      row.score.widget.text = _Utils.formatNumber(entry.score)
     end
 
     c.Menu_StageSelect_Text_StageName.widget.text = newStageName
@@ -1035,7 +1035,8 @@ function c.levelStart(f)
   c.Banner_Intro:show()
   c.Banner_Intro_Panel:scheduleFunction("hideEnd",
   function()
-    f.levelBegin()
+    f.levelRestartMusic()
+    f.levelContinue()
     c.Button_Pause:buttonSetEnabled(true)
   end
   )
@@ -1044,7 +1045,7 @@ end
 
 
 function c.levelLoaded(f)
-  f.levelBeginLoad()
+  f.levelRestartMusic()
   c.Banner_Paused:show()
   c.Button_Pause:buttonSetEnabled(true)
 end
@@ -1100,7 +1101,7 @@ function c.gameOver(f)
         f.profileDeleteGame()
         c.Main:show()
         c.Main:setActive()
-        f.musicVolume("music_tracks/menu_music.json", 1)
+        f.musicVolume("music_tracks/menu_music.json", 1, 1)
       end
       )
     end
@@ -1153,6 +1154,7 @@ function c.stageMapShow(f, advance)
           c.Banner_StageMap_StageCompletePsys:scheduleFunction("particleDespawn",
           function()
             if f.profileIsCheckpointUpcoming() then
+              f.playSound("sound_events/level_advance.json")
               f.profileLevelAdvance()
               c.stageMapSetActive(f)
               c.Banner_StageMap_StageUnlockPsys:show()
@@ -1169,6 +1171,7 @@ function c.stageMapShow(f, advance)
           end
           )
         else
+          f.playSound("sound_events/level_advance.json")
           f.profileLevelAdvance()
           c.stageMapSetActive(f)
         end

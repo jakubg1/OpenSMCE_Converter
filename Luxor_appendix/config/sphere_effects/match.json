@@ -5,7 +5,7 @@
     "infectionTime": 0,
     "destroySound": "sound_events/collapse.json",
     "destroyScoreEvent": "score_events/match.json",
-    "destroyCollectible": "vanilla_match.json",
+    "destroyCollectible": "collectible_generators/vanilla_match.json",
     "levelLossProtection": true,
     "immobile": false,
     "fragile": false,

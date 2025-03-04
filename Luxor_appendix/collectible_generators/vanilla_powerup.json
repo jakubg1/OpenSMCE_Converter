@@ -1,0 +1,62 @@
+{
+  "$schema": "../../../schemas/collectible_generator.json",
+  "type": "randomPick",
+  "pool": [
+    {
+      "entry": {
+        "type": "collectible",
+        "name": "wild"
+      },
+      "weight": 1000
+    },
+    {
+      "entry": {
+        "type": "collectible",
+        "name": "fireball"
+      },
+      "weight": 500
+    },
+    {
+      "entry": {
+        "type": "collectible",
+        "name": "lightning"
+      },
+      "weight": 500
+    },
+    {
+      "entry": {
+        "type": "collectible",
+        "name": "stop"
+      },
+      "weight": 1000
+    },
+    {
+      "entry": {
+        "type": "collectible",
+        "name": "slow"
+      },
+      "weight": 1000
+    },
+    {
+      "entry": {
+        "type": "collectible",
+        "name": "reverse"
+      },
+      "weight": 1000
+    },
+    {
+      "entry": {
+        "type": "collectible",
+        "name": "speedshot"
+      },
+      "weight": 1000
+    },
+    {
+      "entry": {
+        "type": "collectibleGenerator",
+        "generator": "collectible_generators/vanilla_powerup_colorbomb.json"
+      },
+      "weight": 500
+    }
+  ]
+}

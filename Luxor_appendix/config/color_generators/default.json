@@ -25,7 +25,7 @@
         ],
         "fallback": 0
     },
-    "colorsRemoveIfNonexistent": [
+    "discardableColors": [
         1,
         2,
         3,

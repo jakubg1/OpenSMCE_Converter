@@ -1,0 +1,8 @@
+{
+    "$schema": "../../../schemas/collectible_generator.json",
+	"type": "collectibleGenerator",
+	"generator": "collectible_generators/vanilla_coin.json",
+	"conditions": [
+		"${random() < ([entity.destroyedSpheres] + 2) * 0.25}"
+	]
+}
