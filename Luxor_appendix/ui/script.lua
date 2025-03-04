@@ -953,33 +953,33 @@ function c.tick(f)
           c.Banner_LevelComplete_Text_Segments.widget.text = levelChains
         end
       end
+
+      -- New game
+      local newCheckpointID = f.configGetCheckpointID(c.newGameStage)
+      local newLevelID = f.configGetLevelID(newCheckpointID)
+      local newLevelData = f.configGetLevelData(newLevelID)
+      local newLevelName = f.configGetLevelName(newCheckpointID)
+      local newLevelMapName = f.configGetMapData(newLevelData.map).name
+      local newStageName = c.stageNames[c.newGameStage]
+  
+  
+      c.Main_Text_PlayerE.widget.text = player
+      c.Main_Text_PlayerH.widget.text = player
+      c.Main_Text_Version.widget.text = "Running on OpenSMCE " .. _VERSION
+  
+      for i, row in ipairs(c.HighscoreRows) do
+        local entry = f.highscoreGetEntry(i)
+        row.rank.widget.text = tostring(i)
+        row.name.widget.text = entry.name
+        row.name2.widget.text = entry.name
+        row.level.widget.text = entry.level
+        row.score.widget.text = _Utils.formatNumber(entry.score)
+      end
+  
+      c.Menu_StageSelect_Text_StageName.widget.text = newStageName
+      c.Menu_StageSelect_Text_StageNumber.widget.text = "STAGE " .. newLevelName
+      c.Menu_StageSelect_Text_MapName.widget.text = newLevelMapName
     end
-
-    -- New game
-    local newCheckpointID = f.configGetCheckpointID(c.newGameStage)
-    local newLevelID = f.configGetLevelID(newCheckpointID)
-    local newLevelData = f.configGetLevelData(newLevelID)
-    local newLevelName = f.configGetLevelName(newCheckpointID)
-    local newLevelMapName = f.configGetMapData(newLevelData.map).name
-    local newStageName = c.stageNames[c.newGameStage]
-
-
-    c.Main_Text_PlayerE.widget.text = player
-    c.Main_Text_PlayerH.widget.text = player
-    c.Main_Text_Version.widget.text = "Running on OpenSMCE " .. _VERSION
-
-    for i, row in ipairs(c.HighscoreRows) do
-      local entry = f.highscoreGetEntry(i)
-      row.rank.widget.text = tostring(i)
-      row.name.widget.text = entry.name
-      row.name2.widget.text = entry.name
-      row.level.widget.text = entry.level
-      row.score.widget.text = _Utils.formatNumber(entry.score)
-    end
-
-    c.Menu_StageSelect_Text_StageName.widget.text = newStageName
-    c.Menu_StageSelect_Text_StageNumber.widget.text = "STAGE " .. newLevelName
-    c.Menu_StageSelect_Text_MapName.widget.text = newLevelMapName
   end
 end
 
