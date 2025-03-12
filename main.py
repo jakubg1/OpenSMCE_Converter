@@ -316,7 +316,7 @@ def convert_level(contents):
 		"dangerMusic": "music_tracks/danger_music.json",
 		"colorGeneratorNormal": "default",
 		"colorGeneratorDanger": "danger",
-		"matchEffect": "match",
+		"matchEffect": "sphere_effects/match.json",
 		"objectives": [
 			{
 				"type": "destroyedSpheres",
@@ -325,30 +325,24 @@ def convert_level(contents):
 		],
 		"pathsBehavior": [
 			{
-				"colorRules": {
+				"trainRules": {
 					"type": "random",
 					"colors": [],
 					"colorStreak": 0,
-					"forceDifferentColor": True
-				},
-				"spawnRules": {
-					"type": "waves",
-					"amount": 0
+					"forceDifferentColor": True,
+					"length": 0
 				},
 				"spawnDistance": 0,
 				"dangerDistance": 0.75,
 				"speeds": []
 			},
 			{
-				"colorRules": {
+				"trainRules": {
 					"type": "random",
 					"colors": [],
 					"colorStreak": 0,
-					"forceDifferentColor": True
-				},
-				"spawnRules": {
-					"type": "waves",
-					"amount": 0
+					"forceDifferentColor": True,
+					"length": 0
 				},
 				"spawnDistance": 0,
 				"dangerDistance": 0.75,
@@ -377,16 +371,16 @@ def convert_level(contents):
 		if words[0] == "mapFile":
 			level_data["map"] = convert_pascal(" ".join(words[2:])[1:-1]).replace("'", "")
 		if words[0][:11] == "spawnColor_" and words[2] == "true":
-			level_data["pathsBehavior"][0]["colorRules"]["colors"].append(int(words[0][11:]))
-			level_data["pathsBehavior"][1]["colorRules"]["colors"].append(int(words[0][11:]))
+			level_data["pathsBehavior"][0]["trainRules"]["colors"].append(int(words[0][11:]))
+			level_data["pathsBehavior"][1]["trainRules"]["colors"].append(int(words[0][11:]))
 		if words[0] == "spawnStreak":
-			level_data["pathsBehavior"][0]["colorRules"]["colorStreak"] = 0.45 #min(int(words[2]) / 300, 0.45)
-			level_data["pathsBehavior"][1]["colorRules"]["colorStreak"] = 0.45 #min(int(words[2]) / 300, 0.45)
+			level_data["pathsBehavior"][0]["trainRules"]["colorStreak"] = 0.45 #min(int(words[2]) / 300, 0.45)
+			level_data["pathsBehavior"][1]["trainRules"]["colorStreak"] = 0.45 #min(int(words[2]) / 300, 0.45)
 		if words[0] == "winCondition":
 			level_data["objectives"][0]["target"] = int(words[2])
 		if words[0] == "viseGroupCount":
-			level_data["pathsBehavior"][0]["spawnRules"]["amount"] = int(words[2])
-			level_data["pathsBehavior"][1]["spawnRules"]["amount"] = int(words[2])
+			level_data["pathsBehavior"][0]["trainRules"]["length"] = int(words[2])
+			level_data["pathsBehavior"][1]["trainRules"]["length"] = int(words[2])
 		if words[0] == "viseSpawnDistance_1":
 			level_data["pathsBehavior"][0]["spawnDistance"] = float(words[2])
 		if words[0] == "viseSpawnDistance_2":
@@ -786,8 +780,8 @@ def convert_psys(contents):
 			sprite_contents = get_contents(words[2])
 			spawner_data["particleData"]["animationFrameCount"] = int(sprite_contents[4])
 		if words[0] == "Palette":
-			image_file = words[2].replace("\\", "/").replace(FDATA + "/bitmaps", "images").replace(".jpg", ".png")
-			color_palette_file = words[2].replace("\\", "/").replace(FDATA + "/bitmaps", "color_palettes")
+			image_file = words[2].replace("\\", "/").replace("data/bitmaps", "images").replace(".jpg", ".png")
+			color_palette_file = words[2].replace("\\", "/").replace("data/bitmaps", "color_palettes")
 			spawner_data["particleData"]["colorPalette"] = color_palette_file[:-4] + ".json"
 			# Create a new Color Palette alongside.
 			generate_color_palette(image_file)

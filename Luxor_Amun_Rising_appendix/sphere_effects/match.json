@@ -1,5 +1,5 @@
 {
-    "$schema": "../../../../schemas/config/sphere_effect.json",
+    "$schema": "../../../schemas/sphere_effect.json",
     "time": 0,
     "infectionSize": 0,
     "infectionTime": 0,
