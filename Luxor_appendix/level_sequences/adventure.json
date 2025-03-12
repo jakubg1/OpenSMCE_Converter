@@ -11,7 +11,7 @@
             "type": "gameplay",
             "warmupTime": 2,
             "previewFirstShooterColor": false,
-            "onFail": 9
+            "onFail": 10
         },
         {
             "type": "waitForCollectibles"
