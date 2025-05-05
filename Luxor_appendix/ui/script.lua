@@ -931,8 +931,8 @@ function c.tick(f)
           local levelCoins = tostring(f.levelGetCoins())
           local levelGems = tostring(f.levelGetGems())
           local levelChains = tostring(f.levelGetChains())
-          local levelMaxCombo = tostring(f.levelGetMaxCombo())
-          local levelMaxChain = tostring(f.levelGetMaxChain())
+          local levelMaxCombo = tostring(f.levelGetMaxStreak())
+          local levelMaxChain = tostring(f.levelGetMaxCascade())
 
           c.Hud_Progress.widget.valueData = levelProgress
       		if c.Hud_Progress.widget.value == 1 then

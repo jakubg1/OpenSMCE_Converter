@@ -87,7 +87,7 @@
         "sphereFill": "sound_events/bullet_reload.json"
     },
     "speedShotParticle": "particles/speed_shot_beam.json",
-    "shootSpeed": 1000,
+    "shotSpeed": 1000,
     "shotCooldownFade": 0.1,
     "destroySphereOnFail": true,
     "hitboxSize": {

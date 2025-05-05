@@ -1,16 +1,22 @@
 {
-    "$schema": "../../../../schemas/config/sphere.json",
-    "sprite": "sprites/game/ball_fire.json",
-    "spriteAnimationSpeed": 16,
+    "$schema": "../../../schemas/sphere.json",
+    "sprites": [
+        {
+            "sprite": "sprites/game/ball_fire.json",
+            "animationSpeed": 16,
+            "rotate": false
+        }
+    ],
+    "shadowSprite": "sprites/game/ball_shadow.json",
     "idleParticle": "particles/idle_ball_bomb.json",
     "destroyParticle": "particles/collapse_ball_bomb.json",
-    "color": "images/powerups/fire_pal.png",
-    "colorSpeed": 64,
-    "interchangeable": true,
-    "shootBehavior": {
+    "colorPalette": "images/powerups/fire_pal.png",
+    "colorPaletteSpeed": 64,
+    "swappable": true,
+    "shotBehavior": {
         "type": "normal"
     },
-    "shootSound": "sound_events/launch_fireball.json",
+    "shotSound": "sound_events/launch_fireball.json",
     "hitBehavior": {
         "type": "destroySpheres",
         "selector": "sphere_selectors/fireball.json",

@@ -9,9 +9,9 @@
     "levelLossProtection": true,
     "immobile": false,
     "fragile": false,
-    "canBoostCombo": true,
-    "canBoostChain": true,
-    "applyChainMultiplier": true,
-    "canKeepCombo": true,
-    "causeCheck": true
+    "canBoostStreak": true,
+    "canBoostCascade": true,
+    "canKeepCascade": true,
+    "causeCheck": true,
+    "destroyChainedSpheres": false
 }

@@ -1,0 +1,36 @@
+{
+    "$schema": "../../../schemas/sphere.json",
+    "sprites": [
+        {
+            "sprite": "sprites/game/ball_wild.json",
+            "animationSpeed": 16,
+            "rotate": false
+        }
+    ],
+    "shadowSprite": "sprites/game/ball_shadow.json",
+    "idleParticle": "particles/idle_ball_wild.json",
+    "destroyParticle": "particles/collapse_wild.json",
+    "colorPalette": "images/powerups/wild_pal.png",
+    "colorPaletteSpeed": 64,
+    "swappable": true,
+    "shotBehavior": {
+        "type": "normal"
+    },
+    "shotSound": "sound_events/launch_wild.json",
+    "hitBehavior": {
+        "type": "normal"
+    },
+    "hitSound": "sound_events/collide_spheres_shot.json",
+    "matches": [
+        -1,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+    ]
+}

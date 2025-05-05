@@ -1,0 +1,17 @@
+{
+    "$schema": "../../../schemas/sprite_atlas.json",
+    "sprites": [
+        "sprites/game/ball_1.json",
+        "sprites/game/ball_2.json",
+        "sprites/game/ball_3.json",
+        "sprites/game/ball_4.json",
+        "sprites/game/ball_5.json",
+        "sprites/game/ball_6.json",
+        "sprites/game/ball_7.json",
+        "sprites/game/vise.json",
+        "sprites/game/ball_wild.json",
+        "sprites/game/ball_fire.json",
+        "sprites/game/ball_lightning.json",
+        "sprites/game/ball_shadow.json"
+    ]
+}

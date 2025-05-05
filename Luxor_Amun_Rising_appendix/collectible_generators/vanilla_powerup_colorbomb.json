@@ -7,7 +7,7 @@
         "type": "collectible",
         "name": "colorbomb_1",
         "conditions": [
-          "${[color.1] > 0}"
+          "${[color.1|0] > 0}"
         ]
       }
     },
@@ -16,7 +16,7 @@
         "type": "collectible",
         "name": "colorbomb_2",
         "conditions": [
-          "${[color.2] > 0}"
+          "${[color.2|0] > 0}"
         ]
       }
     },
@@ -25,7 +25,7 @@
         "type": "collectible",
         "name": "colorbomb_3",
         "conditions": [
-          "${[color.3] > 0}"
+          "${[color.3|0] > 0}"
         ]
       }
     },
@@ -34,7 +34,7 @@
         "type": "collectible",
         "name": "colorbomb_4",
         "conditions": [
-          "${[color.4] > 0}"
+          "${[color.4|0] > 0}"
         ]
       }
     },
@@ -43,7 +43,7 @@
         "type": "collectible",
         "name": "colorbomb_5",
         "conditions": [
-          "${[color.5] > 0}"
+          "${[color.5|0] > 0}"
         ]
       }
     },
@@ -52,7 +52,7 @@
         "type": "collectible",
         "name": "colorbomb_6",
         "conditions": [
-          "${[color.6] > 0}"
+          "${[color.6|0] > 0}"
         ]
       }
     },
@@ -61,7 +61,7 @@
         "type": "collectible",
         "name": "colorbomb_7",
         "conditions": [
-          "${[color.7] > 0}"
+          "${[color.7|0] > 0}"
         ]
       }
     }

@@ -13,7 +13,7 @@
             "type": "speedOverride",
             "speedBase": 0,
             "speedMultiplier": 0,
-            "decceleration": 200,
+            "decceleration": 100,
             "time": 3
         }
     ]

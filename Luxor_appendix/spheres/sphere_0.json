@@ -1,7 +1,11 @@
 {
-    "$schema": "../../../../schemas/config/sphere.json",
-    "sprite": "sprites/game/vise.json",
-    "idleParticle": null,
+    "$schema": "../../../schemas/sphere.json",
+    "sprites": [
+        {
+            "sprite": "sprites/game/vise.json"
+        }
+    ],
+    "shadowSprite": "sprites/game/ball_shadow.json",
     "destroyParticle": "particles/collapse_vise.json",
     "destroyCollectible": "collectible_generators/vanilla_scarab.json",
     "destroySound": "sound_events/collapse_scarab.json",
@@ -10,11 +14,11 @@
         "g": 1,
         "b": 1
     },
-    "interchangeable": true,
-    "shootBehavior": {
+    "swappable": true,
+    "shotBehavior": {
         "type": "normal"
     },
-    "shootSound": "sound_events/launch_sphere.json",
+    "shotSound": "sound_events/launch_sphere.json",
     "hitBehavior": {
         "type": "normal"
     },

@@ -22,6 +22,10 @@
         "joinSound": "sound_events/collide_spheres_path.json",
         "newGroupSound": "sound_events/spawn_new_group.json",
         "noScarabs": false,
-        "permitLongMatches": true
+        "permitLongMatches": true,
+        "cascadeScope": "path",
+        "foulDestroySpheres": {
+            "type": "atEnd"
+        }
     }
 }

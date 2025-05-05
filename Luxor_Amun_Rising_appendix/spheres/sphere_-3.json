@@ -1,7 +1,13 @@
 {
-    "$schema": "../../../../schemas/config/sphere.json",
-    "sprite": "sprites/game/ball_lightning.json",
-    "spriteAnimationSpeed": 16,
+    "$schema": "../../../schemas/sphere.json",
+    "sprites": [
+        {
+            "sprite": "sprites/game/ball_lightning.json",
+            "animationSpeed": 16,
+            "rotate": false
+        }
+    ],
+    "shadowSprite": "sprites/game/ball_shadow.json",
     "idleParticle": "particles/idle_ball_lightning.json",
     "destroyParticle": "particles/lightning_beam.json",
     "color": {
@@ -9,19 +15,19 @@
         "g": 0.8,
         "b": 1
     },
-    "interchangeable": true,
-    "shootBehavior": {
+    "swappable": true,
+    "shotBehavior": {
         "type": "destroySpheres",
         "selector": "sphere_selectors/lightning.json",
         "scoreEvent": "score_events/lightning.json"
     },
-    "shootEffects": [
+    "shotEffects": [
         {
-            "type": "setCombo",
-            "combo": 0
+            "type": "setStreak",
+            "streak": 0
         }
     ],
-    "shootSound": "sound_events/launch_lightning.json",
+    "shotSound": "sound_events/launch_lightning.json",
     "hitBehavior": {
         "type": "normal"
     },
