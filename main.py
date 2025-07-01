@@ -168,14 +168,34 @@ def resolve_path_music(path):
 	return fix_path(path).replace(FDATA + "/music", "music")
 
 #
-#  If both values are identical, return that value. If not, return a random value generator dictionary, eg. {"type":"randomInt","min":1,"max":3}
+#  If both values are identical, return that value. If not, return a random value generator, eg. "randomi(1, 3)"
+#
+
+def collapse_random_base(a, b, is_float):
+	if a == b:
+		return a
+	else:
+		return ("randomf" if is_float else "randomi") + "(" + str(a) + ", " + str(b) + ")"
+
+#
+#  If both values are identical, return that value. If not, return a random value generator expression, eg. "${randomi(1, 3)}"
 #
 
 def collapse_random_number(a, b, is_float):
 	if a == b:
 		return a
 	else:
-		return {"type":"randomFloat" if is_float else "randomInt","min":a,"max":b}
+		return "${" + collapse_random_base(a, b, is_float) + "}"
+
+#
+#  If both vectors are identical, return it, eg. {"x": 1, "y": 3}. If not, return a random value generator expression, eg. "${vec2(randomf(0, 1), randomf(-1, 1))}"
+#
+
+def collapse_random_vector(ax, ay, bx, by, is_float):
+	if ax == bx and ay == by:
+		return {"x": ax, "y": ay}
+	else:
+		return "${vec2(" + str(collapse_random_base(ax, bx, is_float)) + ", " + str(collapse_random_base(ay, by, is_float)) + ")}"
 
 #
 #  Changes i.e. "level_1_1" to "level_101".
@@ -309,13 +329,17 @@ def convert_path(contents):
 
 def convert_level(contents):
 	level_data = {
-		"$schema": "../../../../schemas/config/level.json",
+		"$schema": "../../../schemas/level.json",
 		"map": "",
 		"sequence": "level_sequences/adventure.json",
 		"music": "music_tracks/level_music.json",
 		"dangerMusic": "music_tracks/danger_music.json",
-		"colorGeneratorNormal": "default",
-		"colorGeneratorDanger": "danger",
+		"dangerSound": "sound_events/warning.json",
+		"warmupLoopSound": "sound_events/spheres_roll.json",
+		"failSound": "sound_events/foul.json",
+		"failLoopSound": "sound_events/spheres_roll.json",
+		"colorGeneratorNormal": "color_generators/default.json",
+		"colorGeneratorDanger": "color_generators/danger.json",
 		"matchEffect": "sphere_effects/match.json",
 		"objectives": [
 			{
@@ -374,8 +398,8 @@ def convert_level(contents):
 			level_data["pathsBehavior"][0]["trainRules"]["colors"].append(int(words[0][11:]))
 			level_data["pathsBehavior"][1]["trainRules"]["colors"].append(int(words[0][11:]))
 		if words[0] == "spawnStreak":
-			level_data["pathsBehavior"][0]["trainRules"]["colorStreak"] = 0.45 #min(int(words[2]) / 300, 0.45)
-			level_data["pathsBehavior"][1]["trainRules"]["colorStreak"] = 0.45 #min(int(words[2]) / 300, 0.45)
+			level_data["pathsBehavior"][0]["trainRules"]["colorStreak"] = 0.5 #min(int(words[2]) / 300, 0.5)
+			level_data["pathsBehavior"][1]["trainRules"]["colorStreak"] = 0.5 #min(int(words[2]) / 300, 0.5)
 		if words[0] == "winCondition":
 			level_data["objectives"][0]["target"] = int(words[2])
 		if words[0] == "viseGroupCount":
@@ -665,7 +689,7 @@ def convert_ui(contents, rule_table, name = "root"):
 
 def convert_psys(contents):
 	particle_data = {
-		"$schema": "../../../schemas/particle.json",
+		"$schema": "../../../schemas/particle_effect.json",
 		"emitters": []
 	}
 
@@ -703,19 +727,21 @@ def convert_psys(contents):
 			if words[0] == "Emitter":
 				spawner_name = words[1]
 				spawner_data = {
-					"name":spawner_name,
+					#"name":spawner_name,
 					"pos":{"x":0,"y":0},
 					"speed":{"x":0,"y":0},
 					"acceleration":{"x":0,"y":0},
 					"lifespan":None,
 					"spawnCount":1,
 					"spawnMax":1,
-					"spawnDelay":None,
+					#"spawnDelay":None,
 					"particleData":{
-						"speedMode":"loose",
+						"movement":{
+							"type":"loose",
+							"speed":{"x":0,"y":0},
+							"acceleration":{"x":0,"y":0}
+						},
 						"spawnScale":{"x":0,"y":0},
-						"speed":{"x":0,"y":0},
-						"acceleration":{"x":0,"y":0},
 						"lifespan":None,
 						"sprite":"",
 						"animationFrameCount":1,
@@ -724,9 +750,7 @@ def convert_psys(contents):
 						"animationFrameRandom":False,
 						"fadeInPoint":0,
 						"fadeOutPoint":1,
-						"posRelative":False,
-						"rainbow":False,
-						"rainbowSpeed":0
+						"posRelative":False
 					}
 				}
 			else:
@@ -735,12 +759,9 @@ def convert_psys(contents):
 
 		if words[0] == "}":
 			spawner_data["particleData"]["lifespan"] = collapse_random_number(lifespan_min, lifespan_max, True)
-			spawner_data["particleData"]["spawnScale"]["x"] = collapse_random_number(spawn_radius_min_x, spawn_radius_max_x, True)
-			spawner_data["particleData"]["spawnScale"]["y"] = collapse_random_number(spawn_radius_min_y, spawn_radius_max_y, True)
-			spawner_data["particleData"]["speed"]["x"] = collapse_random_number(start_vel_min_x, start_vel_max_x, True)
-			spawner_data["particleData"]["speed"]["y"] = collapse_random_number(start_vel_min_y, start_vel_max_y, True)
-			spawner_data["speed"]["x"] = collapse_random_number(emitter_vel_min_x, emitter_vel_max_x, True)
-			spawner_data["speed"]["y"] = collapse_random_number(emitter_vel_min_y, emitter_vel_max_y, True)
+			spawner_data["particleData"]["spawnScale"] = collapse_random_vector(spawn_radius_min_x, spawn_radius_min_y, spawn_radius_max_x, spawn_radius_max_y, True)
+			spawner_data["particleData"]["movement"]["speed"] = collapse_random_vector(start_vel_min_x, start_vel_min_y, start_vel_max_x, start_vel_max_y, True)
+			spawner_data["speed"] = collapse_random_vector(emitter_vel_min_x, emitter_vel_min_y, emitter_vel_max_x, emitter_vel_max_y, True)
 
 			if "EF_LIFESPAN_INFINITE" in spawner_flags:
 				spawner_data["particleData"]["lifespan"] = None
@@ -749,19 +770,19 @@ def convert_psys(contents):
 			if "EF_POS_RELATIVE" in spawner_flags:
 				spawner_data["particleData"]["posRelative"] = True
 			if "EF_VEL_POSRELATIVE" in spawner_flags:
-				spawner_data["particleData"]["speedMode"] = "radius"
+				spawner_data["particleData"]["movement"]["type"] = "radius"
 			if "EF_SPRITE_ANIM_LOOP" in spawner_flags:
 				spawner_data["particleData"]["animationLoop"] = True
 			if "EF_SPRITE_RANDOM_FRAME" in spawner_flags:
 				spawner_data["particleData"]["animationFrameRandom"] = True
 			if "EF_VEL_DEVIATION" in spawner_flags:
 				spawner_data["particleData"]["directionDeviationTime"] = dev_delay
-				spawner_data["particleData"]["directionDeviationSpeed"] = collapse_random_number(dev_angle_min / 360 * math.pi * 2, dev_angle_max / 360 * math.pi * 2, True)
+				spawner_data["particleData"]["directionDeviationSpeed"] = collapse_random_number(dev_angle_min, dev_angle_max, True)
 			if "EF_VEL_ORBIT" in spawner_flags:
 				spawner_data["particleData"]["posRelative"] = True
-				spawner_data["particleData"]["speedMode"] = "circle"
-				spawner_data["particleData"]["speed"] = spawner_data["particleData"]["speed"]["x"]
-				spawner_data["particleData"]["acceleration"] = spawner_data["particleData"]["acceleration"]["x"]
+				spawner_data["particleData"]["movement"]["type"] = "circle"
+				spawner_data["particleData"]["movement"]["speed"] = spawner_data["particleData"]["movement"]["speed"]["x"]
+				spawner_data["particleData"]["movement"]["acceleration"] = spawner_data["particleData"]["movement"]["acceleration"]["x"]
 
 			particle_data["emitters"].append(spawner_data)
 			spawner_name = None
@@ -815,13 +836,13 @@ def convert_psys(contents):
 			start_vel_max_x = float(words[2])
 			start_vel_max_y = float(words[3])
 		if words[0] == "Acc":
-			spawner_data["particleData"]["acceleration"]["x"] = float(words[2])
-			spawner_data["particleData"]["acceleration"]["y"] = float(words[3])
+			spawner_data["particleData"]["movement"]["acceleration"]["x"] = float(words[2])
+			spawner_data["particleData"]["movement"]["acceleration"]["y"] = float(words[3])
 		if words[0] == "DevDelay":
 			dev_delay = float(words[2])
 		if words[0] == "DevAngle":
-			dev_angle_min = float(words[2])
-			dev_angle_max = float(words[3])
+			dev_angle_min = float(words[2]) / 360 * math.pi * 2
+			dev_angle_max = float(words[3]) / 360 * math.pi * 2
 		if words[0] == "EmitterVelMin":
 			emitter_vel_min_x = float(words[2])
 			emitter_vel_min_y = float(words[3])
@@ -979,16 +1000,16 @@ def convert_maps():
 
 ### Converts level files.
 ### Input: data/levels/*.lvl
-### Output: output/config/levels/*.json
+### Output: output/levels/*.json
 def convert_levels():
-	try_create_dir("output/config/levels/")
+	try_create_dir("output/levels/")
 
 	for r, d, f in os.walk(FDATA + "/levels"):
 		for file in f:
 			if file == "powerups.txt":
 				continue
 			print(file)
-			store_contents("output/config/levels/" + rename_level(file[:-4]) + ".json", convert_level(get_contents(FDATA + "/levels/" + file)))
+			store_contents("output/levels/" + rename_level(file[:-4]) + ".json", convert_level(get_contents(FDATA + "/levels/" + file)))
 
 
 

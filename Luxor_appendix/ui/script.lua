@@ -955,10 +955,9 @@ function c.tick(f)
       end
 
       -- New game
-      local newCheckpointID = f.configGetCheckpointID(c.newGameStage)
-      local newLevelID = f.configGetLevelID(newCheckpointID)
-      local newLevelData = f.configGetLevelData(newLevelID)
-      local newLevelName = f.configGetLevelName(newCheckpointID)
+      local newCheckpointID = f.configGetCheckpointID("level_sets/adventure.json", c.newGameStage)
+      local newLevelData = f.configGetLevelData("level_sets/adventure.json", newCheckpointID)
+      local newLevelName = f.configGetLevelName("level_sets/adventure.json", newCheckpointID)
       local newLevelMapName = f.configGetMapData(newLevelData.map).name
       local newStageName = c.stageNames[c.newGameStage]
   
@@ -1113,7 +1112,7 @@ function c.stageMapShow(f, advance)
     if advance then
       c.Banner_StageMap_Frame:scheduleFunction("showEnd",
       function()
-        if f.profileGetLevelN() == 88 or f.profileIsCheckpointUpcoming() then
+        if f.profileGetLevel() == 88 or f.profileIsCheckpointUpcoming() then
           c.Banner_StageMap_StageCompletePsys:show()
           c.Banner_StageMap_StageCompletePsys:scheduleFunction("particleDespawn",
           function()
@@ -1175,7 +1174,7 @@ function c.stageMapUpdateButtons(f)
     c.Banner_StageMap_Set:clean()
   end
 
-  local n = f.profileGetLevelN()
+  local n = f.profileGetLevel()
   for i, LevelButton in ipairs(c.LevelButtons) do
     if i < n then
       LevelButton:show()
@@ -1197,7 +1196,7 @@ function c.stageSelectShow(f)
   function()
     c.Main:clean()
     -- latest checkpoint will be selected by default
-    local checkpoints = f.profileGetUnlockedCheckpoints()
+    local checkpoints = f.profileGetUnlockedCheckpoints("level_sets/adventure.json")
     c.newGameStage = checkpoints[#checkpoints]
     --
     c.stageSelectUpdateButtons(f)
@@ -1212,7 +1211,7 @@ end
 function c.stageSelectUpdateButtons(f)
   c.Menu_StageSelect_StageButtons:show()
 
-  local n = f.configGetCheckpointLevel(c.newGameStage)
+  local n = f.configGetCheckpointLevel("level_sets/adventure.json", c.newGameStage)
   for i, LevelButton in ipairs(c.NewGameLevelButtons) do
     if i < n then
       LevelButton:show()
@@ -1227,7 +1226,7 @@ function c.stageSelectUpdateButtons(f)
 
   local s = c.newGameStage
   for i, StageButton in ipairs(c.NewGameStageButtons) do
-    StageButton:buttonSetEnabled(f.profileIsCheckpointUnlocked(i))
+    StageButton:buttonSetEnabled(f.profileIsCheckpointUnlocked("level_sets/adventure.json", i))
     StageButton.widget.clickedV = i == s
   end
   if s == 13 then

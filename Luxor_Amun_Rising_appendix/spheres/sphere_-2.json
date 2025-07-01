@@ -10,7 +10,7 @@
     "shadowSprite": "sprites/game/ball_shadow.json",
     "idleParticle": "particles/idle_ball_bomb.json",
     "destroyParticle": "particles/collapse_ball_bomb.json",
-    "colorPalette": "images/powerups/fire_pal.png",
+    "colorPalette": "color_palettes/powerups/fire_pal.json",
     "colorPaletteSpeed": 64,
     "swappable": true,
     "shotBehavior": {

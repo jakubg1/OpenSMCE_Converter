@@ -219,7 +219,7 @@
             "animations": {},
             "sounds": {},
             "layer": "MenuBackground",
-			"path": "config/levels/level_0.json"
+			"path": "levels/level_0.json"
         },
 		"Profile_Manage":"ui/profile_manage.json",
 		"Profile_Create":"ui/profile_create.json",

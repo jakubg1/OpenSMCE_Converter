@@ -1,5 +1,5 @@
 {
-    "$schema": "../../../../schemas/config/shooter.json",
+    "$schema": "../../../schemas/shooter.json",
     "movement": {
         "type": "linear",
         "xMin": 20,

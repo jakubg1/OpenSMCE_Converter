@@ -10,7 +10,7 @@
     "shadowSprite": "sprites/game/ball_shadow.json",
     "idleParticle": "particles/idle_ball_wild.json",
     "destroyParticle": "particles/collapse_wild.json",
-    "colorPalette": "images/powerups/wild_pal.png",
+    "colorPalette": "color_palettes/powerups/wild_pal.json",
     "colorPaletteSpeed": 64,
     "swappable": true,
     "shotBehavior": {

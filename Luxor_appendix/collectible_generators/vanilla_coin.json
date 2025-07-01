@@ -1,5 +1,5 @@
 {
     "$schema": "../../../schemas/collectible_generator.json",
     "type": "collectible",
-    "name": "coin"
+    "collectible": "collectibles/coin.json"
 }

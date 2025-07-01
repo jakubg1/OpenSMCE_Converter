@@ -1,7 +1,7 @@
 {
     "$schema": "../../schemas/config.json",
     "name": "Luxor Amun Rising",
-    "engineVersion": "v0.50.0",
+    "engineVersion": "v0.51.0",
     "nativeResolution": {
         "x": 800,
         "y": 600

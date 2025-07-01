@@ -5,49 +5,49 @@
     {
       "entry": {
         "type": "collectible",
-        "name": "wild"
+        "collectible": "collectibles/wild.json"
       },
       "weight": 1000
     },
     {
       "entry": {
         "type": "collectible",
-        "name": "fireball"
+        "collectible": "collectibles/fireball.json"
       },
       "weight": 500
     },
     {
       "entry": {
         "type": "collectible",
-        "name": "lightning"
+        "collectible": "collectibles/lightning.json"
       },
       "weight": 500
     },
     {
       "entry": {
         "type": "collectible",
-        "name": "stop"
+        "collectible": "collectibles/stop.json"
       },
       "weight": 1000
     },
     {
       "entry": {
         "type": "collectible",
-        "name": "slow"
+        "collectible": "collectibles/slow.json"
       },
       "weight": 1000
     },
     {
       "entry": {
         "type": "collectible",
-        "name": "reverse"
+        "collectible": "collectibles/reverse.json"
       },
       "weight": 1000
     },
     {
       "entry": {
         "type": "collectible",
-        "name": "speedshot"
+        "collectible": "collectibles/speedshot.json"
       },
       "weight": 1000
     },

@@ -1,8 +1,7 @@
 {
-    "$schema": "../../../schemas/particle.json",
+    "$schema": "../../../schemas/particle_effect.json",
     "emitters": [
         {
-            "name": "flash",
             "pos": {
                 "x": 110.0,
                 "y": 7.0
@@ -20,23 +19,18 @@
             "spawnMax": 15,
             "spawnDelay": 0.1,
             "particleData": {
-                "speedMode": "loose",
-                "spawnScale": {
-                    "x": {
-                        "type": "randomFloat",
-                        "min": -100.0,
-                        "max": 100.0
+                "movement": {
+                    "type": "loose",
+                    "speed": {
+                        "x": 0.0,
+                        "y": 0.0
                     },
-                    "y": 0.0
+                    "acceleration": {
+                        "x": 0.0,
+                        "y": 0.0
+                    }
                 },
-                "speed": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "acceleration": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
+                "spawnScale": "${vec2(randomf(-100, 100), 0)}",
                 "lifespan": 0.5,
                 "sprite": "sprites/particles/flash.json",
                 "animationFrameCount": 8,
@@ -45,9 +39,7 @@
                 "animationFrameRandom": false,
                 "fadeInPoint": 0.0,
                 "fadeOutPoint": 0.85,
-                "posRelative": true,
-                "rainbow": false,
-                "rainbowSpeed": 0
+                "posRelative": true
             }
         }
     ]

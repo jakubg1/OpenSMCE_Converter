@@ -5,7 +5,7 @@
     {
       "entry": {
         "type": "collectible",
-        "name": "colorbomb_1",
+        "collectible": "collectibles/colorbomb_1.json",
         "conditions": [
           "${[color.1|0] > 0}"
         ]
@@ -14,7 +14,7 @@
     {
       "entry": {
         "type": "collectible",
-        "name": "colorbomb_2",
+        "collectible": "collectibles/colorbomb_2.json",
         "conditions": [
           "${[color.2|0] > 0}"
         ]
@@ -23,7 +23,7 @@
     {
       "entry": {
         "type": "collectible",
-        "name": "colorbomb_3",
+        "collectible": "collectibles/colorbomb_3.json",
         "conditions": [
           "${[color.3|0] > 0}"
         ]
@@ -32,7 +32,7 @@
     {
       "entry": {
         "type": "collectible",
-        "name": "colorbomb_4",
+        "collectible": "collectibles/colorbomb_4.json",
         "conditions": [
           "${[color.4|0] > 0}"
         ]
@@ -41,7 +41,7 @@
     {
       "entry": {
         "type": "collectible",
-        "name": "colorbomb_5",
+        "collectible": "collectibles/colorbomb_5.json",
         "conditions": [
           "${[color.5|0] > 0}"
         ]
@@ -50,7 +50,7 @@
     {
       "entry": {
         "type": "collectible",
-        "name": "colorbomb_6",
+        "collectible": "collectibles/colorbomb_6.json",
         "conditions": [
           "${[color.6|0] > 0}"
         ]
@@ -59,7 +59,7 @@
     {
       "entry": {
         "type": "collectible",
-        "name": "colorbomb_7",
+        "collectible": "collectibles/colorbomb_7.json",
         "conditions": [
           "${[color.7|0] > 0}"
         ]

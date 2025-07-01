@@ -5,7 +5,7 @@
         {
             "entry": {
                 "type": "collectible",
-                "name": "gem_1",
+                "collectible": "collectibles/gem_1.json",
                 "conditions": [
                     "${[generator.latestCheckpoint] <= 1}"
                 ]
@@ -14,7 +14,7 @@
         {
             "entry": {
                 "type": "collectible",
-                "name": "gem_2",
+                "collectible": "collectibles/gem_2.json",
                 "conditions": [
                     "${[generator.latestCheckpoint] <= 2}"
                 ]
@@ -23,7 +23,7 @@
         {
             "entry": {
                 "type": "collectible",
-                "name": "gem_3",
+                "collectible": "collectibles/gem_3.json",
                 "conditions": [
                     "${[generator.latestCheckpoint] <= 3}"
                 ]
@@ -32,7 +32,7 @@
         {
             "entry": {
                 "type": "collectible",
-                "name": "gem_4",
+                "collectible": "collectibles/gem_4.json",
                 "conditions": [
                     "${[generator.latestCheckpoint] >= 2 && [generator.latestCheckpoint] <= 4}"
                 ]
@@ -41,7 +41,7 @@
         {
             "entry": {
                 "type": "collectible",
-                "name": "gem_5",
+                "collectible": "collectibles/gem_5.json",
                 "conditions": [
                     "${[generator.latestCheckpoint] >= 3 && [generator.latestCheckpoint] <= 5}"
                 ]
@@ -50,7 +50,7 @@
         {
             "entry": {
                 "type": "collectible",
-                "name": "gem_6",
+                "collectible": "collectibles/gem_6.json",
                 "conditions": [
                     "${[generator.latestCheckpoint] >= 4 && [generator.latestCheckpoint] <= 6}"
                 ]
@@ -59,7 +59,7 @@
         {
             "entry": {
                 "type": "collectible",
-                "name": "gem_7",
+                "collectible": "collectibles/gem_7.json",
                 "conditions": [
                     "${[generator.latestCheckpoint] >= 5 && [generator.latestCheckpoint] <= 7}"
                 ]
@@ -68,7 +68,7 @@
         {
             "entry": {
                 "type": "collectible",
-                "name": "gem_8",
+                "collectible": "collectibles/gem_8.json",
                 "conditions": [
                     "${[generator.latestCheckpoint] >= 6 && [generator.latestCheckpoint] <= 8}"
                 ]
@@ -77,7 +77,7 @@
         {
             "entry": {
                 "type": "collectible",
-                "name": "gem_9",
+                "collectible": "collectibles/gem_9.json",
                 "conditions": [
                     "${[generator.latestCheckpoint] >= 7 && [generator.latestCheckpoint] <= 9}"
                 ]
@@ -86,7 +86,7 @@
         {
             "entry": {
                 "type": "collectible",
-                "name": "gem_10",
+                "collectible": "collectibles/gem_10.json",
                 "conditions": [
                     "${[generator.latestCheckpoint] >= 8 && [generator.latestCheckpoint] <= 10}"
                 ]
@@ -95,7 +95,7 @@
         {
             "entry": {
                 "type": "collectible",
-                "name": "gem_11",
+                "collectible": "collectibles/gem_11.json",
                 "conditions": [
                     "${[generator.latestCheckpoint] >= 9 && [generator.latestCheckpoint] <= 11}"
                 ]
@@ -104,7 +104,7 @@
         {
             "entry": {
                 "type": "collectible",
-                "name": "gem_12",
+                "collectible": "collectibles/gem_12.json",
                 "conditions": [
                     "${[generator.latestCheckpoint] >= 10 && [generator.latestCheckpoint] <= 12}"
                 ]
@@ -113,7 +113,7 @@
         {
             "entry": {
                 "type": "collectible",
-                "name": "gem_13",
+                "collectible": "collectibles/gem_13.json",
                 "conditions": [
                     "${[generator.latestCheckpoint] >= 11}"
                 ]
@@ -122,7 +122,7 @@
         {
             "entry": {
                 "type": "collectible",
-                "name": "gem_14",
+                "collectible": "collectibles/gem_14.json",
                 "conditions": [
                     "${[generator.latestCheckpoint] >= 12}"
                 ]
@@ -131,7 +131,7 @@
         {
             "entry": {
                 "type": "collectible",
-                "name": "gem_15",
+                "collectible": "collectibles/gem_15.json",
                 "conditions": [
                     "${[generator.latestCheckpoint] >= 13}"
                 ]

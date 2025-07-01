@@ -1,5 +1,5 @@
 {
-    "$schema": "../../../schemas/particle.json",
+    "$schema": "../../../schemas/particle_effect.json",
     "emitters": [
         {
             "pos": {
@@ -17,18 +17,19 @@
             "lifespan": 0.5,
             "spawnCount": 1,
             "spawnMax": 1,
-            "spawnDelay": null,
             "particleData": {
-                "speedMode": "loose",
+                "movement": {
+                    "type": "loose",
+                    "speed": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "acceleration": {
+                        "x": 0.0,
+                        "y": 0.0
+                    }
+                },
                 "spawnScale": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "speed": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "acceleration": {
                     "x": 0.0,
                     "y": 0.0
                 },

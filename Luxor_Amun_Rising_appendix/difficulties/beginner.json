@@ -1,10 +1,6 @@
 {
     "$schema": "../../../schemas/difficulty.json",
-    "speedMultiplier": 0.5,
-    "scoreMultiplier": 1,
-    "lifeConfig": {
-        "type": "coins",
-        "coinsPerLife": 30,
-        "startingLives": 2
-    }
+    "_extends": "difficulties/base.json",
+    "speedMultiplier": 0.6,
+    "scoreMultiplier": 1
 }

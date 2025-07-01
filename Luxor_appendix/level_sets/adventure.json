@@ -1,9 +1,9 @@
 {
-    "$schema": "../../../schemas/config/level_set.json",
+    "$schema": "../../../schemas/level_set.json",
     "levelOrder": [
         {
             "type": "level",
-            "level": 101,
+            "level": "levels/level_101.json",
             "name": "1-1",
             "checkpoint": {
                 "id": 1,
@@ -12,17 +12,17 @@
         },
         {
             "type": "level",
-            "level": 102,
+            "level": "levels/level_102.json",
             "name": "1-2"
         },
         {
             "type": "level",
-            "level": 103,
+            "level": "levels/level_103.json",
             "name": "1-3"
         },
         {
             "type": "level",
-            "level": 104,
+            "level": "levels/level_104.json",
             "name": "1-4",
             "unlockCheckpointsOnBeat": [
                 2
@@ -30,7 +30,7 @@
         },
         {
             "type": "level",
-            "level": 201,
+            "level": "levels/level_201.json",
             "name": "2-1",
             "checkpoint": {
                 "id": 2
@@ -38,22 +38,22 @@
         },
         {
             "type": "level",
-            "level": 202,
+            "level": "levels/level_202.json",
             "name": "2-2"
         },
         {
             "type": "level",
-            "level": 203,
+            "level": "levels/level_203.json",
             "name": "2-3"
         },
         {
             "type": "level",
-            "level": 204,
+            "level": "levels/level_204.json",
             "name": "2-4"
         },
         {
             "type": "level",
-            "level": 205,
+            "level": "levels/level_205.json",
             "name": "2-5",
             "unlockCheckpointsOnBeat": [
                 3
@@ -61,7 +61,7 @@
         },
         {
             "type": "level",
-            "level": 301,
+            "level": "levels/level_301.json",
             "name": "3-1",
             "checkpoint": {
                 "id": 3
@@ -69,27 +69,27 @@
         },
         {
             "type": "level",
-            "level": 302,
+            "level": "levels/level_302.json",
             "name": "3-2"
         },
         {
             "type": "level",
-            "level": 303,
+            "level": "levels/level_303.json",
             "name": "3-3"
         },
         {
             "type": "level",
-            "level": 304,
+            "level": "levels/level_304.json",
             "name": "3-4"
         },
         {
             "type": "level",
-            "level": 305,
+            "level": "levels/level_305.json",
             "name": "3-5"
         },
         {
             "type": "level",
-            "level": 306,
+            "level": "levels/level_306.json",
             "name": "3-6",
             "unlockCheckpointsOnBeat": [
                 4
@@ -97,7 +97,7 @@
         },
         {
             "type": "level",
-            "level": 401,
+            "level": "levels/level_401.json",
             "name": "4-1",
             "checkpoint": {
                 "id": 4
@@ -105,22 +105,22 @@
         },
         {
             "type": "level",
-            "level": 402,
+            "level": "levels/level_402.json",
             "name": "4-2"
         },
         {
             "type": "level",
-            "level": 403,
+            "level": "levels/level_403.json",
             "name": "4-3"
         },
         {
             "type": "level",
-            "level": 404,
+            "level": "levels/level_404.json",
             "name": "4-4"
         },
         {
             "type": "level",
-            "level": 405,
+            "level": "levels/level_405.json",
             "name": "4-5",
             "unlockCheckpointsOnBeat": [
                 5
@@ -128,7 +128,7 @@
         },
         {
             "type": "level",
-            "level": 501,
+            "level": "levels/level_501.json",
             "name": "5-1",
             "checkpoint": {
                 "id": 5
@@ -136,27 +136,27 @@
         },
         {
             "type": "level",
-            "level": 502,
+            "level": "levels/level_502.json",
             "name": "5-2"
         },
         {
             "type": "level",
-            "level": 503,
+            "level": "levels/level_503.json",
             "name": "5-3"
         },
         {
             "type": "level",
-            "level": 504,
+            "level": "levels/level_504.json",
             "name": "5-4"
         },
         {
             "type": "level",
-            "level": 505,
+            "level": "levels/level_505.json",
             "name": "5-5"
         },
         {
             "type": "level",
-            "level": 506,
+            "level": "levels/level_506.json",
             "name": "5-6",
             "unlockCheckpointsOnBeat": [
                 6
@@ -164,7 +164,7 @@
         },
         {
             "type": "level",
-            "level": 601,
+            "level": "levels/level_601.json",
             "name": "6-1",
             "checkpoint": {
                 "id": 6
@@ -172,32 +172,32 @@
         },
         {
             "type": "level",
-            "level": 602,
+            "level": "levels/level_602.json",
             "name": "6-2"
         },
         {
             "type": "level",
-            "level": 603,
+            "level": "levels/level_603.json",
             "name": "6-3"
         },
         {
             "type": "level",
-            "level": 604,
+            "level": "levels/level_604.json",
             "name": "6-4"
         },
         {
             "type": "level",
-            "level": 605,
+            "level": "levels/level_605.json",
             "name": "6-5"
         },
         {
             "type": "level",
-            "level": 606,
+            "level": "levels/level_606.json",
             "name": "6-6"
         },
         {
             "type": "level",
-            "level": 607,
+            "level": "levels/level_607.json",
             "name": "6-7",
             "unlockCheckpointsOnBeat": [
                 7
@@ -205,7 +205,7 @@
         },
         {
             "type": "level",
-            "level": 701,
+            "level": "levels/level_701.json",
             "name": "7-1",
             "checkpoint": {
                 "id": 7
@@ -213,27 +213,27 @@
         },
         {
             "type": "level",
-            "level": 702,
+            "level": "levels/level_702.json",
             "name": "7-2"
         },
         {
             "type": "level",
-            "level": 703,
+            "level": "levels/level_703.json",
             "name": "7-3"
         },
         {
             "type": "level",
-            "level": 704,
+            "level": "levels/level_704.json",
             "name": "7-4"
         },
         {
             "type": "level",
-            "level": 705,
+            "level": "levels/level_705.json",
             "name": "7-5"
         },
         {
             "type": "level",
-            "level": 706,
+            "level": "levels/level_706.json",
             "name": "7-6",
             "unlockCheckpointsOnBeat": [
                 8
@@ -241,7 +241,7 @@
         },
         {
             "type": "level",
-            "level": 801,
+            "level": "levels/level_801.json",
             "name": "8-1",
             "checkpoint": {
                 "id": 8
@@ -249,32 +249,32 @@
         },
         {
             "type": "level",
-            "level": 802,
+            "level": "levels/level_802.json",
             "name": "8-2"
         },
         {
             "type": "level",
-            "level": 803,
+            "level": "levels/level_803.json",
             "name": "8-3"
         },
         {
             "type": "level",
-            "level": 804,
+            "level": "levels/level_804.json",
             "name": "8-4"
         },
         {
             "type": "level",
-            "level": 805,
+            "level": "levels/level_805.json",
             "name": "8-5"
         },
         {
             "type": "level",
-            "level": 806,
+            "level": "levels/level_806.json",
             "name": "8-6"
         },
         {
             "type": "level",
-            "level": 807,
+            "level": "levels/level_807.json",
             "name": "8-7",
             "unlockCheckpointsOnBeat": [
                 9
@@ -282,7 +282,7 @@
         },
         {
             "type": "level",
-            "level": 901,
+            "level": "levels/level_901.json",
             "name": "9-1",
             "checkpoint": {
                 "id": 9
@@ -290,37 +290,37 @@
         },
         {
             "type": "level",
-            "level": 902,
+            "level": "levels/level_902.json",
             "name": "9-2"
         },
         {
             "type": "level",
-            "level": 903,
+            "level": "levels/level_903.json",
             "name": "9-3"
         },
         {
             "type": "level",
-            "level": 904,
+            "level": "levels/level_904.json",
             "name": "9-4"
         },
         {
             "type": "level",
-            "level": 905,
+            "level": "levels/level_905.json",
             "name": "9-5"
         },
         {
             "type": "level",
-            "level": 906,
+            "level": "levels/level_906.json",
             "name": "9-6"
         },
         {
             "type": "level",
-            "level": 907,
+            "level": "levels/level_907.json",
             "name": "9-7"
         },
         {
             "type": "level",
-            "level": 908,
+            "level": "levels/level_908.json",
             "name": "9-8",
             "unlockCheckpointsOnBeat": [
                 10
@@ -328,7 +328,7 @@
         },
         {
             "type": "level",
-            "level": 1001,
+            "level": "levels/level_1001.json",
             "name": "10-1",
             "checkpoint": {
                 "id": 10
@@ -336,32 +336,32 @@
         },
         {
             "type": "level",
-            "level": 1002,
+            "level": "levels/level_1002.json",
             "name": "10-2"
         },
         {
             "type": "level",
-            "level": 1003,
+            "level": "levels/level_1003.json",
             "name": "10-3"
         },
         {
             "type": "level",
-            "level": 1004,
+            "level": "levels/level_1004.json",
             "name": "10-4"
         },
         {
             "type": "level",
-            "level": 1005,
+            "level": "levels/level_1005.json",
             "name": "10-5"
         },
         {
             "type": "level",
-            "level": 1006,
+            "level": "levels/level_1006.json",
             "name": "10-6"
         },
         {
             "type": "level",
-            "level": 1007,
+            "level": "levels/level_1007.json",
             "name": "10-7",
             "unlockCheckpointsOnBeat": [
                 11
@@ -369,7 +369,7 @@
         },
         {
             "type": "level",
-            "level": 1101,
+            "level": "levels/level_1101.json",
             "name": "11-1",
             "checkpoint": {
                 "id": 11
@@ -377,37 +377,37 @@
         },
         {
             "type": "level",
-            "level": 1102,
+            "level": "levels/level_1102.json",
             "name": "11-2"
         },
         {
             "type": "level",
-            "level": 1103,
+            "level": "levels/level_1103.json",
             "name": "11-3"
         },
         {
             "type": "level",
-            "level": 1104,
+            "level": "levels/level_1104.json",
             "name": "11-4"
         },
         {
             "type": "level",
-            "level": 1105,
+            "level": "levels/level_1105.json",
             "name": "11-5"
         },
         {
             "type": "level",
-            "level": 1106,
+            "level": "levels/level_1106.json",
             "name": "11-6"
         },
         {
             "type": "level",
-            "level": 1107,
+            "level": "levels/level_1107.json",
             "name": "11-7"
         },
         {
             "type": "level",
-            "level": 1108,
+            "level": "levels/level_1108.json",
             "name": "11-8",
             "unlockCheckpointsOnBeat": [
                 12
@@ -415,7 +415,7 @@
         },
         {
             "type": "level",
-            "level": 1201,
+            "level": "levels/level_1201.json",
             "name": "12-1",
             "checkpoint": {
                 "id": 12
@@ -423,42 +423,42 @@
         },
         {
             "type": "level",
-            "level": 1202,
+            "level": "levels/level_1202.json",
             "name": "12-2"
         },
         {
             "type": "level",
-            "level": 1203,
+            "level": "levels/level_1203.json",
             "name": "12-3"
         },
         {
             "type": "level",
-            "level": 1204,
+            "level": "levels/level_1204.json",
             "name": "12-4"
         },
         {
             "type": "level",
-            "level": 1205,
+            "level": "levels/level_1205.json",
             "name": "12-5"
         },
         {
             "type": "level",
-            "level": 1206,
+            "level": "levels/level_1206.json",
             "name": "12-6"
         },
         {
             "type": "level",
-            "level": 1207,
+            "level": "levels/level_1207.json",
             "name": "12-7"
         },
         {
             "type": "level",
-            "level": 1208,
+            "level": "levels/level_1208.json",
             "name": "12-8"
         },
         {
             "type": "level",
-            "level": 1209,
+            "level": "levels/level_1209.json",
             "name": "12-9",
             "unlockCheckpointsOnBeat": [
                 13
@@ -466,7 +466,7 @@
         },
         {
             "type": "level",
-            "level": 1301,
+            "level": "levels/level_1301.json",
             "name": "13-1",
             "checkpoint": {
                 "id": 13
@@ -474,54 +474,48 @@
         },
         {
             "type": "level",
-            "level": 1302,
+            "level": "levels/level_1302.json",
             "name": "13-2"
         },
         {
             "type": "level",
-            "level": 1303,
+            "level": "levels/level_1303.json",
             "name": "13-3"
         },
         {
             "type": "level",
-            "level": 1304,
+            "level": "levels/level_1304.json",
             "name": "13-4"
         },
         {
             "type": "level",
-            "level": 1305,
-            "name": "13-5",
-            "unlockCheckpointsOnBeat": [
-                14
-            ]
+            "level": "levels/level_1305.json",
+            "name": "13-5"
         },
         {
             "type": "level",
-            "level": 1401,
-            "name": "14-1",
-            "checkpoint": {
-                "id": 14
-            }
+            "level": "levels/level_1306.json",
+            "name": "13-6"
         },
         {
             "type": "level",
-            "level": 1402,
-            "name": "14-2"
+            "level": "levels/level_1307.json",
+            "name": "13-7"
         },
         {
             "type": "level",
-            "level": 1403,
-            "name": "14-3"
+            "level": "levels/level_1308.json",
+            "name": "13-8"
         },
         {
             "type": "level",
-            "level": 1404,
-            "name": "14-4"
+            "level": "levels/level_1309.json",
+            "name": "13-9"
         },
         {
             "type": "level",
-            "level": 1405,
-            "name": "14-5"
+            "level": "levels/level_1310.json",
+            "name": "13-10"
         }
     ]
 }
