@@ -3,7 +3,7 @@
     "operations": [
         {
             "type": "add",
-            "condition": "${[sphere.distanceX] < 50}"
+            "condition": "${[sphere.distanceX] < 48}"
         }
     ]
 }
