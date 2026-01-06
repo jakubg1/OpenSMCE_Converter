@@ -140,6 +140,10 @@ def resolve_path_sound(path):
 def resolve_path_music(path):
 	return fix_path(path).replace(FDATA + "/music", "music")
 
+###  Changes e.g. "data\uiscript\banner_paused.ui" to "ui/banner_paused.json".
+def resolve_path_ui(path):
+	return fix_path(path).replace(FDATA + "/uiscript", "ui")[:-3] + ".json"
+
 ###  If both values are identical, return that value. If not, return a random value generator, eg. "randomi(1, 3)"
 def collapse_random_base(a, b, is_float):
 	if a == b:
@@ -500,7 +504,16 @@ def convert_font(input_path, output_path):
 #
 
 def convert_ui(contents, rule_table, name = "root"):
-	ui_data = {"inheritShow":True,"inheritHide":True,"type":"none","pos":{"x":0,"y":0},"alpha":1,"children":{},"animations":{},"sounds":{}}
+	ui_data = {
+		"inheritShow": False,
+		"inheritHide": False,
+		"type": "none",
+		"pos": {"x": 0, "y": 0},
+		"alpha": 1,
+		"children": {},
+		"animations": {},
+		"sounds": {}
+	}
 	sub_anim_uis = {}
 
 	child_scan = False
@@ -579,29 +592,36 @@ def convert_ui(contents, rule_table, name = "root"):
 		if words[0] == "File":
 			ui_data["path"] = resolve_path_particle(words[2])
 		if words[0] == "Child":
-			if len(words) < 4:
-				# TODO: `Child #<file>` support.
-				continue
-			child_types = {
-				"uiNonVisualWidget":"none",
-				"uiVisualWidget":"sprite",
-				"uiTextWidget":"text",
-				"uiButton":"spriteButton",
-				"uiToggleButton":"spriteButtonCheckbox",
-				"uiSliderButton":"spriteButtonSlider",
-				"uiProgressBar":"spriteProgress",
-				"uiProgressBar_Giza":"spriteProgress",
-				"uiParticleSystem":"particle"
-			}
-			if words[3] in child_types:
-				child_type = child_types[words[3]]
+			if len(words[1]) > 0 and words[1][0] == "#":
+				# Include from another file.
+				# Because OpenSMCE names widgets from outside unlike the original Luxor engine which names them from inside,
+				# we need to extract the name from that file.
+				# So we need to load the file and parse the first word.
+				# I know this is very inefficient, but I don't want to rewrite the entire code just for that.
+				# Feel free to just you know, write a better converter!
+				child_name = get_contents(fix_path(words[1][1:]))[0].split(" ")[0]
+				ui_data["children"][child_name] = resolve_path_ui(words[1][1:])
 			else:
-				print("Unknown UI widget type! " + words[3])
-				child_type = "none"
-			child_scan = True
-			child_scan_level = 0
-			child_name = words[1]
-			child_contents = []
+				child_types = {
+					"uiNonVisualWidget":"none",
+					"uiVisualWidget":"sprite",
+					"uiTextWidget":"text",
+					"uiButton":"spriteButton",
+					"uiToggleButton":"spriteButtonCheckbox",
+					"uiSliderButton":"spriteButtonSlider",
+					"uiProgressBar":"spriteProgress",
+					"uiProgressBar_Giza":"spriteProgress",
+					"uiParticleSystem":"particle"
+				}
+				if words[3] in child_types:
+					child_type = child_types[words[3]]
+				else:
+					print("Unknown UI widget type! " + words[3])
+					child_type = "none"
+				child_scan = True
+				child_scan_level = 0
+				child_name = words[1]
+				child_contents = []
 
 
 
@@ -612,6 +632,8 @@ def convert_ui(contents, rule_table, name = "root"):
 				for nav in sub_ui_nav:
 					sub_ui = sub_ui["children"][nav]
 				sub_anim_uis[words[1]] = sub_ui
+				sub_anim_uis[words[1]]["inheritShow"] = True
+				sub_anim_uis[words[1]]["inheritHide"] = True
 			if words[2] == "SpriteDepth":
 				sub_anim_uis[words[1]]["layer"] = words[4]
 			if words[2] == "Style":
