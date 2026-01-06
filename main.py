@@ -3,11 +3,51 @@ from PIL import Image, ImageDraw
 
 
 
-# The paths to the data folder.
+# The path to the data folder.
 FDATA = "data"
 
 # A list of stuff to convert. See `convert()` for available values.
 CONVERSION_SCOPE = []
+
+# A list of maps which have different casing.
+# TODO: Make this a dynamic list. Necessary for mods to work on Linux.
+LUXOR_MAP_REPL = {
+	# Luxor
+	"InTheShadowofthePyramids": "InTheShadowOfThePyramids",
+	"InnerSanctumoftheTemple": "InnerSanctumOfTheTemple",
+	"flightofthesacredibis": "FlightOfTheSacredIbis",
+	"DescenttotheUnderworld": "DescentToTheUnderworld",
+	"inundationofthenile": "InundationOfTheNile",
+	"danceofthecrocodiles": "DanceOfTheCrocodiles",
+	"RasJourneytotheWest": "RasJourneyToTheWest",
+	"ThePillarofOsiris": "ThePillarOfOsiris",
+	"ScrollofThoth": "ScrollOfThoth",
+	"PooloftheLotusBlossom": "PoolOfTheLotusBlossom",
+	# Luxor Amun Rising
+	"HalloftheApisBull": "HallOfTheApisBull",
+	"QueenofDenial": "QueenOfDenial",
+	"BastionoftheCatGoddess": "BastionOfTheCatGoddess",
+	"WeighingoftheHeart": "WeighingOfTheHeart",
+	"ReignoftheHereticKing": "ReignOfTheHereticKing",
+	"TheTreasureCityofRameses": "TheTreasureCityOfRameses",
+	"OpeningoftheMouthCeremony": "OpeningOfTheMouthCeremony",
+	"FestivalofJubilee": "FestivalOfJubilee",
+	"CrossingtheReedSea": "CrossingTheReedSea",
+	"TheStellaeofThutmosis": "TheStellaeOfThutmosis",
+	"ValleyoftheKings": "ValleyOfTheKings",
+	"EyeofHorus": "EyeOfHorus",
+	"InvasionoftheHyksos": "InvasionOfTheHyksos",
+	"demo2": "Demo2",
+	"narmerpalette": "NarmerPalette"
+}
+
+# Maps keyboard shortcuts from the MumboJumbo engine to LOVE2D.
+KEYS = {
+	"KEY_ENTER": "return",
+	"KEY_ESCAPE": "escape",
+	"KEY_SPACE": "space",
+	"KEY_BACKSPACE": "backspace"
+}
 
 
 
@@ -15,17 +55,11 @@ CONVERSION_SCOPE = []
 #  UTILITY
 #
 
-#
-#  Converts case LIKE THIS to case LikeThis.
-#
-
+###  Converts case LIKE THIS to case LikeThis.
 def convert_pascal(line):
 	return "".join(word[0].upper() + word[1:].lower() for word in line.split(" "))
 
-#
-#  Removes all preceeding whitespaces from the given line.
-#
-
+###  Removes all preceeding whitespaces from the given line.
 def unindent(line):
 	char = 0
 	while char < len(line):
@@ -33,47 +67,17 @@ def unindent(line):
 			return line[char:]
 		char += 1
 
-#
-# Fix paths for unixlike systems
-#
-
+### Fixes paths for unix-like systems. This includes backslashes and different directory name casing.
 def fix_path(path):
 	path = path.replace("\\", "/")
 	path = path.replace("data/", FDATA + "/")
 	if FDATA + "/maps" in path:
-		path = path.replace("InTheShadowofthePyramids","InTheShadowOfThePyramids") \
-			.replace("InnerSanctumoftheTemple","InnerSanctumOfTheTemple") \
-			.replace("flightofthesacredibis","FlightOfTheSacredIbis") \
-			.replace("DescenttotheUnderworld","DescentToTheUnderworld") \
-			.replace("inundationofthenile","InundationOfTheNile") \
-			.replace("danceofthecrocodiles","DanceOfTheCrocodiles") \
-			.replace("RasJourneytotheWest","RasJourneyToTheWest") \
-			.replace("ThePillarofOsiris","ThePillarOfOsiris") \
-			.replace("ScrollofThoth","ScrollOfThoth") \
-			.replace("PooloftheLotusBlossom","PoolOfTheLotusBlossom") \
-			\
-			.replace("HalloftheApisBull","HallOfTheApisBull") \
-			.replace("QueenofDenial","QueenOfDenial") \
-			.replace("BastionoftheCatGoddess","BastionOfTheCatGoddess") \
-			.replace("WeighingoftheHeart","WeighingOfTheHeart") \
-			.replace("ReignoftheHereticKing","ReignOfTheHereticKing") \
-			.replace("TheTreasureCityofRameses","TheTreasureCityOfRameses") \
-			.replace("OpeningoftheMouthCeremony","OpeningOfTheMouthCeremony") \
-			.replace("FestivalofJubilee","FestivalOfJubilee") \
-			.replace("CrossingtheReedSea","CrossingTheReedSea") \
-			.replace("TheStellaeofThutmosis","TheStellaeOfThutmosis") \
-			.replace("ValleyoftheKings","ValleyOfTheKings") \
-			.replace("EyeofHorus","EyeOfHorus") \
-			.replace("InvasionoftheHyksos","InvasionOfTheHyksos") \
-			.replace("demo2","Demo2") \
-			.replace("narmerpalette","NarmerPalette")
+		for name in LUXOR_MAP_REPL:
+			path = path.replace(name, LUXOR_MAP_REPL[name])
 
 	return path
 
-#
-#  Takes a file from a given path and returns its contents as a list of lines.
-#
-
+###  Takes a file from a given path and returns its contents as a list of lines.
 def get_contents(path):
 	path = fix_path(path) # MacOS hack
 	file = open(path, "r")
@@ -81,29 +85,20 @@ def get_contents(path):
 	file.close()
 	return contents.split("\n")
 
-#
-#  Stores given data in JSON format in a given file.
-#
-
+###  Stores given data in JSON format in a given file.
 def store_contents(path, contents):
 	file = open(path, "w")
 	file.write(json.dumps(contents, indent = 4))
 	file.close()
 
-#
-#  Attempts to create a folder with a given name if it doesn't exist yet.
-#
-
+###  Attempts to create a folder with a given name if it doesn't exist yet.
 def try_create_dir(path):
 	try:
 		os.makedirs(path)
 	except:
 		pass
 
-#
-#  Attempts to create a folder structure with a given name if it doesn't exist yet.
-#
-
+###  Attempts to create a folder structure with a given name if it doesn't exist yet.
 def try_create_dirs(path):
 	total = ""
 	try:
@@ -113,10 +108,7 @@ def try_create_dirs(path):
 	except:
 		pass
 
-#
-#  Returns True if a given file exists.
-#
-
+###  Returns True if a given file exists.
 def file_exists(path):
 	try:
 		open(path, "r")
@@ -124,83 +116,52 @@ def file_exists(path):
 		return False
 	return True
 
-
-#
-#  Changes i.e. "data\sprites\game\shooter.spr" to "images/game/shooter.png".
-#
-
+###  Changes e.g. "data\sprites\game\shooter.spr" to "images/game/shooter.png".
 def resolve_path_image(path):
 	return fix_path(path).replace(FDATA + "/sprites", "images")[:-4] + ".png"
 
-#
-#  Changes i.e. "data\sprites\game\shooter.spr" to "sprites/game/shooter.json".
-#
-
+###  Changes e.g. "data\sprites\game\shooter.spr" to "sprites/game/shooter.json".
 def resolve_path_sprite(path):
 	return fix_path(path).replace(FDATA + "/sprites", "sprites")[:-4] + ".json"
 
-#
-#  Changes i.e. "data\fonts\score4.font" to "fonts/score4.json".
-#
-
+###  Changes e.g. "data\fonts\score4.font" to "fonts/score4.json".
 def resolve_path_font(path):
 	return fix_path(path).replace(FDATA + "/fonts", "fonts")[:-5] + ".json"
 
-#
-#  Changes i.e. "data\psys\powerup_stop.psys" to "particles/powerup_stop.json".
-#
-
+###  Changes e.g. "data\psys\powerup_stop.psys" to "particles/powerup_stop.json".
 def resolve_path_particle(path):
 	return fix_path(path).replace(FDATA + "/psys", "particles")[:-5] + ".json"
 
-#
-#  Changes i.e. "data\sound\collapse_1.ogg" to "sounds/collapse_1.ogg".
-#
-
+###  Changes e.g. "data\sound\collapse_1.ogg" to "sounds/collapse_1.ogg".
 def resolve_path_sound(path):
 	return fix_path(path).replace(FDATA + "/sound", "sounds")
 
-#
-#  Changes i.e. "data\music\menu.ogg" to "music/menu.ogg".
-#
-
+###  Changes e.g. "data\music\menu.ogg" to "music/menu.ogg".
 def resolve_path_music(path):
 	return fix_path(path).replace(FDATA + "/music", "music")
 
-#
-#  If both values are identical, return that value. If not, return a random value generator, eg. "randomi(1, 3)"
-#
-
+###  If both values are identical, return that value. If not, return a random value generator, eg. "randomi(1, 3)"
 def collapse_random_base(a, b, is_float):
 	if a == b:
 		return a
 	else:
 		return ("randomf" if is_float else "randomi") + "(" + str(a) + ", " + str(b) + ")"
 
-#
-#  If both values are identical, return that value. If not, return a random value generator expression, eg. "${randomi(1, 3)}"
-#
-
+###  If both values are identical, return that value. If not, return a random value generator expression, eg. "${randomi(1, 3)}"
 def collapse_random_number(a, b, is_float):
 	if a == b:
 		return a
 	else:
 		return "${" + collapse_random_base(a, b, is_float) + "}"
 
-#
-#  If both vectors are identical, return it, eg. {"x": 1, "y": 3}. If not, return a random value generator expression, eg. "${vec2(randomf(0, 1), randomf(-1, 1))}"
-#
-
+###  If both vectors are identical, return it, eg. {"x": 1, "y": 3}. If not, return a random value generator expression, eg. "${vec2(randomf(0, 1), randomf(-1, 1))}"
 def collapse_random_vector(ax, ay, bx, by, is_float):
 	if ax == bx and ay == by:
 		return {"x": ax, "y": ay}
 	else:
 		return "${vec2(" + str(collapse_random_base(ax, bx, is_float)) + ", " + str(collapse_random_base(ay, by, is_float)) + ")}"
 
-#
-#  Changes i.e. "level_1_1" to "level_101".
-#
-
+###  Changes e.g. "level_1_1" to "level_101".
 def rename_level(name):
 	try:
 		words = name.split("_")
@@ -562,7 +523,16 @@ def convert_ui(contents, rule_table, name = "root"):
 				if child_scan_level == 0:
 					child_scan = False
 					if child_name == "Background":
-						ui_data["children"][child_name] = {"inheritShow":True,"inheritHide":True,"type":"none","pos":{"x":0,"y":0},"alpha":1,"children":{"Background":"ui/background.json"},"animations":{},"sounds":{}}
+						ui_data["children"][child_name] = {
+							"inheritShow": True,
+							"inheritHide": True,
+							"type": "none",
+							"pos": {"x": 0, "y": 0},
+							"alpha": 1,
+							"children": {"Background": "ui/background.json"},
+							"animations": {},
+							"sounds": {}
+						}
 					else:
 						full_child_name = name + "." + child_name
 						print(full_child_name + ":")
@@ -575,16 +545,18 @@ def convert_ui(contents, rule_table, name = "root"):
 		words = line.split(" ")
 		if words[0] == "//":
 			continue # we don't want comments
-
 		if words[0] == "X":
 			ui_data["pos"]["x"] = int(words[2])
 		if words[0] == "Y":
 			ui_data["pos"]["y"] = int(words[2])
+		if words[0] == "Flags":
+			if words[2] == "WF_ROOT_COORDS":
+				ui_data["inheritPos"] = False
 		if words[0] == "AnimIn" and words[1] == "Sound":
-			ui_data["sounds"]["in_"] = "sounds/" + words[3] + ".ogg"
+			ui_data["sounds"]["in_"] = "sound_events/" + words[3] + ".json"
 		if words[0] == "AnimOut" and words[1] == "Sound":
-			ui_data["sounds"]["out"] = "sounds/" + words[3] + ".ogg"
-		if words[0] == "Depth":
+			ui_data["sounds"]["out"] = "sound_events/" + words[3] + ".json"
+		if words[0] == "Depth" and words[2] != "#Parent":
 			ui_data["layer"] = words[2]
 		if words[0] == "Text":
 			ui_data["text"] = " ".join(words[2:])[1:-1]
@@ -602,10 +574,13 @@ def convert_ui(contents, rule_table, name = "root"):
 			ui_data["bounds"] = [int(words[2]), 0]
 		if words[0] == "MaxX":
 			ui_data["bounds"][1] = int(words[2])
+		if words[0] == "Hotkey":
+			ui_data["hotkey"] = KEYS[words[2]]
 		if words[0] == "File":
 			ui_data["path"] = resolve_path_particle(words[2])
 		if words[0] == "Child":
 			if len(words) < 4:
+				# TODO: `Child #<file>` support.
 				continue
 			child_types = {
 				"uiNonVisualWidget":"none",
@@ -1114,6 +1089,14 @@ def convert():
 
 
 
+### Converts a UI layout. (WIP)
+def convert_ui_test(name):
+	output = convert_ui(get_contents(FDATA + "/uiscript/" + name + ".ui"), {})
+	store_contents("output/ui/" + name + ".json", output)
+	print("Converted!")
+
+
+
 ### Entry point of the application. Handles the commandline arguments.
 def main():
 	global CONVERSION_SCOPE, FDATA
@@ -1135,6 +1118,7 @@ def main():
 		print("    --music - Converts music.")
 		print()
 		print("    -d <folder> - Specify a different input folder, defaults to 'data'.")
+		print("    -u <name> - Converts a UI layout with a given name. For testing only.")
 		print()
 		print("    --help - Prints this message.")
 	else:
@@ -1148,6 +1132,7 @@ def main():
 			"--music": "music"
 		}
 		next_value = None
+		ui_file = None
 		for i in range(len(sys.argv) - 1):
 			arg = sys.argv[i + 1]
 			if next_value == None:
@@ -1160,7 +1145,7 @@ def main():
 						exit(1)
 					else:
 						CONVERSION_SCOPE.append(registry)
-				elif arg == "-d":
+				elif arg == "-d" or arg == "-u":
 					next_value = arg
 				else:
 					print("Error: key " + arg + " unrecognized")
@@ -1168,7 +1153,13 @@ def main():
 			elif next_value == "-d":
 				FDATA = arg
 				next_value = None
-		convert()
+			elif next_value == "-u":
+				ui_file = arg
+				next_value = None
+		if ui_file == None:
+			convert()
+		else:
+			convert_ui_test(ui_file)
 		
 
 
