@@ -122,7 +122,7 @@ def resolve_path_image(path):
 
 ###  Changes e.g. "data\sprites\game\shooter.spr" to "sprites/game/shooter.json".
 def resolve_path_sprite(path):
-	return fix_path(path).replace(FDATA + "/sprites", "sprites")[:-4] + ".json"
+	return fix_path(path).replace(FDATA + "/sprites", "sprites").replace(FDATA + "/fonts", "sprites/fonts")[:-4] + ".json"
 
 ###  Changes e.g. "data\fonts\score4.font" to "fonts/score4.json".
 def resolve_path_font(path):
@@ -505,8 +505,8 @@ def convert_font(input_path, output_path):
 
 def convert_ui(contents, rule_table, name = "root"):
 	ui_data = {
-		"inheritShow": False,
-		"inheritHide": False,
+		#"inheritShow": False,
+		#"inheritHide": False,
 		"type": "none",
 		"pos": {"x": 0, "y": 0},
 		"alpha": 1,
@@ -535,24 +535,12 @@ def convert_ui(contents, rule_table, name = "root"):
 				child_scan_level -= 1 # protection for nested children
 				if child_scan_level == 0:
 					child_scan = False
-					if child_name == "Background":
-						ui_data["children"][child_name] = {
-							"inheritShow": True,
-							"inheritHide": True,
-							"type": "none",
-							"pos": {"x": 0, "y": 0},
-							"alpha": 1,
-							"children": {"Background": "ui/background.json"},
-							"animations": {},
-							"sounds": {}
-						}
-					else:
-						full_child_name = name + "." + child_name
-						print(full_child_name + ":")
-						print("\n".join(child_contents))
-						child_data = convert_ui(child_contents, rule_table, full_child_name)
-						child_data["type"] = child_type
-						ui_data["children"][child_name] = child_data
+					full_child_name = name + "." + child_name
+					print(full_child_name + ":")
+					print("\n".join(child_contents))
+					child_data = convert_ui(child_contents, rule_table, full_child_name)
+					child_data["type"] = child_type
+					ui_data["children"][child_name] = child_data
 			continue
 
 		words = line.split(" ")
@@ -572,13 +560,15 @@ def convert_ui(contents, rule_table, name = "root"):
 		if words[0] == "Depth" and words[2] != "#Parent":
 			ui_data["layer"] = words[2]
 		if words[0] == "Text":
-			ui_data["text"] = " ".join(words[2:])[1:-1]
+			ui_data["text"] = " ".join(words[2:])[1:-1].replace("\\n", "\n")
 		if words[0] == "Sprite":
 			ui_data["sprite"] = resolve_path_sprite(words[2])
 		if words[0] == "Sprite2":
 			ui_data["sprite"] = [ui_data["sprite"], resolve_path_sprite(words[2])]
 		if words[0] == "Font":
 			ui_data["font"] = resolve_path_font(words[2])
+		if words[0] == "Cursor":
+			ui_data["cursorSprite"] = resolve_path_sprite(words[2])
 		if words[0] == "Justify":
 			ui_data["align"] = {"LEFT":{"x":0,"y":0},"CENTER":{"x":0.5,"y":0},"RIGHT":{"x":1,"y":0}}[words[2]]
 		if words[0] == "Smooth":
@@ -589,6 +579,8 @@ def convert_ui(contents, rule_table, name = "root"):
 			ui_data["bounds"][1] = int(words[2])
 		if words[0] == "Hotkey":
 			ui_data["hotkey"] = KEYS[words[2]]
+		if words[0] == "EntryWidth":
+			ui_data["maxLength"] = int(words[2])
 		if words[0] == "File":
 			ui_data["path"] = resolve_path_particle(words[2])
 		if words[0] == "Child":
@@ -606,7 +598,9 @@ def convert_ui(contents, rule_table, name = "root"):
 					"uiNonVisualWidget":"none",
 					"uiVisualWidget":"sprite",
 					"uiTextWidget":"text",
+					"uiEntryWidget":"textInput",
 					"uiButton":"spriteButton",
+					"uiRadioButton":"spriteButton",
 					"uiToggleButton":"spriteButtonCheckbox",
 					"uiSliderButton":"spriteButtonSlider",
 					"uiProgressBar":"spriteProgress",
@@ -616,7 +610,7 @@ def convert_ui(contents, rule_table, name = "root"):
 				if words[3] in child_types:
 					child_type = child_types[words[3]]
 				else:
-					print("Unknown UI widget type! " + words[3])
+					print("!!!   >>>     Unknown UI widget type! " + words[3])
 					child_type = "none"
 				child_scan = True
 				child_scan_level = 0
@@ -643,6 +637,20 @@ def convert_ui(contents, rule_table, name = "root"):
 				else:
 					print("Unknown style type! " + words[4])
 					style_type = "none"
+				# Create a background child for animation if this is a mask.
+				if words[4] == "SpriteMask":
+					sub_anim_uis[words[1]]["children"]["_Mask"] = {
+						"inheritShow": True,
+						"inheritHide": True,
+						"type": "none",
+						"pos": {"x": 0, "y": 0},
+						"alpha": 1,
+						"children": {"Background": "ui/background.json"},
+						"animations": {},
+						"sounds": {}
+					}
+					sub_anim_uis[words[1]] = sub_anim_uis[words[1]]["children"]["_Mask"]
+				# Fill in animation info for the animated Widget.
 				sub_anim_uis[words[1]]["animations"]["in_"] = {"type":style_type}
 				sub_anim_uis[words[1]]["animations"]["out"] = {} # placeholder filled later
 			if words[2] == "Time":
@@ -677,6 +685,24 @@ def convert_ui(contents, rule_table, name = "root"):
 	if name in rule_table:
 		for key in rule_table[name]:
 			ui_data[key] = rule_table[name][key]
+	
+	# Remove empty fields or fields with default values.
+	if ui_data["alpha"] == 1:
+		del ui_data["alpha"]
+	#if ui_data["children"] == {}:
+	#	del ui_data["children"]
+	#if ui_data["animations"] == {}:
+	#	del ui_data["animations"]
+	#if ui_data["sounds"] == {}:
+	#	del ui_data["sounds"]
+
+	# Sometimes there are sprite widgets which don't actually have any sprite. Fix this here.
+	if ui_data["type"] == "sprite" and not "sprite" in ui_data:
+		ui_data["type"] = "none"
+
+	# Hardcoded additions which don't make sense to be put elsewhere.
+	if name == "root.Frame.Slot_sfx.Slider_Effects":
+		ui_data["releaseSound"] = "sound_events/catch_powerup_shot_speed.json"
 
 	return ui_data
 
