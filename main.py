@@ -500,14 +500,14 @@ def convert_font(input_path, output_path):
 	store_contents(output_path, font_data)
 
 #
-#  Takes .ui file contents and returns UI script data. Rule tables stored separately are used to automatically fill all things that are hardcoded in the original engine.
+#  Takes .ui file contents and returns UI script data.
 #
 
-def convert_ui(contents, rule_table, name = "root"):
+def convert_ui(contents, name = "root", type = "none"):
 	ui_data = {
 		#"inheritShow": False,
 		#"inheritHide": False,
-		"type": "none",
+		"type": type,
 		"pos": {"x": 0, "y": 0},
 		"alpha": 1,
 		"children": {},
@@ -536,11 +536,9 @@ def convert_ui(contents, rule_table, name = "root"):
 				if child_scan_level == 0:
 					child_scan = False
 					full_child_name = name + "." + child_name
-					print(full_child_name + ":")
-					print("\n".join(child_contents))
-					child_data = convert_ui(child_contents, rule_table, full_child_name)
-					child_data["type"] = child_type
-					ui_data["children"][child_name] = child_data
+					#print(full_child_name + ":")
+					#print("\n".join(child_contents))
+					ui_data["children"][child_name] = convert_ui(child_contents, full_child_name, child_type)
 			continue
 
 		words = line.split(" ")
@@ -572,7 +570,7 @@ def convert_ui(contents, rule_table, name = "root"):
 		if words[0] == "Justify":
 			ui_data["align"] = {"LEFT":{"x":0,"y":0},"CENTER":{"x":0.5,"y":0},"RIGHT":{"x":1,"y":0}}[words[2]]
 		if words[0] == "Smooth":
-			ui_data["smooth"] = words[2] == "True"
+			ui_data["smooth"] = words[2] == "true"
 		if words[0] == "MinX":
 			ui_data["bounds"] = [int(words[2]), 0]
 		if words[0] == "MaxX":
@@ -620,14 +618,27 @@ def convert_ui(contents, rule_table, name = "root"):
 
 
 		if words[0] == "SubAnimIn":
+			# Create an entry to hold animations.
+			if not "animations2" in ui_data:
+				ui_data["animations2"] = {"in": [], "out": []}
+			# Get animation ID and add it to the list if there's no such animation yet.
+			anim_id = int(words[1])
+			if len(ui_data["animations2"]["in"]) <= anim_id:
+				ui_data["animations2"]["in"].append({})
+				ui_data["animations2"]["out"].append({})
+			# Get animation data.
+			anim = ui_data["animations2"]["in"][anim_id]
+			anim_out = ui_data["animations2"]["out"][anim_id]
+
+			# Parse stuff.
 			if words[2] == "Widget":
 				sub_ui = ui_data
 				sub_ui_nav = words[4].split(".")[1:]
 				for nav in sub_ui_nav:
 					sub_ui = sub_ui["children"][nav]
 				sub_anim_uis[words[1]] = sub_ui
-				sub_anim_uis[words[1]]["inheritShow"] = True
-				sub_anim_uis[words[1]]["inheritHide"] = True
+				anim["target"] = "/".join(sub_ui_nav)
+				anim_out["target"] = "/".join(sub_ui_nav)
 			if words[2] == "SpriteDepth":
 				sub_anim_uis[words[1]]["layer"] = words[4]
 			if words[2] == "Style":
@@ -639,31 +650,35 @@ def convert_ui(contents, rule_table, name = "root"):
 					style_type = "none"
 				# Create a background child for animation if this is a mask.
 				if words[4] == "SpriteMask":
+					if not "children" in sub_anim_uis[words[1]]:
+						sub_anim_uis[words[1]]["children"] = {}
 					sub_anim_uis[words[1]]["children"]["_Mask"] = {
-						"inheritShow": True,
-						"inheritHide": True,
 						"type": "none",
 						"pos": {"x": 0, "y": 0},
-						"alpha": 1,
-						"children": {"Background": "ui/background.json"},
-						"animations": {},
-						"sounds": {}
+						"children": {"Background": "ui/background2.json"}
 					}
 					sub_anim_uis[words[1]] = sub_anim_uis[words[1]]["children"]["_Mask"]
+					anim["target"] += "/_Mask"
+					anim_out["target"] += "/_Mask"
 				# Fill in animation info for the animated Widget.
-				sub_anim_uis[words[1]]["animations"]["in_"] = {"type":style_type}
-				sub_anim_uis[words[1]]["animations"]["out"] = {} # placeholder filled later
+				anim["type"] = style_type
 			if words[2] == "Time":
-				sub_anim_uis[words[1]]["animations"]["in_"]["time"] = int(words[4]) / 1000
-			if words[2] == "Loc" and sub_anim_uis[words[1]]["animations"]["in_"]["type"] == "move":
-				sub_anim_uis[words[1]]["animations"]["in_"]["startPos"] = {"x":int(words[4]),"y":int(words[5])}
-				sub_anim_uis[words[1]]["animations"]["out"]["endPos"] = {"x":int(words[4]),"y":int(words[5])}
-			if words[2] == "AlphaStart" and sub_anim_uis[words[1]]["animations"]["in_"]["type"] == "fade":
-				sub_anim_uis[words[1]]["animations"]["in_"]["startValue"] = int(words[4]) / 255
-				sub_anim_uis[words[1]]["alpha"] = int(words[4]) / 255
-			if words[2] == "AlphaTarget" and sub_anim_uis[words[1]]["animations"]["in_"]["type"] == "fade":
-				sub_anim_uis[words[1]]["animations"]["in_"]["endValue"] = int(words[4]) / 255
+				anim["time"] = int(words[4]) / 1000
+			if words[2] == "Loc" and anim["type"] == "move":
+				anim["startPos"] = {"x":int(words[4]),"y":int(words[5])}
+				anim_out["endPos"] = {"x":int(words[4]),"y":int(words[5])}
+			if words[2] == "AlphaStart" and anim["type"] == "fade":
+				anim["startValue"] = int(words[4]) / 255
+			if words[2] == "AlphaTarget" and anim["type"] == "fade":
+				anim["endValue"] = int(words[4]) / 255
 		if words[0] == "SubAnimOut":
+			# Get animation ID.
+			anim_id = int(words[1])
+			# Get animation data.
+			anim = ui_data["animations2"]["out"][anim_id]
+			anim_in = ui_data["animations2"]["in"][anim_id]
+
+			# Parse stuff.
 			if words[2] == "Style":
 				style_types = {"AlphaFade":"fade","SpriteMask":"fade","BezierLerp":"move"}
 				if words[4] in style_types:
@@ -671,36 +686,37 @@ def convert_ui(contents, rule_table, name = "root"):
 				else:
 					print("Unknown style type! " + words[4])
 					style_type = "none"
-				sub_anim_uis[words[1]]["animations"]["out"]["type"] = style_type
+				anim["type"] = style_type
 			if words[2] == "Time":
-				sub_anim_uis[words[1]]["animations"]["out"]["time"] = int(words[4]) / 1000
-			if words[2] == "Loc" and sub_anim_uis[words[1]]["animations"]["in_"]["type"] == "move":
-				sub_anim_uis[words[1]]["animations"]["in_"]["endPos"] = {"x":int(words[4]),"y":int(words[5])}
-				sub_anim_uis[words[1]]["animations"]["out"]["startPos"] = {"x":int(words[4]),"y":int(words[5])}
-			if words[2] == "AlphaStart" and sub_anim_uis[words[1]]["animations"]["in_"]["type"] == "fade":
-				sub_anim_uis[words[1]]["animations"]["out"]["startValue"] = int(words[4]) / 255
-			if words[2] == "AlphaTarget" and sub_anim_uis[words[1]]["animations"]["in_"]["type"] == "fade":
-				sub_anim_uis[words[1]]["animations"]["out"]["endValue"] = int(words[4]) / 255
-
-	if name in rule_table:
-		for key in rule_table[name]:
-			ui_data[key] = rule_table[name][key]
+				anim["time"] = int(words[4]) / 1000
+			if words[2] == "Loc" and anim["type"] == "move":
+				anim_in["endPos"] = {"x":int(words[4]),"y":int(words[5])}
+				anim["startPos"] = {"x":int(words[4]),"y":int(words[5])}
+			if words[2] == "AlphaStart" and anim["type"] == "fade":
+				anim["startValue"] = int(words[4]) / 255
+			if words[2] == "AlphaTarget" and anim["type"] == "fade":
+				anim["endValue"] = int(words[4]) / 255
 	
 	# Remove empty fields or fields with default values.
 	if ui_data["alpha"] == 1:
 		del ui_data["alpha"]
-	#if ui_data["children"] == {}:
-	#	del ui_data["children"]
-	#if ui_data["animations"] == {}:
-	#	del ui_data["animations"]
-	#if ui_data["sounds"] == {}:
-	#	del ui_data["sounds"]
+	if ui_data["children"] == {}:
+		del ui_data["children"]
+	if ui_data["animations"] == {}:
+		del ui_data["animations"]
+	if ui_data["sounds"] == {}:
+		del ui_data["sounds"]
+	if "text" in ui_data and ui_data["text"] == "":
+		del ui_data["text"]
 
 	# Sometimes there are sprite widgets which don't actually have any sprite. Fix this here.
 	if ui_data["type"] == "sprite" and not "sprite" in ui_data:
 		ui_data["type"] = "none"
 
 	# Hardcoded additions which don't make sense to be put elsewhere.
+	if name == "root.Menu":
+		ui_data["type"] = "level"
+		ui_data["path"] = "levels/level_0.json"
 	if name == "root.Frame.Slot_sfx.Slider_Effects":
 		ui_data["releaseSound"] = "sound_events/catch_powerup_shot_speed.json"
 
@@ -1139,9 +1155,27 @@ def convert():
 
 ### Converts a UI layout. (WIP)
 def convert_ui_test(name):
-	output = convert_ui(get_contents(FDATA + "/uiscript/" + name + ".ui"), {})
-	store_contents("output/ui/" + name + ".json", output)
-	print("Converted!")
+	if name == "":
+		banned_files = [
+			"banner_levelcomplete.ui",
+			"banner_stagemap.ui",
+			"game.ui",
+			"menu_stageselect.ui",
+			"pseditor.ui",
+			"stage_select.uis"
+		]
+		try_create_dir("output/ui/")
+
+		for r, d, f in os.walk(FDATA + "/uiscript"):
+			for file in f:
+				if file in banned_files or not file.endswith(".ui"):
+					continue
+				print(file)
+				store_contents("output/ui/" + file[:-3] + ".json", convert_ui(get_contents(FDATA + "/uiscript/" + file)))
+	else:
+		output = convert_ui(get_contents(FDATA + "/uiscript/" + name + ".ui"))
+		store_contents("output/ui/" + name + ".json", output)
+		print("Converted!")
 
 
 
@@ -1195,6 +1229,8 @@ def main():
 						CONVERSION_SCOPE.append(registry)
 				elif arg == "-d" or arg == "-u":
 					next_value = arg
+					if arg == "-u":
+						ui_file = ""
 				else:
 					print("Error: key " + arg + " unrecognized")
 					exit(1)
