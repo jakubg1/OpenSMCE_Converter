@@ -69,6 +69,9 @@ def unindent(line):
 
 ### Fixes paths for unix-like systems. This includes backslashes and different directory name casing.
 def fix_path(path):
+	if path[0] == "\"" and path[-1] == "\"":
+		# Unquote the string.
+		path = path[1:-1].replace("\\\\", "\\")
 	path = path.replace("\\", "/")
 	path = path.replace("data/", FDATA + "/")
 	if FDATA + "/maps" in path:
@@ -505,8 +508,6 @@ def convert_font(input_path, output_path):
 
 def convert_ui(contents, name = "root", type = "none"):
 	ui_data = {
-		#"inheritShow": False,
-		#"inheritHide": False,
 		"type": type,
 		"pos": {"x": 0, "y": 0},
 		"alpha": 1,
@@ -581,6 +582,8 @@ def convert_ui(contents, name = "root", type = "none"):
 			ui_data["maxLength"] = int(words[2])
 		if words[0] == "File":
 			ui_data["path"] = resolve_path_particle(words[2])
+		if words[0] == "Psys": # Strictly for the progress bar
+			ui_data["children"]["_Particle"] = {"type": "particle", "path": resolve_path_particle(words[2])}
 		if words[0] == "Child":
 			if len(words[1]) > 0 and words[1][0] == "#":
 				# Include from another file.
@@ -608,7 +611,7 @@ def convert_ui(contents, name = "root", type = "none"):
 				if words[3] in child_types:
 					child_type = child_types[words[3]]
 				else:
-					print("!!!   >>>     Unknown UI widget type! " + words[3])
+					print("!! Unknown UI widget type! " + words[3])
 					child_type = "none"
 				child_scan = True
 				child_scan_level = 0
@@ -665,8 +668,8 @@ def convert_ui(contents, name = "root", type = "none"):
 			if words[2] == "Time":
 				anim["time"] = int(words[4]) / 1000
 			if words[2] == "Loc" and anim["type"] == "move":
-				anim["startPos"] = {"x":int(words[4]),"y":int(words[5])}
-				anim_out["endPos"] = {"x":int(words[4]),"y":int(words[5])}
+				anim["endPos"] = {"x":int(words[4]),"y":int(words[5])}
+				anim_out["startPos"] = {"x":int(words[4]),"y":int(words[5])}
 			if words[2] == "AlphaStart" and anim["type"] == "fade":
 				anim["startValue"] = int(words[4]) / 255
 			if words[2] == "AlphaTarget" and anim["type"] == "fade":
@@ -684,14 +687,14 @@ def convert_ui(contents, name = "root", type = "none"):
 				if words[4] in style_types:
 					style_type = style_types[words[4]]
 				else:
-					print("Unknown style type! " + words[4])
+					print("!! Unknown style type! " + words[4])
 					style_type = "none"
 				anim["type"] = style_type
 			if words[2] == "Time":
 				anim["time"] = int(words[4]) / 1000
 			if words[2] == "Loc" and anim["type"] == "move":
-				anim_in["endPos"] = {"x":int(words[4]),"y":int(words[5])}
-				anim["startPos"] = {"x":int(words[4]),"y":int(words[5])}
+				anim_in["startPos"] = {"x":int(words[4]),"y":int(words[5])}
+				anim["endPos"] = {"x":int(words[4]),"y":int(words[5])}
 			if words[2] == "AlphaStart" and anim["type"] == "fade":
 				anim["startValue"] = int(words[4]) / 255
 			if words[2] == "AlphaTarget" and anim["type"] == "fade":
@@ -787,6 +790,7 @@ def convert_psys(contents):
 						"animationSpeed":0,
 						"animationLoop":False,
 						"animationFrameRandom":False,
+						"fadeTime":None,
 						"fadeInPoint":0,
 						"fadeOutPoint":1,
 						"posRelative":False
@@ -803,6 +807,8 @@ def convert_psys(contents):
 			spawner_data["speed"] = collapse_random_vector(emitter_vel_min_x, emitter_vel_min_y, emitter_vel_max_x, emitter_vel_max_y, True)
 
 			if "EF_LIFESPAN_INFINITE" in spawner_flags:
+				if spawner_data["particleData"]["fadeInPoint"] != 0 or spawner_data["particleData"]["fadeOutPoint"] != 1:
+					spawner_data["particleData"]["fadeTime"] = spawner_data["particleData"]["lifespan"]
 				spawner_data["particleData"]["lifespan"] = None
 			if "EF_ELIFESPAN_INFINITE" in spawner_flags:
 				spawner_data["lifespan"] = None
@@ -822,6 +828,15 @@ def convert_psys(contents):
 				spawner_data["particleData"]["movement"]["type"] = "circle"
 				spawner_data["particleData"]["movement"]["speed"] = spawner_data["particleData"]["movement"]["speed"]["x"]
 				spawner_data["particleData"]["movement"]["acceleration"] = spawner_data["particleData"]["movement"]["acceleration"]["x"]
+
+			if spawner_data["particleData"]["lifespan"] == None:
+				del spawner_data["particleData"]["lifespan"]
+			if spawner_data["particleData"]["fadeTime"] == None:
+				del spawner_data["particleData"]["fadeTime"]
+			if spawner_data["particleData"]["fadeInPoint"] == 0:
+				del spawner_data["particleData"]["fadeInPoint"]
+			if spawner_data["particleData"]["fadeOutPoint"] == 1:
+				del spawner_data["particleData"]["fadeOutPoint"]
 
 			particle_data["emitters"].append(spawner_data)
 			spawner_name = None
@@ -1075,8 +1090,6 @@ def convert_particles():
 
 	for r, d, f in os.walk(FDATA + "/psys"):
 		for file in f:
-			if file == "progress.psys":
-				continue
 			print(file)
 			store_contents("output/particles/" + file[:-5] + ".json", convert_psys(get_contents(FDATA + "/psys/" + file)))
 
@@ -1157,12 +1170,9 @@ def convert():
 def convert_ui_test(name):
 	if name == "":
 		banned_files = [
-			"banner_levelcomplete.ui",
 			"banner_stagemap.ui",
-			"game.ui",
 			"menu_stageselect.ui",
-			"pseditor.ui",
-			"stage_select.uis"
+			"pseditor.ui"
 		]
 		try_create_dir("output/ui/")
 
