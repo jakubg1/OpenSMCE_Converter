@@ -523,6 +523,8 @@ def convert_ui(contents, name = "root", type = "none"):
 	child_type = "none"
 	child_contents = []
 
+	button_layer = None # Hack for stagemap scriptlet layering
+
 	for line in contents:
 		line = unindent(line)
 		if line == None:
@@ -536,10 +538,7 @@ def convert_ui(contents, name = "root", type = "none"):
 				child_scan_level -= 1 # protection for nested children
 				if child_scan_level == 0:
 					child_scan = False
-					full_child_name = name + "." + child_name
-					#print(full_child_name + ":")
-					#print("\n".join(child_contents))
-					ui_data["children"][child_name] = convert_ui(child_contents, full_child_name, child_type)
+					ui_data["children"][child_name] = convert_ui(child_contents, name + "." + child_name, child_type)
 			continue
 
 		words = line.split(" ")
@@ -558,6 +557,8 @@ def convert_ui(contents, name = "root", type = "none"):
 			ui_data["sounds"]["out"] = "sound_events/" + words[3] + ".json"
 		if words[0] == "Depth" and words[2] != "#Parent":
 			ui_data["layer"] = words[2]
+		if words[0] == "DepthButton":
+			button_layer = words[2] # Used in conjunction with #Scriptlet
 		if words[0] == "Text":
 			ui_data["text"] = " ".join(words[2:])[1:-1].replace("\\n", "\n")
 		if words[0] == "Sprite":
@@ -584,6 +585,11 @@ def convert_ui(contents, name = "root", type = "none"):
 			ui_data["path"] = resolve_path_particle(words[2])
 		if words[0] == "Psys": # Strictly for the progress bar
 			ui_data["children"]["_Particle"] = {"type": "particle", "path": resolve_path_particle(words[2])}
+		if words[0] == "#Scriptlet":
+			if words[1] == "data\\uiscript\\stage_select.uis":
+				ui_data["children"]["_Scriptlet"] = {"type": "none", "layer": button_layer, "children": {"Stage_Select": "ui/stage_select.json"}}
+			else:
+				print("!! Unknown UI scriptlet! " + words[1])
 		if words[0] == "Child":
 			if len(words[1]) > 0 and words[1][0] == "#":
 				# Include from another file.
@@ -598,6 +604,7 @@ def convert_ui(contents, name = "root", type = "none"):
 				child_types = {
 					"uiNonVisualWidget":"none",
 					"uiVisualWidget":"sprite",
+					"uiStageMap":"sprite",
 					"uiTextWidget":"text",
 					"uiEntryWidget":"textInput",
 					"uiButton":"spriteButton",
@@ -622,16 +629,16 @@ def convert_ui(contents, name = "root", type = "none"):
 
 		if words[0] == "SubAnimIn":
 			# Create an entry to hold animations.
-			if not "animations2" in ui_data:
-				ui_data["animations2"] = {"in": [], "out": []}
+			if not "animations" in ui_data:
+				ui_data["animations"] = {"in": [], "out": []}
 			# Get animation ID and add it to the list if there's no such animation yet.
 			anim_id = int(words[1])
-			if len(ui_data["animations2"]["in"]) <= anim_id:
-				ui_data["animations2"]["in"].append({})
-				ui_data["animations2"]["out"].append({})
+			if len(ui_data["animations"]["in"]) <= anim_id:
+				ui_data["animations"]["in"].append({})
+				ui_data["animations"]["out"].append({})
 			# Get animation data.
-			anim = ui_data["animations2"]["in"][anim_id]
-			anim_out = ui_data["animations2"]["out"][anim_id]
+			anim = ui_data["animations"]["in"][anim_id]
+			anim_out = ui_data["animations"]["out"][anim_id]
 
 			# Parse stuff.
 			if words[2] == "Widget":
@@ -645,7 +652,11 @@ def convert_ui(contents, name = "root", type = "none"):
 			if words[2] == "SpriteDepth":
 				sub_anim_uis[words[1]]["layer"] = words[4]
 			if words[2] == "Style":
-				style_types = {"AlphaFade":"fade","SpriteMask":"fade","BezierLerp":"move"}
+				style_types = {
+					"AlphaFade": "fade",
+					"SpriteMask": "fade",
+					"BezierLerp": "move"
+				}
 				if words[4] in style_types:
 					style_type = style_types[words[4]]
 				else:
@@ -655,11 +666,7 @@ def convert_ui(contents, name = "root", type = "none"):
 				if words[4] == "SpriteMask":
 					if not "children" in sub_anim_uis[words[1]]:
 						sub_anim_uis[words[1]]["children"] = {}
-					sub_anim_uis[words[1]]["children"]["_Mask"] = {
-						"type": "none",
-						"pos": {"x": 0, "y": 0},
-						"children": {"Background": "ui/background2.json"}
-					}
+					sub_anim_uis[words[1]]["children"]["_Mask"] = {"type": "none", "children": {"Background": "ui/background.json"}}
 					sub_anim_uis[words[1]] = sub_anim_uis[words[1]]["children"]["_Mask"]
 					anim["target"] += "/_Mask"
 					anim_out["target"] += "/_Mask"
@@ -674,16 +681,22 @@ def convert_ui(contents, name = "root", type = "none"):
 				anim["startValue"] = int(words[4]) / 255
 			if words[2] == "AlphaTarget" and anim["type"] == "fade":
 				anim["endValue"] = int(words[4]) / 255
+			if words[2] == "BezierControls":
+				anim["transition"] = {"type": "bezier", "point1": float(words[4]), "point2": float(words[5])}
 		if words[0] == "SubAnimOut":
 			# Get animation ID.
 			anim_id = int(words[1])
 			# Get animation data.
-			anim = ui_data["animations2"]["out"][anim_id]
-			anim_in = ui_data["animations2"]["in"][anim_id]
+			anim = ui_data["animations"]["out"][anim_id]
+			anim_in = ui_data["animations"]["in"][anim_id]
 
 			# Parse stuff.
 			if words[2] == "Style":
-				style_types = {"AlphaFade":"fade","SpriteMask":"fade","BezierLerp":"move"}
+				style_types = {
+					"AlphaFade": "fade",
+					"SpriteMask": "fade",
+					"BezierLerp": "move"
+				}
 				if words[4] in style_types:
 					style_type = style_types[words[4]]
 				else:
@@ -699,8 +712,12 @@ def convert_ui(contents, name = "root", type = "none"):
 				anim["startValue"] = int(words[4]) / 255
 			if words[2] == "AlphaTarget" and anim["type"] == "fade":
 				anim["endValue"] = int(words[4]) / 255
+			if words[2] == "BezierControls":
+				anim["transition"] = {"type": "bezier", "point1": float(words[4]), "point2": float(words[5])}
 	
 	# Remove empty fields or fields with default values.
+	if ui_data["pos"] == {"x": 0, "y": 0}:
+		del ui_data["pos"]
 	if ui_data["alpha"] == 1:
 		del ui_data["alpha"]
 	if ui_data["children"] == {}:
@@ -723,6 +740,49 @@ def convert_ui(contents, name = "root", type = "none"):
 	if name == "root.Frame.Slot_sfx.Slider_Effects":
 		ui_data["releaseSound"] = "sound_events/catch_powerup_shot_speed.json"
 
+	return ui_data
+
+#
+#  Takes .uis file contents and returns UI script data for the stagemap.
+#
+
+def convert_ui_script(contents):
+	ui_data = {
+		"type": "none",
+		"children": {
+			"StageButtons": {"type": "none", "children": {}},
+			"LevelButtons": {"type": "none", "children": {}}
+		}
+	}
+
+	level = 1
+
+	for line in contents:
+		line = unindent(line)
+		if line == None:
+			continue
+
+		words = line.split(" ")
+		# Remove empty words.
+		while "" in words:
+			words.remove("")
+
+		if words[0] == "//":
+			continue # we don't want comments
+		if words[0] == "LevelPsys":
+			ui_data["children"]["LevelPsys"] = {"type": "particle", "path": resolve_path_particle(words[2])}
+		if words[0] == "StagePsys":
+			ui_data["children"]["StageUnlockPsys"] = {"type": "particle", "path": resolve_path_particle(words[2])}
+		if words[0] == "StageCompletePsys":
+			ui_data["children"]["StageCompletePsys"] = {"type": "particle", "pos": {"x": 400, "y": 300}, "path": resolve_path_particle(words[2])}
+		if words[0] == "Stage":
+			ui_data["children"]["StageButtons"]["children"][words[1]] = {"type": "spriteButton", "neverDisabled": True, "pos": {"x": int(words[3]), "y": int(words[4])}, "sprite": resolve_path_sprite(words[6])}
+			if not words[-1].endswith("\""):
+				ui_data["children"]["Set"] = {"type": "sprite", "pos": {"x": int(words[-2]), "y": int(words[-1])}, "sprite": resolve_path_sprite(words[-3])}
+		if words[0] == "Level":
+			ui_data["children"]["LevelButtons"]["children"][str(level)] = {"type": "spriteButton", "neverDisabled": True, "pos": {"x": int(words[4]), "y": int(words[5])}, "sprite": "sprites/dialogs/button_level.json"}
+			level += 1
+	
 	return ui_data
 
 #
@@ -1169,16 +1229,11 @@ def convert():
 ### Converts a UI layout. (WIP)
 def convert_ui_test(name):
 	if name == "":
-		banned_files = [
-			"banner_stagemap.ui",
-			"menu_stageselect.ui",
-			"pseditor.ui"
-		]
 		try_create_dir("output/ui/")
 
 		for r, d, f in os.walk(FDATA + "/uiscript"):
 			for file in f:
-				if file in banned_files or not file.endswith(".ui"):
+				if not file.endswith(".ui"):
 					continue
 				print(file)
 				store_contents("output/ui/" + file[:-3] + ".json", convert_ui(get_contents(FDATA + "/uiscript/" + file)))
@@ -1186,6 +1241,9 @@ def convert_ui_test(name):
 		output = convert_ui(get_contents(FDATA + "/uiscript/" + name + ".ui"))
 		store_contents("output/ui/" + name + ".json", output)
 		print("Converted!")
+	
+	# Also convert the UI Scriptlet.
+	store_contents("output/ui/stage_select.json", convert_ui_script(get_contents(FDATA + "/uiscript/stage_select.uis")))
 
 
 
