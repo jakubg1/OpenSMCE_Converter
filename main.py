@@ -100,26 +100,18 @@ def get_contents(path):
 
 ###  Stores given data in JSON format in a given file.
 def store_contents(path, contents):
+	make_dir(path)
 	file = open(path, "w")
 	file.write(json.dumps(contents, indent = 4))
 	file.close()
 
-###  Attempts to create a folder with a given name if it doesn't exist yet.
-def try_create_dir(path):
-	try:
+###  Creates a folder with a given path if it doesn't exist yet.
+def make_dir(path):
+	# Cut off the file part.
+	if "." in path.split("/")[-1]:
+		path = "/".join(path.split("/")[:-1])
+	if not os.path.exists(path):
 		os.makedirs(path)
-	except:
-		pass
-
-###  Attempts to create a folder structure with a given name if it doesn't exist yet.
-def try_create_dirs(path):
-	total = ""
-	try:
-		for folder in path.split("/"):
-			total += folder + "/"
-			try_create_dir(total)
-	except:
-		pass
 
 ###  Returns True if a given file exists.
 def file_exists(path):
@@ -223,9 +215,7 @@ def combine_alpha(img, alpha = None):
 #
 
 def combine_alpha_path(img_path, alpha_path, result_path):
-	output_path = "/".join(result_path.split("/")[:-1])
-	if not os.path.exists(output_path):
-		os.makedirs(output_path)
+	make_dir(result_path)
 
 	try:
 		img = Image.open(fix_path(img_path))
@@ -276,9 +266,6 @@ def combine_alpha_sprite(sprite_path, out_sprite_path, out_image_path):
 		sprite_data["states"][0]["frames"]["x"] = 1
 
 	result_path = out_sprite_path
-	output_path = "/".join(result_path.split("/")[:-1])
-	if not os.path.exists(output_path):
-		os.makedirs(output_path)
 	store_contents(result_path, sprite_data)
 
 #
@@ -431,9 +418,6 @@ def convert_level(contents):
 #
 
 def convert_map(input_path, output_path):
-	if not os.path.exists(output_path):
-		os.makedirs(output_path)
-
 	map_data = {
 		"$schema":"../../../../schemas/map.json",
 		"name":"",
@@ -1075,7 +1059,6 @@ def generate_color_palette(image_path):
 
 	# File hierarchy analogic to the image file.
 	color_palette_path = new_path.replace("images", "color_palettes")
-	try_create_dirs("output/" + "/".join(color_palette_path.split("/")[:-1]))
 	store_contents("output/" + color_palette_path[:-4] + ".json", color_palette_data)
 
 	# Convert the image itself, too.
@@ -1093,8 +1076,6 @@ def convert_sprites(files):
 				if not file.endswith(".spr"):
 					continue
 				files.append(r + "/" + file)
-
-	try_create_dir("output/levels/")
 
 	for file in files:
 		print(file)
@@ -1124,8 +1105,6 @@ def convert_levels(files):
 					continue
 				files.append(file)
 
-	try_create_dir("output/levels/")
-
 	for file in files:
 		print(file)
 		store_contents("output/levels/" + rename_level(file[:-4]) + ".json", convert_level(get_contents(FDATA + "/levels/" + file)))
@@ -1140,8 +1119,6 @@ def convert_fonts(files):
 				if not file.endswith(".font"):
 					continue
 				files.append(file)
-
-	try_create_dir("output/fonts/")
 
 	for file in files:
 		print(file)
@@ -1158,8 +1135,6 @@ def convert_particles(files):
 					continue
 				files.append(file)
 
-	try_create_dir("output/particles/")
-
 	for file in files:
 		print(file)
 		store_contents("output/particles/" + file[:-5] + ".json", convert_psys(get_contents(FDATA + "/psys/" + file)))
@@ -1168,8 +1143,6 @@ def convert_particles(files):
 ### Input: data/sound/sounds.sl3
 ### Output: output/sound_events/*.json
 def convert_sounds(files):
-	try_create_dir("output/sound_events/")
-
 	events = convert_sounds_from_sl3(get_contents(FDATA + "/sound/sounds.sl3"))
 
 	for event_name in events:
@@ -1180,8 +1153,6 @@ def convert_sounds(files):
 ### Input: data/music/music.sl3
 ### Output: output/music_tracks/*.json
 def convert_music(files):
-	try_create_dir("output/music_tracks/")
-
 	tracks = convert_music_from_sl3(get_contents(FDATA + "/music/music.sl3"))
 
 	for n in tracks:
@@ -1198,8 +1169,6 @@ def convert_uis(files):
 				if not file.endswith(".ui"):
 					continue
 				files.append(file)
-
-	try_create_dir("output/ui/")
 
 	for file in files:
 		print(file)
