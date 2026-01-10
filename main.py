@@ -6,8 +6,18 @@ from PIL import Image, ImageDraw
 # The path to the data folder.
 FDATA = "data"
 
-# A list of stuff to convert. See `convert()` for available values.
-CONVERSION_SCOPE = []
+# Available conversion scope keys recognized as the command line arguments.
+CONVERSION_SCOPE_KEYS = {
+	"--sprites": "sprites",
+	"--maps": "maps",
+	"--levels": "levels",
+	"--fonts": "fonts",
+	"--particles": "particles",
+	"--sounds": "sounds",
+	"--music": "music",
+	"--ui": "ui",
+	"--uiscriptlet": "uiscriptlet"
+}
 
 # A list of maps which have different casing.
 # TODO: Make this a dynamic list. Necessary for mods to work on Linux.
@@ -119,13 +129,17 @@ def file_exists(path):
 		return False
 	return True
 
+###  Changes e.g. "data\bitmaps\powerups\wild_pal.jpg" to "images/powerups/wild_pal.png".
+def resolve_path_image2(path):
+	return fix_path(path).replace(FDATA + "/bitmaps", "images")[:-4] + ".png"
+
 ###  Changes e.g. "data\sprites\game\shooter.spr" to "images/game/shooter.png".
 def resolve_path_image(path):
 	return fix_path(path).replace(FDATA + "/sprites", "images")[:-4] + ".png"
 
 ###  Changes e.g. "data\sprites\game\shooter.spr" to "sprites/game/shooter.json".
 def resolve_path_sprite(path):
-	return fix_path(path).replace(FDATA + "/sprites", "sprites").replace(FDATA + "/fonts", "sprites/fonts")[:-4] + ".json"
+	return fix_path(path).replace(FDATA + "/sprites", "sprites").replace(FDATA + "/fonts", "fonts")[:-4] + ".json"
 
 ###  Changes e.g. "data\fonts\score4.font" to "fonts/score4.json".
 def resolve_path_font(path):
@@ -289,7 +303,7 @@ def convert_path(contents):
 
 	result.reverse()
 
-	return result
+	return {"nodes": result}
 
 #
 #  Takes (level_x_y.lvl) file contents and returns level data.
@@ -441,12 +455,10 @@ def convert_map(input_path, output_path):
 		if words[0] == "Sprite":
 			is_global = "\\".join(input_path.replace("/", "\\").split("\\")[1:]).lower() != ("\\".join(words[2].split("\\")[1:-1]) + "\\").lower()
 			sprite_name = (words[2].replace("\\", "/").replace("data/sprites", "sprites")[:-4]) if is_global else words[2].split("\\")[-1][:-4]
-			if not is_global:
-				combine_alpha_sprite(input_path + sprite_name + ".spr", output_path + sprite_name + ".json", output_path + sprite_name + ".png")
 			sprite = {
 				"x": 0,
 				"y": 0,
-				"path": ("" if is_global else ":") + sprite_name + ".json",
+				"sprite": ("" if is_global else ":") + sprite_name + ".json",
 				"background": True
 			}
 			map_data["sprites"].append(sprite)
@@ -456,12 +468,10 @@ def convert_map(input_path, output_path):
 			background = words[4] == "GamePieceHShadow"
 			foreground = words[4] == "MenuControls"
 			sprite_name = (words[5].replace("\\", "/").replace("data/sprites", "sprites")[:-4]) if is_global else words[5].split("\\")[-1][:-4]
-			if not is_global:
-				combine_alpha_sprite(input_path + sprite_name + ".spr", output_path + sprite_name + ".json", output_path + sprite_name + ".png")
 			sprite = {
 				"x": int(words[2]),
 				"y": int(words[3]),
-				"path": ("" if is_global else ":") + sprite_name + ".json",
+				"sprite": ("" if is_global else ":") + sprite_name + ".json",
 				"background": background
 			}
 			if foreground:
@@ -473,7 +483,7 @@ def convert_map(input_path, output_path):
 			map_data["paths"].append(path)
 
 		if words[0] == "Node":
-			map_data["paths"][int(words[2])][int(words[3])]["hidden"] = True
+			map_data["paths"][int(words[2])]["nodes"][int(words[3])]["hidden"] = True
 
 	store_contents(output_path + "config.json", map_data)
 
@@ -512,7 +522,6 @@ def convert_ui(contents, name = "root", type = "none"):
 		"pos": {"x": 0, "y": 0},
 		"alpha": 1,
 		"children": {},
-		"animations": {},
 		"sounds": {}
 	}
 	sub_anim_uis = {}
@@ -722,8 +731,6 @@ def convert_ui(contents, name = "root", type = "none"):
 		del ui_data["alpha"]
 	if ui_data["children"] == {}:
 		del ui_data["children"]
-	if ui_data["animations"] == {}:
-		del ui_data["animations"]
 	if ui_data["sounds"] == {}:
 		del ui_data["sounds"]
 	if "text" in ui_data and ui_data["text"] == "":
@@ -915,11 +922,11 @@ def convert_psys(contents):
 			sprite_contents = get_contents(words[2])
 			spawner_data["particleData"]["animationFrameCount"] = int(sprite_contents[4])
 		if words[0] == "Palette":
-			image_file = words[2].replace("\\", "/").replace("data/bitmaps", "images").replace(".jpg", ".png")
+			image_file = resolve_path_image2(words[2])
 			color_palette_file = words[2].replace("\\", "/").replace("data/bitmaps", "color_palettes")
 			spawner_data["particleData"]["colorPalette"] = color_palette_file[:-4] + ".json"
 			# Create a new Color Palette alongside.
-			generate_color_palette(image_file)
+			generate_color_palette(words[2])
 		if words[0] == "ColorRate":
 			if "EF_USE_COLOR_RATE" in spawner_flags:
 				spawner_data["particleData"]["colorPaletteSpeed"] = 1000 / float(words[2])
@@ -1055,110 +1062,112 @@ def convert_music_from_sl3(contents):
 
 #
 #  Takes a path to the image and generates a Color Palette file pointing to it. Temporary function.
+#  Example input: data\bitmaps\powerups\wild_pal.jpg
 #
 
 def generate_color_palette(image_path):
 	# TODO: Remove this function in favor of loading color palettes in immediate mode.
+	new_path = resolve_path_image2(image_path)
 	color_palette_data = {
-		"$schema": "../" * len(image_path.split("/")) + "schemas/color_palette.json",
-		"image": image_path
+		"$schema": "../" * len(new_path.split("/")) + "schemas/color_palette.json",
+		"image": new_path
 	}
 
 	# File hierarchy analogic to the image file.
-	color_palette_path = image_path.replace("images", "color_palettes")
+	color_palette_path = new_path.replace("images", "color_palettes")
 	try_create_dirs("output/" + "/".join(color_palette_path.split("/")[:-1]))
 	store_contents("output/" + color_palette_path[:-4] + ".json", color_palette_data)
+
+	# Convert the image itself, too.
+	combine_alpha_path(fix_path(image_path), None, "output/" + new_path)
 
 
 
 ### Converts sprites and images.
-### Input: data/sprites/**/*.spr + .tga and .jpg files specified inside
-### Output: output/sprites/**/*.json + combined output/images/**/*.png
-### Plus, extra images.
-def convert_sprites():
-	# TODO: Convert all images specified as color palettes or in particles.
-	# TODO: Don't restrict to data/sprites, scan everything.
-	# TODO: Don't change the directory structure for the dialog cursor.
-	for r, d, f in os.walk(FDATA + "/sprites"):
-		for directory in d:
-			for r, d, f in os.walk(FDATA + "/sprites/" + directory):
-				for file in f:
-					print(directory + "/" + file)
-					sprite_path = FDATA + "/sprites/" + directory + "/" + file
-					combine_alpha_sprite(sprite_path, "output/" + resolve_path_sprite(sprite_path), "output/" + resolve_path_image(sprite_path))
+### Input: data/**/*.spr + .tga and .jpg files specified inside
+### Output: output/**/*.json + combined output/**/*.png
+def convert_sprites(files):
+	if files == []:
+		for r, d, f in os.walk(FDATA):
+			for file in f:
+				if not file.endswith(".spr"):
+					continue
+				files.append(r + "/" + file)
 
-	# one more lone splash background is needed
-	combine_alpha_path(FDATA + "/bitmaps/splash/background.jpg", None, "output/images/splash/background.png")
+	try_create_dir("output/levels/")
 
-	# and some palettes, too
-	combine_alpha_path(FDATA + "/bitmaps/powerups/wild_pal.jpg", None, "output/images/powerups/wild_pal.png")
-	for n in ["blue", "green", "orange", "pink", "purple", "red", "yellow"]:
-		combine_alpha_path(FDATA + "/bitmaps/particles/gem_bloom_" + n + ".jpg", None, "output/images/particles/gem_bloom_" + n + ".png")
-
-	# and that blinking cursor thingy
-	combine_alpha_sprite(FDATA + "/fonts/dialog_body_cursor.spr", "output/sprites/fonts/dialog_body_cursor.json", "output/images/fonts/dialog_body_cursor.png")
-
-
+	for file in files:
+		print(file)
+		combine_alpha_sprite(file, "output/" + resolve_path_sprite(file), "output/" + resolve_path_image(file))
 
 ### Converts maps and sprites belonging to maps.
 ### Input: data/maps/**
 ### Output: output/maps/**
-def convert_maps():
-	# TODO: Map sprites should be converted by the methods above...?
-	for r, d, f in os.walk(FDATA + "/maps"):
-		for directory in d:
-			print(directory)
-			convert_map(FDATA + "/maps/" + directory + "/", "output/maps/" + directory + "/")
+def convert_maps(directories):
+	if directories == []:
+		for r, d, f in os.walk(FDATA + "/maps"):
+			for directory in d:
+				directories.append(directory)
 
-
+	for directory in directories:
+		print(directory)
+		convert_map(FDATA + "/maps/" + directory + "/", "output/maps/" + directory + "/")
 
 ### Converts level files.
 ### Input: data/levels/*.lvl
 ### Output: output/levels/*.json
-def convert_levels():
+def convert_levels(files):
+	if files == []:
+		for r, d, f in os.walk(FDATA + "/levels"):
+			for file in f:
+				if not file.endswith(".lvl"):
+					continue
+				files.append(file)
+
 	try_create_dir("output/levels/")
 
-	for r, d, f in os.walk(FDATA + "/levels"):
-		for file in f:
-			if file == "powerups.txt":
-				continue
-			print(file)
-			store_contents("output/levels/" + rename_level(file[:-4]) + ".json", convert_level(get_contents(FDATA + "/levels/" + file)))
-
-
+	for file in files:
+		print(file)
+		store_contents("output/levels/" + rename_level(file[:-4]) + ".json", convert_level(get_contents(FDATA + "/levels/" + file)))
 
 ### Converts fonts.
 ### Input: data/fonts/*.font
 ### Output: output/fonts/*.json
-def convert_fonts():
+def convert_fonts(files):
+	if files == []:
+		for r, d, f in os.walk(FDATA + "/fonts"):
+			for file in f:
+				if not file.endswith(".font"):
+					continue
+				files.append(file)
+
 	try_create_dir("output/fonts/")
 
-	for r, d, f in os.walk(FDATA + "/fonts"):
-		for file in f:
-			if file == "dialog_body_cursor.spr":
-				continue
-			print(file)
-			convert_font(FDATA + "/fonts/" + file, "output/fonts/" + file[:-5] + ".json")
-
-
+	for file in files:
+		print(file)
+		convert_font(FDATA + "/fonts/" + file, "output/fonts/" + file[:-5] + ".json")
 
 ### Converts particles.
 ### Input: data/psys/*.psys (minus progress.psys)
 ### Output: output/particles/*.json
-def convert_particles():
+def convert_particles(files):
+	if files == []:
+		for r, d, f in os.walk(FDATA + "/psys"):
+			for file in f:
+				if not file.endswith(".psys"):
+					continue
+				files.append(file)
+
 	try_create_dir("output/particles/")
 
-	for r, d, f in os.walk(FDATA + "/psys"):
-		for file in f:
-			print(file)
-			store_contents("output/particles/" + file[:-5] + ".json", convert_psys(get_contents(FDATA + "/psys/" + file)))
-
-
+	for file in files:
+		print(file)
+		store_contents("output/particles/" + file[:-5] + ".json", convert_psys(get_contents(FDATA + "/psys/" + file)))
 
 ### Converts sound events.
 ### Input: data/sound/sounds.sl3
 ### Output: output/sound_events/*.json
-def convert_sounds():
+def convert_sounds(files):
 	try_create_dir("output/sound_events/")
 
 	events = convert_sounds_from_sl3(get_contents(FDATA + "/sound/sounds.sl3"))
@@ -1167,12 +1176,10 @@ def convert_sounds():
 		print(event_name)
 		store_contents("output/sound_events/" + event_name + ".json", events[event_name])
 
-
-
 ### Converts music tracks.
 ### Input: data/music/music.sl3
 ### Output: output/music_tracks/*.json
-def convert_music():
+def convert_music(files):
 	try_create_dir("output/music_tracks/")
 
 	tracks = convert_music_from_sl3(get_contents(FDATA + "/music/music.sl3"))
@@ -1181,22 +1188,44 @@ def convert_music():
 		print(n)
 		store_contents("output/music_tracks/" + n + ".json", tracks[n])
 
+### Converts UI files.
+### Input: data/uiscript/*.ui
+### Output: output/ui/*.json
+def convert_uis(files):
+	if files == []:
+		for r, d, f in os.walk(FDATA + "/uiscript"):
+			for file in f:
+				if not file.endswith(".ui"):
+					continue
+				files.append(file)
 
+	try_create_dir("output/ui/")
+
+	for file in files:
+		print(file)
+		store_contents("output/ui/" + file[:-3] + ".json", convert_ui(get_contents(FDATA + "/uiscript/" + file)))
+
+### Converts UI scriptlet.
+### Input: data/uiscript/stage_select.uis
+### Output: output/ui/stage_select.json
+def convert_ui_scriptlet(files):
+	store_contents("output/ui/stage_select.json", convert_ui_script(get_contents(FDATA + "/uiscript/stage_select.uis")))
 
 ### Main conversion function.
-def convert():
+def convert(conversion_scope):
 	# Sample manual conversion functions:
 	# combine_alpha_path("warning.jpg", "warning_alpha.tga", "warning.png")
 	# combine_alpha_path("warning2.jpg", "", "warning_gem.png")
 	# convert_map(FDATA + "/maps/Demo/", "output/maps/Demo/")
 	# store_contents("output/levels/level_0_0.json", convert_level(get_contents(FDATA + "/levels/level_0_0.lvl")))
 
+	print()
+	print("==================================")
 	if file_exists(FDATA + "/sprites/powerups/scorpion.spr"):
-		print("\n\nYOU ARE CONVERTING LUXOR AMUN RISING\n\n")
+		print("YOU ARE CONVERTING LUXOR AMUN RISING")
 	else:
-		print("\n\nYOU ARE CONVERTING LUXOR 1\n\n")
-
-	###############################################################################################   MAIN START
+		print("YOU ARE CONVERTING LUXOR 1")
+	print()
 
 	CONVERSION_FUNCTIONS = {
 		"sprites": convert_sprites,
@@ -1205,55 +1234,40 @@ def convert():
 		"fonts": convert_fonts,
 		"particles": convert_particles,
 		"sounds": convert_sounds,
-		"music": convert_music
+		"music": convert_music,
+		"ui": convert_uis,
+		"uiscriptlet": convert_ui_scriptlet
 	}
 
-	for i in range(len(CONVERSION_SCOPE)):
-		registry = CONVERSION_SCOPE[i]
-		print("\n\n\n\nConverting " + registry + " (" + str(i + 1) + "/" + str(len(CONVERSION_SCOPE)) + ")...")
-		CONVERSION_FUNCTIONS[registry]()
+	conversion_types = list(conversion_scope.keys())
+	for i in range(len(conversion_types)):
+		registry = conversion_types[i]
+		files = conversion_scope[registry]
+		print("==================================")
+		print("Converting " + registry + " (" + str(i + 1) + "/" + str(len(conversion_types)) + ")...")
+		CONVERSION_FUNCTIONS[registry](files)
 		print("Done!")
-
-	###############################################################################################   MAIN END
-
-	### CONVERT UI (WIP)
-	# for name in ["profile_dup"]:
-		# # if name + ".ui" in rule_tables["ui"]:
-			# # rule_table = rule_tables["ui"][name + ".ui"]
-		# # else:
-		# rule_table = {}
-		# store_contents("output/ui/" + name + ".json", convert_ui(get_contents(FDATA + "/uiscript/" + name + ".ui"), rule_table))
 
 
 
 ### Converts a UI layout. (WIP)
 def convert_ui_test(name):
 	if name == "":
-		try_create_dir("output/ui/")
-
-		for r, d, f in os.walk(FDATA + "/uiscript"):
-			for file in f:
-				if not file.endswith(".ui"):
-					continue
-				print(file)
-				store_contents("output/ui/" + file[:-3] + ".json", convert_ui(get_contents(FDATA + "/uiscript/" + file)))
+		convert_uis()
 	else:
 		output = convert_ui(get_contents(FDATA + "/uiscript/" + name + ".ui"))
 		store_contents("output/ui/" + name + ".json", output)
 		print("Converted!")
-	
-	# Also convert the UI Scriptlet.
-	store_contents("output/ui/stage_select.json", convert_ui_script(get_contents(FDATA + "/uiscript/stage_select.uis")))
 
 
 
 ### Entry point of the application. Handles the commandline arguments.
 def main():
-	global CONVERSION_SCOPE, FDATA
+	global FDATA
 
 	if len(sys.argv) == 1 or (len(sys.argv) == 2 and sys.argv[1] == "--help"):
 		print("Welcome to OpenSMCE Converter!")
-		print("Supported games: Luxor, Luxor Amun Rising. Mods not supported!")
+		print("Supported games: Luxor, Luxor Amun Rising and mods for these games. Luxor 2 not supported!")
 		print()
 		print("Usage: main.py [arguments]")
 		print()
@@ -1266,52 +1280,46 @@ def main():
 		print("    --particles - Converts particles.")
 		print("    --sounds - Converts sounds.")
 		print("    --music - Converts music.")
+		print("    --ui - Converts UI.")
+		print("    --uiscriptlet - Converts UI Scriptlet.")
+		print()
+		print("    After any of these above, excluding '--all', '--sounds', '--music' and '--uiscriptlet', you can give any number of")
+		print("    paths to the relevant files to be converted. By default, all files will be converted.")
 		print()
 		print("    -d <folder> - Specify a different input folder, defaults to 'data'.")
-		print("    -u <name> - Converts a UI layout with a given name. For testing only.")
 		print()
 		print("    --help - Prints this message.")
 	else:
-		CONVERSION_SCOPE_KEYS = {
-			"--sprites": "sprites",
-			"--maps": "maps",
-			"--levels": "levels",
-			"--fonts": "fonts",
-			"--particles": "particles",
-			"--sounds": "sounds",
-			"--music": "music"
-		}
+		conversion_scope = {}
+		last_registry = None
 		next_value = None
-		ui_file = None
 		for i in range(len(sys.argv) - 1):
 			arg = sys.argv[i + 1]
 			if next_value == None:
 				if arg == "--all":
-					CONVERSION_SCOPE = ["sprites", "maps", "levels", "fonts", "particles", "sounds", "music"]
+					conversion_scope = {"sprites": [], "maps": [], "levels": [], "fonts": [], "particles": [], "sounds": [], "music": [], "ui": [], "uiscriptlet": []}
 				elif arg in CONVERSION_SCOPE_KEYS:
 					registry = CONVERSION_SCOPE_KEYS[arg]
-					if registry in CONVERSION_SCOPE:
+					if registry in conversion_scope:
 						print("Error: key " + arg + " is invalid: duplicate or used with --all!")
 						exit(1)
 					else:
-						CONVERSION_SCOPE.append(registry)
-				elif arg == "-d" or arg == "-u":
+						conversion_scope[registry] = []
+						last_registry = registry
+				elif arg == "-d":
 					next_value = arg
-					if arg == "-u":
-						ui_file = ""
+				elif last_registry != None:
+					if last_registry in ["sounds", "music"]:
+						print("Error: Sound or music files cannot be specified, since only one .sl3 file exists for them anyways!")
+						exit(1)
+					conversion_scope[last_registry].append(arg)
 				else:
 					print("Error: key " + arg + " unrecognized")
 					exit(1)
 			elif next_value == "-d":
 				FDATA = arg
 				next_value = None
-			elif next_value == "-u":
-				ui_file = arg
-				next_value = None
-		if ui_file == None:
-			convert()
-		else:
-			convert_ui_test(ui_file)
+		convert(conversion_scope)
 		
 
 
