@@ -1,4 +1,5 @@
 import math, sys, os, json
+from functools import cmp_to_key
 from PIL import Image, ImageDraw
 
 
@@ -183,6 +184,12 @@ def rename_level(name):
 		return "level_" + str(a * 100 + b)
 	except:
 		return name
+
+###  Gets a UI child by name. This cannot go outside of a single file.
+def get_ui_child(ui_data, child_name):
+	for child in ui_data["children"]:
+		if type(child) is dict and child["name"] == child_name:
+			return child
 
 
 
@@ -496,25 +503,53 @@ def convert_font(input_path, output_path):
 
 	store_contents(output_path, font_data)
 
+# A list of UI widget types mapped to OpenSMCE widget types.
+UI_WIDGET_TYPES = {
+	"uiNonVisualWidget": "none",
+	"uiAnimDialog": "none",
+	"uiVisualWidget": "sprite",
+	"uiStageMap": "sprite",
+	"uiTextWidget": "text",
+	"uiEntryWidget": "textInput",
+	"uiButton": "spriteButton",
+	"uiRadioButton": "spriteButton", # TODO: At some point, add radio button support to OpenSMCE.
+	"uiToggleButton": "spriteButtonCheckbox",
+	"uiSliderButton": "spriteButtonSlider",
+	"uiProgressBar": "spriteProgress",
+	"uiProgressBar_Giza": "spriteProgress",
+	"uiParticleSystem": "particle"
+}
+
+# A comparison function which compares two UI widgets and brings the text one to the top.
+def UI_SORT_TEXT_ON_TOP(a, b):
+	a_is_text = "type" in a and a["type"] == "text"
+	b_is_text = "type" in b and b["type"] == "text"
+	if a_is_text and not b_is_text:
+		return -1
+	if not a_is_text and b_is_text:
+		return 1
+	return 0
+
 #
 #  Takes .ui file contents and returns UI script data.
 #
 
-def convert_ui(contents, name = "root", type = "none"):
+def convert_ui(contents, full_name = None):
 	ui_data = {
-		"type": type,
+		"name": "",
+		"type": "none",
 		"pos": {"x": 0, "y": 0},
 		"alpha": 1,
-		"children": {},
+		"children": [],
 		"sounds": {}
 	}
 	sub_anim_uis = {}
 
 	child_scan = False
 	child_scan_level = 0
-	child_name = ""
-	child_type = "none"
 	child_contents = []
+
+	first_line = True
 
 	button_layer = None # Hack for stagemap scriptlet layering
 
@@ -531,10 +566,26 @@ def convert_ui(contents, name = "root", type = "none"):
 				child_scan_level -= 1 # protection for nested children
 				if child_scan_level == 0:
 					child_scan = False
-					ui_data["children"][child_name] = convert_ui(child_contents, name + "." + child_name, child_type)
+					ui_data["children"].append(convert_ui(child_contents, full_name))
 			continue
 
 		words = line.split(" ")
+		
+		if first_line:
+			# First line is always NAME = TYPE. Extract relevant information.
+			ui_data["name"] = words[0]
+			if full_name == None:
+				full_name = ui_data["name"]
+			else:
+				full_name += "." + ui_data["name"]
+
+			if words[2] in UI_WIDGET_TYPES:
+				ui_data["type"] = UI_WIDGET_TYPES[words[2]]
+			else:
+				print("!! Unknown UI widget type! " + words[2])
+			first_line = False
+			continue
+
 		if words[0] == "//":
 			continue # we don't want comments
 		if words[0] == "X":
@@ -545,7 +596,7 @@ def convert_ui(contents, name = "root", type = "none"):
 			if words[2] == "WF_ROOT_COORDS":
 				ui_data["inheritPos"] = False
 		if words[0] == "AnimIn" and words[1] == "Sound":
-			ui_data["sounds"]["in_"] = "sound_events/" + words[3] + ".json"
+			ui_data["sounds"]["in"] = "sound_events/" + words[3] + ".json"
 		if words[0] == "AnimOut" and words[1] == "Sound":
 			ui_data["sounds"]["out"] = "sound_events/" + words[3] + ".json"
 		if words[0] == "Depth" and words[2] != "#Parent":
@@ -577,46 +628,20 @@ def convert_ui(contents, name = "root", type = "none"):
 		if words[0] == "File":
 			ui_data["path"] = resolve_path_particle(words[2])
 		if words[0] == "Psys": # Strictly for the progress bar
-			ui_data["children"]["_Particle"] = {"type": "particle", "path": resolve_path_particle(words[2])}
+			ui_data["children"].append({"name": "_Particle", "type": "particle", "path": resolve_path_particle(words[2])})
 		if words[0] == "#Scriptlet":
 			if words[1] == "data\\uiscript\\stage_select.uis":
-				ui_data["children"]["_Scriptlet"] = {"type": "none", "layer": button_layer, "children": {"Stage_Select": "ui/stage_select.json"}}
+				ui_data["children"].append({"name": "_Scriptlet", "type": "none", "layer": button_layer, "children": ["ui/stage_select.json"]})
 			else:
 				print("!! Unknown UI scriptlet! " + words[1])
 		if words[0] == "Child":
 			if len(words[1]) > 0 and words[1][0] == "#":
 				# Include from another file.
-				# Because OpenSMCE names widgets from outside unlike the original Luxor engine which names them from inside,
-				# we need to extract the name from that file.
-				# So we need to load the file and parse the first word.
-				# I know this is very inefficient, but I don't want to rewrite the entire code just for that.
-				# Feel free to just you know, write a better converter!
-				child_name = get_contents(fix_path(words[1][1:]))[0].split(" ")[0]
-				ui_data["children"][child_name] = resolve_path_ui(words[1][1:])
+				ui_data["children"].append(resolve_path_ui(words[1][1:]))
 			else:
-				child_types = {
-					"uiNonVisualWidget":"none",
-					"uiVisualWidget":"sprite",
-					"uiStageMap":"sprite",
-					"uiTextWidget":"text",
-					"uiEntryWidget":"textInput",
-					"uiButton":"spriteButton",
-					"uiRadioButton":"spriteButton",
-					"uiToggleButton":"spriteButtonCheckbox",
-					"uiSliderButton":"spriteButtonSlider",
-					"uiProgressBar":"spriteProgress",
-					"uiProgressBar_Giza":"spriteProgress",
-					"uiParticleSystem":"particle"
-				}
-				if words[3] in child_types:
-					child_type = child_types[words[3]]
-				else:
-					print("!! Unknown UI widget type! " + words[3])
-					child_type = "none"
 				child_scan = True
 				child_scan_level = 0
-				child_name = words[1]
-				child_contents = []
+				child_contents = [" ".join(words[1:])]
 
 
 
@@ -638,7 +663,7 @@ def convert_ui(contents, name = "root", type = "none"):
 				sub_ui = ui_data
 				sub_ui_nav = words[4].split(".")[1:]
 				for nav in sub_ui_nav:
-					sub_ui = sub_ui["children"][nav]
+					sub_ui = get_ui_child(sub_ui, nav)
 				sub_anim_uis[words[1]] = sub_ui
 				anim["target"] = "/".join(sub_ui_nav)
 				anim_out["target"] = "/".join(sub_ui_nav)
@@ -658,9 +683,9 @@ def convert_ui(contents, name = "root", type = "none"):
 				# Create a background child for animation if this is a mask.
 				if words[4] == "SpriteMask":
 					if not "children" in sub_anim_uis[words[1]]:
-						sub_anim_uis[words[1]]["children"] = {}
-					sub_anim_uis[words[1]]["children"]["_Mask"] = {"type": "none", "children": {"Background": "ui/background.json"}}
-					sub_anim_uis[words[1]] = sub_anim_uis[words[1]]["children"]["_Mask"]
+						sub_anim_uis[words[1]]["children"] = []
+					sub_anim_uis[words[1]]["children"].append({"name": "_Mask", "type": "none", "children": ["ui/background.json"]})
+					sub_anim_uis[words[1]] = get_ui_child(sub_anim_uis[words[1]], "_Mask")
 					anim["target"] += "/_Mask"
 					anim_out["target"] += "/_Mask"
 				# Fill in animation info for the animated Widget.
@@ -707,29 +732,37 @@ def convert_ui(contents, name = "root", type = "none"):
 				anim["endValue"] = int(words[4]) / 255
 			if words[2] == "BezierControls":
 				anim["transition"] = {"type": "bezier", "point1": float(words[4]), "point2": float(words[5])}
-	
-	# Remove empty fields or fields with default values.
-	if ui_data["pos"] == {"x": 0, "y": 0}:
-		del ui_data["pos"]
-	if ui_data["alpha"] == 1:
-		del ui_data["alpha"]
-	if ui_data["children"] == {}:
-		del ui_data["children"]
-	if ui_data["sounds"] == {}:
-		del ui_data["sounds"]
-	if "text" in ui_data and ui_data["text"] == "":
-		del ui_data["text"]
 
 	# Sometimes there are sprite widgets which don't actually have any sprite. Fix this here.
 	if ui_data["type"] == "sprite" and not "sprite" in ui_data:
 		ui_data["type"] = "none"
 
 	# Hardcoded additions which don't make sense to be put elsewhere.
-	if name == "root.Menu":
+	if full_name == "Main.Menu":
 		ui_data["type"] = "level"
 		ui_data["path"] = "levels/level_0.json"
-	if name == "root.Frame.Slot_sfx.Slider_Effects":
+	if full_name == "Main.Menu.Button_MoreGames": # This refers to a nonexistent sprite.
+		ui_data["type"] = "none"
+	if full_name == "Menu_Options.Frame.Slot_sfx.Slider_Effects":
 		ui_data["releaseSound"] = "sound_events/catch_powerup_shot_speed.json"
+	
+	# The original MumboJumbo engine renders text in front of everything else, no matter the order, even if on the same layer.
+	# To accomodate this without bloating OpenSMCE logic, all text widgets are brought to the top (are rendered in front of everything else).
+	ui_data["children"] = sorted(ui_data["children"], key = cmp_to_key(UI_SORT_TEXT_ON_TOP))
+	
+	# Remove empty fields or fields with default values.
+	if ui_data["type"] == "none":
+		del ui_data["type"]
+	if ui_data["pos"] == {"x": 0, "y": 0}:
+		del ui_data["pos"]
+	if ui_data["alpha"] == 1:
+		del ui_data["alpha"]
+	if ui_data["children"] == []:
+		del ui_data["children"]
+	if ui_data["sounds"] == {}:
+		del ui_data["sounds"]
+	if "text" in ui_data and ui_data["text"] == "":
+		del ui_data["text"]
 
 	return ui_data
 
@@ -739,11 +772,11 @@ def convert_ui(contents, name = "root", type = "none"):
 
 def convert_ui_script(contents):
 	ui_data = {
-		"type": "none",
-		"children": {
-			"StageButtons": {"type": "none", "children": {}},
-			"LevelButtons": {"type": "none", "children": {}}
-		}
+		"name": "Stage_Select",
+		"children": [
+			{"name": "StageButtons", "children": []},
+			{"name": "LevelButtons", "children": []}
+		]
 	}
 
 	level = 1
@@ -761,17 +794,19 @@ def convert_ui_script(contents):
 		if words[0] == "//":
 			continue # we don't want comments
 		if words[0] == "LevelPsys":
-			ui_data["children"]["LevelPsys"] = {"type": "particle", "path": resolve_path_particle(words[2])}
+			ui_data["children"].append({"name": "LevelPsys", "type": "particle", "path": resolve_path_particle(words[2])})
 		if words[0] == "StagePsys":
-			ui_data["children"]["StageUnlockPsys"] = {"type": "particle", "path": resolve_path_particle(words[2])}
+			ui_data["children"].append({"name": "StageUnlockPsys", "type": "particle", "path": resolve_path_particle(words[2])})
 		if words[0] == "StageCompletePsys":
-			ui_data["children"]["StageCompletePsys"] = {"type": "particle", "pos": {"x": 400, "y": 300}, "path": resolve_path_particle(words[2])}
+			ui_data["children"].append({"name": "StageCompletePsys", "type": "particle", "pos": {"x": 400, "y": 300}, "path": resolve_path_particle(words[2])})
 		if words[0] == "Stage":
-			ui_data["children"]["StageButtons"]["children"][words[1]] = {"type": "spriteButton", "neverDisabled": True, "pos": {"x": int(words[3]), "y": int(words[4])}, "sprite": resolve_path_sprite(words[6])}
+			stage_buttons = get_ui_child(ui_data, "StageButtons")
+			stage_buttons["children"].append({"name": words[1], "type": "spriteButton", "neverDisabled": True, "pos": {"x": int(words[3]), "y": int(words[4])}, "sprite": resolve_path_sprite(words[6])})
 			if not words[-1].endswith("\""):
-				ui_data["children"]["Set"] = {"type": "sprite", "pos": {"x": int(words[-2]), "y": int(words[-1])}, "sprite": resolve_path_sprite(words[-3])}
+				ui_data["children"].append({"name": "Set", "type": "sprite", "pos": {"x": int(words[-2]), "y": int(words[-1])}, "sprite": resolve_path_sprite(words[-3])})
 		if words[0] == "Level":
-			ui_data["children"]["LevelButtons"]["children"][str(level)] = {"type": "spriteButton", "neverDisabled": True, "pos": {"x": int(words[4]), "y": int(words[5])}, "sprite": "sprites/dialogs/button_level.json"}
+			level_buttons = get_ui_child(ui_data, "LevelButtons")
+			level_buttons["children"].append({"name": str(level), "type": "spriteButton", "neverDisabled": True, "pos": {"x": int(words[4]), "y": int(words[5])}, "sprite": "sprites/dialogs/button_level.json"})
 			level += 1
 	
 	return ui_data
@@ -1188,14 +1223,6 @@ def convert(conversion_scope):
 	# combine_alpha_path("warning2.jpg", "", "warning_gem.png")
 	# convert_map(FDATA + "/maps/Demo/", "output/maps/Demo/")
 	# store_contents("output/levels/level_0_0.json", convert_level(get_contents(FDATA + "/levels/level_0_0.lvl")))
-
-	print()
-	print("==================================")
-	if file_exists(FDATA + "/sprites/powerups/scorpion.spr"):
-		print("YOU ARE CONVERTING LUXOR AMUN RISING")
-	else:
-		print("YOU ARE CONVERTING LUXOR 1")
-	print()
 
 	CONVERSION_FUNCTIONS = {
 		"sprites": convert_sprites,
