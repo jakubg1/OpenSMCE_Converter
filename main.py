@@ -127,11 +127,11 @@ def resolve_path_image2(path):
 
 ###  Changes e.g. "data\sprites\game\shooter.spr" to "images/game/shooter.png".
 def resolve_path_image(path):
-	return fix_path(path).replace(FDATA + "/sprites", "images")[:-4] + ".png"
+	return fix_path(path).replace(FDATA + "/sprites", "images").replace(FDATA + "/", "")[:-4] + ".png"
 
 ###  Changes e.g. "data\sprites\game\shooter.spr" to "sprites/game/shooter.json".
 def resolve_path_sprite(path):
-	return fix_path(path).replace(FDATA + "/sprites", "sprites").replace(FDATA + "/fonts", "fonts")[:-4] + ".json"
+	return fix_path(path).replace(FDATA + "/", "")[:-4] + ".json"
 
 ###  Changes e.g. "data\fonts\score4.font" to "fonts/score4.json".
 def resolve_path_font(path):
