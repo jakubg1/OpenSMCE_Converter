@@ -767,7 +767,7 @@ def convert_ui(contents, full_name = None):
 	return ui_data
 
 #
-#  Takes .uis file contents and returns UI script data for the stagemap.
+#  Takes .uis file contents and returns UI script data for the stagemap, as well as saves an output/ui/stage_names.json file.
 #
 
 def convert_ui_script(contents):
@@ -779,6 +779,7 @@ def convert_ui_script(contents):
 		]
 	}
 
+	stage_names = []
 	level = 1
 
 	for line in contents:
@@ -803,11 +804,16 @@ def convert_ui_script(contents):
 			stage_buttons = get_ui_child(ui_data, "StageButtons")
 			stage_buttons["children"].append({"name": words[1], "type": "spriteButton", "neverDisabled": True, "pos": {"x": int(words[3]), "y": int(words[4])}, "sprite": resolve_path_sprite(words[6])})
 			if not words[-1].endswith("\""):
+				stage_names.append(" ".join(words[7:-3])[1:-1])
 				ui_data["children"].append({"name": "Set", "type": "sprite", "pos": {"x": int(words[-2]), "y": int(words[-1])}, "sprite": resolve_path_sprite(words[-3])})
+			else:
+				stage_names.append(" ".join(words[7:])[1:-1])
 		if words[0] == "Level":
 			level_buttons = get_ui_child(ui_data, "LevelButtons")
 			level_buttons["children"].append({"name": str(level), "type": "spriteButton", "neverDisabled": True, "pos": {"x": int(words[4]), "y": int(words[5])}, "sprite": "sprites/dialogs/button_level.json"})
 			level += 1
+	
+	store_contents("output/ui/stage_names.json", stage_names)
 	
 	return ui_data
 
@@ -1088,15 +1094,15 @@ def convert_music_from_sl3(contents):
 def convert_powerups(contents):
 	# Maps powerup types to collectible entries.
 	POWERUPS = {
-		"reverse": {"type": "collectible", "collectible": "collectibles/reverse.json", "conditions": "${[level.spawn_reverse]}"},
-		"slow": {"type": "collectible", "collectible": "collectibles/slow.json", "conditions": "${[level.spawn_slow]}"},
-		"stop": {"type": "collectible", "collectible": "collectibles/stop.json", "conditions": "${[level.spawn_stop]}"},
-		"speed_shot": {"type": "collectible", "collectible": "collectibles/speedshot.json", "conditions": "${[level.spawn_shotspeed]}"},
-		"lightning": {"type": "collectible", "collectible": "collectibles/lightning.json", "conditions": "${[level.spawn_lightning]}"},
-		"bomb": {"type": "collectible", "collectible": "collectibles/fireball.json", "conditions": "${[level.spawn_bomb]}"},
-		"color_bomb": {"type": "collectibleGenerator", "generator": "collectible_generators/vanilla_powerup_colorbomb.json", "conditions": "${[level.spawn_colorbomb]}"},
-		"wild": {"type": "collectible", "collectible": "collectibles/wild.json", "conditions": "${[level.spawn_wild]}"},
-		"scorpion": {"type": "collectible", "collectible": "collectibles/scorpion.json", "conditions": "${[level.spawn_scorpion]}"}
+		"reverse": {"type": "collectible", "collectible": "collectibles/reverse.json", "conditions": ["${[level.spawn_reverse]}"]},
+		"slow": {"type": "collectible", "collectible": "collectibles/slow.json", "conditions": ["${[level.spawn_slow]}"]},
+		"stop": {"type": "collectible", "collectible": "collectibles/stop.json", "conditions": ["${[level.spawn_stop]}"]},
+		"speed_shot": {"type": "collectible", "collectible": "collectibles/speedshot.json", "conditions": ["${[level.spawn_shotspeed]}"]},
+		"lightning": {"type": "collectible", "collectible": "collectibles/lightning.json", "conditions": ["${[level.spawn_lightning]}"]},
+		"bomb": {"type": "collectible", "collectible": "collectibles/fireball.json", "conditions": ["${[level.spawn_bomb]}"]},
+		"color_bomb": {"type": "collectibleGenerator", "generator": "collectible_generators/vanilla_powerup_colorbomb.json", "conditions": ["${[level.spawn_colorbomb]}"]},
+		"wild": {"type": "collectible", "collectible": "collectibles/wild.json", "conditions": ["${[level.spawn_wild]}"]},
+		"scorpion": {"type": "collectible", "collectible": "collectibles/scorpion.json", "conditions": ["${[level.spawn_scorpion]}"]}
 	}
 
 	generator_data = {

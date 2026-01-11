@@ -121,21 +121,7 @@ function c.splashEnd(f)
     i = i + 1
   end
 
-  c.stageNames = {
-    "THE QUEST BEGINS",
-    "CHASING THE CARAVAN",
-    "TO THE PYRAMIDS",
-    "CLUE IN THE RUINS",
-    "THE OASIS OF ISIS",
-    "JOURNEY TO THE SPHINX",
-    "PILLARS OF KARNAK",
-    "AFTER THE HIGH PRIEST",
-    "CITY OF THE DEAD",
-    "UP THE CATARACTS",
-    "THE HERMIT'S ADVICE",
-    "TEMPLE OF THE GODDESS",
-    "THE WRATH OF SET"
-  }
+  c.stageNames = _Utils.loadJson(_ParsePath("ui/stage_names.json"))
   c.newGameStage = 1
   c.newGameStarting = false
   c.scoreDisplay = 0

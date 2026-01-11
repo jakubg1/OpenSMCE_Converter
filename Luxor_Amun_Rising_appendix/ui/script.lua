@@ -124,22 +124,7 @@ function c.splashEnd(f)
     i = i + 1
   end
 
-  c.stageNames = {
-    "THE JOURNEY HOME",
-    "MAKING BATTLE PLANS",
-    "SEEKING OUT THUTMOSIS",
-    "ISIS INTERVENES",
-    "OASIS OF THE WEST",
-    "COUNSEL FROM THE TOMBS",
-    "RITUAL PURIFICATION",
-    "SEEKING THE HORUS HAWK",
-    "CROSSING THE REED SEA",
-    "A FOREBODING OMEN",
-    "REGAINING THE CAPITAL",
-    "THE FRONT LINES ENGAGED",
-    "THE PRINCES OF MEGIDDO PART 1",
-    "THE PRINCES OF MEGIDDO PART 2"
-  }
+  c.stageNames = _Utils.loadJson(_ParsePath("ui/stage_names.json"))
   c.difficultyNames = {
     ["difficulties/beginner.json"] = "BEGINNER",
     ["difficulties/intermediate.json"] = "INTERMEDIATE",
