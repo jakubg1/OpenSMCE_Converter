@@ -520,16 +520,6 @@ UI_WIDGET_TYPES = {
 	"uiParticleSystem": "particle"
 }
 
-# A comparison function which compares two UI widgets and brings the text one to the top.
-def UI_SORT_TEXT_ON_TOP(a, b):
-	a_is_text = "type" in a and a["type"] == "text"
-	b_is_text = "type" in b and b["type"] == "text"
-	if a_is_text and not b_is_text:
-		return -1
-	if not a_is_text and b_is_text:
-		return 1
-	return 0
-
 #
 #  Takes .ui file contents and returns UI script data.
 #
@@ -745,10 +735,6 @@ def convert_ui(contents, full_name = None):
 		ui_data["type"] = "none"
 	if full_name == "Menu_Options.Frame.Slot_sfx.Slider_Effects":
 		ui_data["releaseSound"] = "sound_events/catch_powerup_shot_speed.json"
-	
-	# The original MumboJumbo engine renders text in front of everything else, no matter the order, even if on the same layer.
-	# To accomodate this without bloating OpenSMCE logic, all text widgets are brought to the top (are rendered in front of everything else).
-	ui_data["children"] = sorted(ui_data["children"], key = cmp_to_key(UI_SORT_TEXT_ON_TOP))
 	
 	# Remove empty fields or fields with default values.
 	if ui_data["type"] == "none":

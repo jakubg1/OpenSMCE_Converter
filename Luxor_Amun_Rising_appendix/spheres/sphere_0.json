@@ -3,9 +3,17 @@
     "sprites": [
         {
             "sprite": "sprites/game/vise.json"
+        },
+        {
+            "sprite": "sprites/game/ball_shadow.json",
+            "layer": "GamePieceNShadow",
+            "hiddenLayer": "GamePieceHShadow",
+            "offset": {
+                "x": 4,
+                "y": 4
+            }
         }
     ],
-    "shadowSprite": "sprites/game/ball_shadow.json",
     "destroyParticle": "particles/collapse_vise.json",
     "destroyCollectible": "collectible_generators/vanilla_scarab.json",
     "destroySound": "sound_events/collapse_scarab.json",

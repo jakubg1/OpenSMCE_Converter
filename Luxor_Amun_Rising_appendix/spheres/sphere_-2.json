@@ -5,9 +5,17 @@
             "sprite": "sprites/game/ball_fire.json",
             "animationSpeed": 16,
             "rotate": false
+        },
+        {
+            "sprite": "sprites/game/ball_shadow.json",
+            "layer": "GamePieceNShadow",
+            "hiddenLayer": "GamePieceHShadow",
+            "offset": {
+                "x": 4,
+                "y": 4
+            }
         }
     ],
-    "shadowSprite": "sprites/game/ball_shadow.json",
     "idleParticle": "particles/idle_ball_bomb.json",
     "destroyParticle": "particles/collapse_ball_bomb.json",
     "colorPalette": "color_palettes/powerups/fire_pal.json",

@@ -5,9 +5,17 @@
             "sprite": "sprites/game/ball_lightning.json",
             "animationSpeed": 16,
             "rotate": false
+        },
+        {
+            "sprite": "sprites/game/ball_shadow.json",
+            "layer": "GamePieceNShadow",
+            "hiddenLayer": "GamePieceHShadow",
+            "offset": {
+                "x": 4,
+                "y": 4
+            }
         }
     ],
-    "shadowSprite": "sprites/game/ball_shadow.json",
     "idleParticle": "particles/idle_ball_lightning.json",
     "destroyParticle": "particles/lightning_beam.json",
     "color": {

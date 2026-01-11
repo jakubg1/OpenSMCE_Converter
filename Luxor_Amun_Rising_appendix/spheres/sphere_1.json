@@ -3,9 +3,17 @@
     "sprites": [
         {
             "sprite": "sprites/game/ball_1.json"
+        },
+        {
+            "sprite": "sprites/game/ball_shadow.json",
+            "layer": "GamePieceNShadow",
+            "hiddenLayer": "GamePieceHShadow",
+            "offset": {
+                "x": 4,
+                "y": 4
+            }
         }
     ],
-    "shadowSprite": "sprites/game/ball_shadow.json",
     "destroyParticle": "particles/collapse_ball_1.json",
     "color": {
         "r": 0,

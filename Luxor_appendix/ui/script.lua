@@ -18,6 +18,11 @@ function c.init(f)
   c.menuMusic(f, true)
 end
 
+function c.splashClick(f)
+  f.resetActive()
+  f.getWidgetN("splash"):hide()
+end
+
 function c.splashStart(f)
   f.loadMain()
 end
@@ -272,10 +277,6 @@ function c.splashEnd(f)
   end
 end
 
-function c.splashClick(f)
-  f.getWidgetN("splash"):hide()
-end
-
 -- WHEN CLICKED PAUSE ON HUD
 function c.hudPause(f)
   if c.Banner_Paused:isVisible() then
@@ -338,7 +339,7 @@ function c.highscoreOk(f)
         f.profileDeleteGame()
         c.Menu_Highscores:show()
         c.Menu_Highscores:setActive()
-        c.Menu_Highscores_Highlight.pos.y = c.highscorePlace * 45 + 62
+        c.Menu_Highscores_Highlight.y = c.highscorePlace * 45 + 62
         c.Menu_Highscores_Highlight:show()
         c.menuMusic(f, true)
       end)
@@ -450,6 +451,7 @@ end
 
 -- WHEN CLICKED "OK" ON INSTRUCTIONS MENU
 function c.helpDone(f)
+  f.resetActive()
   c.Menu_Instructions:hide()
   c.Menu_Instructions:scheduleFunction("hideEnd", function()
     c.Menu_Instructions:hideParticles()
@@ -471,6 +473,7 @@ end
 
 -- WHEN CLICKED "DONE" ON HIGHSCORES MENU
 function c.highscoresDone(f)
+  f.resetActive()
   c.Menu_Highscores:hide()
   c.Menu_Highscores:scheduleFunction("hideEnd", function()
     c.Main:show()
@@ -515,6 +518,7 @@ end
 
 -- WHEN CLICKED "INSTRUCTIONS" ON MAIN MENU
 function c.mainHelp(f)
+  f.resetActive()
   c.Main:hide()
   c.Main:scheduleFunction("hideEnd", function()
     c.Menu_Instructions:show()
@@ -526,6 +530,7 @@ end
 
 -- WHEN CLICKED "HALL OF FAME" ON MAIN MENU
 function c.mainHighscores(f)
+  f.resetActive()
   c.Main:hide()
   c.Main:scheduleFunction("hideEnd", function()
     c.Menu_Highscores:show()
@@ -676,6 +681,7 @@ end
 
 -- WHEN CLICKED START ON LEVEL MAP
 function c.mainMapStart(f)
+  f.resetActive()
   f.profileNewGame(c.newGameStage, "difficulties/default.json")
   c.Menu_StageSelect:hide()
   c.Menu_StageSelect:scheduleFunction("hideEnd", function()
@@ -695,6 +701,7 @@ end
 
 -- WHEN CLICKED CANCEL ON LEVEL MAP
 function c.mainMapCancel(f)
+  f.resetActive()
   c.Menu_StageSelect:hide()
   c.Menu_StageSelect:scheduleFunction("hideEnd", function()
     c.Menu_StageSelect_LevelPsys:hide()
@@ -748,11 +755,12 @@ function c.tick(f)
   -- update splash screen
   local splash = f.getWidgetN("splash")
   if splash then
+    local splashProgress = f.getWidgetN("splash/Frame/Progress")
+    local splashPlay = f.getWidgetN("splash/Frame/Button_Play")
     local progress = f.loadingGetProgress()
-    f.getWidgetN("splash/Frame/Progress").widget.valueData = progress
+    splashProgress.widget.valueData = progress
     if progress == 1 then
-      f.getWidgetN("splash/Frame/Button_Play").pos.x = 264
-      f.getWidgetN("splash/Frame/Button_Play").pos.y = 161
+      splashPlay.x, splashPlay.y = splashProgress.x, splashProgress.y
     end
   end
 
@@ -986,7 +994,7 @@ function c.stageMapShow(f, advance)
     c.Banner_StageMap_LevelPsys:show()
     if advance then
       c.Banner_StageMap:scheduleFunction("showEnd", function()
-        if f.profileGetLevel() == 88 or f.profileIsCheckpointUpcoming() then
+        if f.profileGetLevel() == f.configGetLevelCount("level_sets/adventure.json") or f.profileIsCheckpointUpcoming() then
           f.playSound("sound_events/stage_complete.json")
           c.Banner_StageMap_StageCompletePsys:show()
           c.Banner_StageMap_StageCompletePsys:scheduleFunction("particleDespawn", function()
@@ -1033,10 +1041,10 @@ function c.stageMapUpdateButtons(f)
     StageButton:buttonSetEnabled(i <= s)
     StageButton.widget.clickedV = i == s
     if i == s then
-      c.Banner_StageMap_StageUnlockPsys.pos = StageButton.pos + 32
+      c.Banner_StageMap_StageUnlockPsys.x, c.Banner_StageMap_StageUnlockPsys.y = StageButton.x + 32, StageButton.y + 32
     end
   end
-  if s == 13 then
+  if s == f.configGetCheckpointCount("level_sets/adventure.json") then
     c.Banner_StageMap_Set:show()
   else
     c.Banner_StageMap_Set:hide()
@@ -1050,7 +1058,7 @@ function c.stageMapUpdateButtons(f)
       LevelButton:hide()
     end
     if i == n then
-      c.Banner_StageMap_LevelPsys.pos = LevelButton.pos
+      c.Banner_StageMap_LevelPsys.x, c.Banner_StageMap_LevelPsys.y = LevelButton.x, LevelButton.y
     end
   end
 end
@@ -1081,7 +1089,7 @@ function c.stageSelectUpdateButtons(f)
       LevelButton:hide()
     end
     if i == n then
-      c.Menu_StageSelect_LevelPsys.pos = LevelButton.pos
+      c.Menu_StageSelect_LevelPsys.x, c.Menu_StageSelect_LevelPsys.y = LevelButton.x, LevelButton.y
     end
   end
 
@@ -1090,7 +1098,7 @@ function c.stageSelectUpdateButtons(f)
     StageButton:buttonSetEnabled(f.profileIsCheckpointUnlocked("level_sets/adventure.json", i))
     StageButton.widget.clickedV = i == s
   end
-  if s == 13 then
+  if s == f.configGetCheckpointCount("level_sets/adventure.json") then
     c.Menu_StageSelect_Set:show()
   else
     c.Menu_StageSelect_Set:hide()
