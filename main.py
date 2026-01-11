@@ -858,8 +858,9 @@ def convert_psys(contents):
 			spawner_data["speed"] = collapse_random_vector(emitter_vel_min_x, emitter_vel_min_y, emitter_vel_max_x, emitter_vel_max_y, True)
 
 			if "EF_LIFESPAN_INFINITE" in spawner_flags:
-				if spawner_data["particleData"]["fadeInPoint"] != 0 or spawner_data["particleData"]["fadeOutPoint"] != 1:
+				if spawner_data["particleData"]["fadeInPoint"] != 0:
 					spawner_data["particleData"]["fadeTime"] = spawner_data["particleData"]["lifespan"]
+					spawner_data["particleData"]["fadeOutPoint"] = 1 # Fade out point on infinite lifespan particles must be ignored.
 				spawner_data["particleData"]["lifespan"] = None
 			if "EF_ELIFESPAN_INFINITE" in spawner_flags:
 				spawner_data["lifespan"] = None
