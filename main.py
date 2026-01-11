@@ -17,7 +17,9 @@ CONVERSION_SCOPE_KEYS = {
 	"--sounds": "sounds",
 	"--music": "music",
 	"--ui": "ui",
-	"--uiscriptlet": "uiscriptlet"
+	"--uiscriptlet": "uiscriptlet",
+	"--powerups": "powerups",
+	"--layers": "layers"
 }
 
 # A list of maps which have different casing.
@@ -323,6 +325,7 @@ def convert_level(contents):
 				"target": 0
 			}
 		],
+		"variables": {},
 		"pathsBehavior": [
 			{
 				"trainRules": {
@@ -368,11 +371,18 @@ def convert_level(contents):
 		if line == None:
 			continue
 		words = line.split(" ")
+		# Remove empty words.
+		while "" in words:
+			words.remove("")
 		if words[0] == "mapFile":
 			level_data["map"] = convert_pascal(" ".join(words[2:])[1:-1]).replace("'", "")
-		if words[0][:11] == "spawnColor_" and words[2] == "true":
+		if words[0].startswith("spawnColor_") and words[2] == "true":
 			level_data["pathsBehavior"][0]["trainRules"]["colors"].append(int(words[0][11:]))
 			level_data["pathsBehavior"][1]["trainRules"]["colors"].append(int(words[0][11:]))
+		if words[0].startswith("powerup_") and words[2] == "true":
+			level_data["variables"]["spawn_" + words[0][8:]] = True
+		if words[0].startswith("reward_") and words[2] == "true":
+			level_data["variables"]["spawn_" + words[0][7:]] = True
 		if words[0] == "spawnStreak":
 			level_data["pathsBehavior"][0]["trainRules"]["colorStreak"] = 0.5 #min(int(words[2]) / 300, 0.5)
 			level_data["pathsBehavior"][1]["trainRules"]["colorStreak"] = 0.5 #min(int(words[2]) / 300, 0.5)
@@ -417,6 +427,10 @@ def convert_level(contents):
 	level_data["pathsBehavior"][1]["speeds"].append({"distance":midStartDistance2,"speed":viseMidMaxSpeed,"transition":{"type":"bezier","point1":viseSpeedMidBzLerp[0],"point2":viseSpeedMidBzLerp[1]}})
 	level_data["pathsBehavior"][1]["speeds"].append({"distance":midEndDistance2,"speed":viseMidMinSpeed,"transition":{"type":"bezier","point1":viseSpeedMinBzLerp[0],"point2":viseSpeedMinBzLerp[1]}})
 	level_data["pathsBehavior"][1]["speeds"].append({"distance":1,"speed":viseMinSpeed})
+
+	# Don't include the second path behavior if it's not included in the level file.
+	if level_data["pathsBehavior"][1]["spawnDistance"] == 0:
+		level_data["pathsBehavior"].pop()
 
 	return level_data
 
@@ -1067,6 +1081,76 @@ def convert_music_from_sl3(contents):
 	return tracks
 
 #
+#  Takes the levels/powerups.txt file contents and SAVES to collectible_generators/vanilla_powerup.json as well as score_events/coin.json and score_events/gem_X.json.
+#  Converts powerup weights and score values for gems and coins.
+#
+
+def convert_powerups(contents):
+	# Maps powerup types to collectible entries.
+	POWERUPS = {
+		"reverse": {"type": "collectible", "collectible": "collectibles/reverse.json", "conditions": "${[level.spawn_reverse]}"},
+		"slow": {"type": "collectible", "collectible": "collectibles/slow.json", "conditions": "${[level.spawn_slow]}"},
+		"stop": {"type": "collectible", "collectible": "collectibles/stop.json", "conditions": "${[level.spawn_stop]}"},
+		"speed_shot": {"type": "collectible", "collectible": "collectibles/speedshot.json", "conditions": "${[level.spawn_shotspeed]}"},
+		"lightning": {"type": "collectible", "collectible": "collectibles/lightning.json", "conditions": "${[level.spawn_lightning]}"},
+		"bomb": {"type": "collectible", "collectible": "collectibles/fireball.json", "conditions": "${[level.spawn_bomb]}"},
+		"color_bomb": {"type": "collectibleGenerator", "generator": "collectible_generators/vanilla_powerup_colorbomb.json", "conditions": "${[level.spawn_colorbomb]}"},
+		"wild": {"type": "collectible", "collectible": "collectibles/wild.json", "conditions": "${[level.spawn_wild]}"},
+		"scorpion": {"type": "collectible", "collectible": "collectibles/scorpion.json", "conditions": "${[level.spawn_scorpion]}"}
+	}
+
+	generator_data = {
+		"$schema": "../../../schemas/collectible_generator.json",
+		"type": "randomPick",
+		"pool": []
+	}
+
+	for line in contents:
+		line = unindent(line)
+		if line == None:
+			continue
+
+		words = line.split(" ")
+		# Remove empty words.
+		while "" in words:
+			words.remove("")
+
+		if words[0] == "//":
+			continue # we don't want comments
+		if words[0].startswith("spawn_"):
+			generator_data["pool"].append({"entry": POWERUPS[words[0][6:]], "weight": int(words[2])})
+		if words[0].startswith("scoring_"):
+			event_data = {"$schema": "../../../schemas/score_event.json", "score": int(words[2]), "font": "fonts/score0.json"}
+			store_contents("output/score_events/" + words[0][8:] + ".json", event_data)
+	
+	store_contents("output/collectible_generators/vanilla_powerup.json", generator_data)
+
+#
+#  Takes the uiscript/depths.txt file contents and returns the config/layers.json file contents.
+#  Converts the layer list.
+#
+
+def convert_layers(contents):
+	layer_data = {"$schema": "../../../schemas/config/layers.json", "layers": []}
+
+	for line in contents:
+		line = unindent(line)
+		if line == None:
+			continue
+
+		words = line.split(" ")
+		# Remove empty words.
+		while "" in words:
+			words.remove("")
+
+		if words[0] == "//":
+			continue # we don't want comments
+		if words[0].startswith("\"") and words[0].endswith("\""):
+			layer_data["layers"].append(words[0][1:-1])
+	
+	return layer_data
+
+#
 #  Takes a path to the image and generates a Color Palette file pointing to it. Temporary function.
 #  Example input: data\bitmaps\powerups\wild_pal.jpg
 #
@@ -1202,6 +1286,18 @@ def convert_uis(files):
 def convert_ui_scriptlet(files):
 	store_contents("output/ui/stage_select.json", convert_ui_script(get_contents(FDATA + "/uiscript/stage_select.uis")))
 
+### Converts powerup list.
+### Input: data/levels/powerups.txt
+### Output: output/collectible_generators/vanilla_powerup.json, output/score_events/gem_N.json, output/score_events/coin.json
+def convert_powerups_file(files):
+	convert_powerups(get_contents(FDATA + "/levels/powerups.txt"))
+
+### Converts layer list.
+### Input: data/uiscript/depths.txt
+### Output: output/config/layers.json
+def convert_layers_file(files):
+	store_contents("output/config/layers.json", convert_layers(get_contents(FDATA + "/uiscript/depths.txt")))
+
 ### Main conversion function.
 def convert(conversion_scope):
 	# Sample manual conversion functions:
@@ -1219,7 +1315,9 @@ def convert(conversion_scope):
 		"sounds": convert_sounds,
 		"music": convert_music,
 		"ui": convert_uis,
-		"uiscriptlet": convert_ui_scriptlet
+		"uiscriptlet": convert_ui_scriptlet,
+		"powerups": convert_powerups_file,
+		"layers": convert_layers_file
 	}
 
 	conversion_types = list(conversion_scope.keys())
@@ -1261,13 +1359,15 @@ def main():
 		print("    --levels - Converts levels.")
 		print("    --fonts - Converts fonts.")
 		print("    --particles - Converts particles.")
-		print("    --sounds - Converts sounds.")
-		print("    --music - Converts music.")
-		print("    --ui - Converts UI.")
-		print("    --uiscriptlet - Converts UI Scriptlet.")
+		print("    --sounds - Converts sound events (sound/sounds.sl3).")
+		print("    --music - Converts music tracks (music/music.sl3).")
+		print("    --ui - Converts UI layouts.")
+		print("    --uiscriptlet - Converts UI Scriptlet (uiscript/stage_select.uis).")
+		print("    --powerups - Converts powerup spawning and scoring (levels/powerups.txt).")
+		print("    --layers - Converts layer list (uiscript/depths.txt).")
 		print()
-		print("    After any of these above, excluding '--all', '--sounds', '--music' and '--uiscriptlet', you can give any number of")
-		print("    paths to the relevant files to be converted. By default, all files will be converted.")
+		print("    After any of these above, excluding '--all', '--sounds', '--music', '--uiscriptlet', '--powerups' and '--layers',")
+		print("     you can give any number of paths to the relevant files to be converted. By default, all files will be converted.")
 		print()
 		print("    -d <folder> - Specify a different input folder, defaults to 'data'.")
 		print()
@@ -1280,11 +1380,11 @@ def main():
 			arg = sys.argv[i + 1]
 			if next_value == None:
 				if arg == "--all":
-					conversion_scope = {"sprites": [], "maps": [], "levels": [], "fonts": [], "particles": [], "sounds": [], "music": [], "ui": [], "uiscriptlet": []}
+					conversion_scope = {"sprites": [], "maps": [], "levels": [], "fonts": [], "particles": [], "sounds": [], "music": [], "ui": [], "uiscriptlet": [], "powerups": [], "layers": []}
 				elif arg in CONVERSION_SCOPE_KEYS:
 					registry = CONVERSION_SCOPE_KEYS[arg]
 					if registry in conversion_scope:
-						print("Error: key " + arg + " is invalid: duplicate or used with --all!")
+						print("Error: key '" + arg + "' is invalid: duplicate or used with '--all'!")
 						exit(1)
 					else:
 						conversion_scope[registry] = []
@@ -1292,12 +1392,12 @@ def main():
 				elif arg == "-d":
 					next_value = arg
 				elif last_registry != None:
-					if last_registry in ["sounds", "music"]:
-						print("Error: Sound or music files cannot be specified, since only one .sl3 file exists for them anyways!")
+					if last_registry in ["sounds", "music", "uiscriptlet", "powerups", "layers"]:
+						print("Error: The '" + last_registry + "' file type cannot be narrowed down!")
 						exit(1)
 					conversion_scope[last_registry].append(arg)
 				else:
-					print("Error: key " + arg + " unrecognized")
+					print("Error: key '" + arg + "' unrecognized")
 					exit(1)
 			elif next_value == "-d":
 				FDATA = arg

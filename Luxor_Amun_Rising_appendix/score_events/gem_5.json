@@ -1,5 +1,0 @@
-{
-    "$schema": "../../../schemas/score_event.json",
-    "score": 5000,
-    "font": "fonts/score0.json"
-}
