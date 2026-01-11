@@ -1,5 +1,5 @@
 {
-    "$schema": "../../schemas/config.json",
+    "$schema": "../../schemas/game.json",
     "name": "Luxor",
     "engineVersion": "v0.51.0",
     "nativeResolution": {

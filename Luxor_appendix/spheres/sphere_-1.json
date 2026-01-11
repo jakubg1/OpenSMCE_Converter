@@ -5,9 +5,17 @@
             "sprite": "sprites/game/ball_wild.json",
             "animationSpeed": 16,
             "rotate": false
+        },
+        {
+            "sprite": "sprites/game/ball_shadow.json",
+            "layer": "GamePieceNShadow",
+            "hiddenLayer": "GamePieceHShadow",
+            "offset": {
+                "x": 4,
+                "y": 4
+            }
         }
     ],
-    "shadowSprite": "sprites/game/ball_shadow.json",
     "idleParticle": "particles/idle_ball_wild.json",
     "destroyParticle": "particles/collapse_wild.json",
     "colorPalette": "color_palettes/powerups/wild_pal.json",

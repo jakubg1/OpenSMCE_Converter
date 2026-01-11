@@ -7,24 +7,119 @@
         "y": 526,
         "angle": 0
     },
-    "sprite": "sprites/game/shooter.json",
-    "spriteOffset": {
-        "x": 0,
-        "y": 0
-    },
-    "spriteAnchor": {
-        "x": 0.5,
-        "y": 0
-    },
-    "shadowSprite": "sprites/game/shooter_shadow.json",
-    "shadowSpriteOffset": {
-        "x": 4,
-        "y": 4
-    },
-    "shadowSpriteAnchor": {
-        "x": 0.5,
-        "y": 0
-    },
+    "sprites": [
+        {
+            "sprite": "sprites/game/shooter.json",
+            "layer": "GamePlayerBase",
+            "offset": {"x": 0, "y": 0},
+            "anchor": {"x": 0.5, "y": 0}
+        },
+        {
+            "sprite": "sprites/game/shooter_shadow.json",
+            "layer": "GamePlayerBaseShadow",
+            "offset": {"x": 4, "y": 4},
+            "anchor": {"x": 0.5, "y": 0}
+        },
+        {
+            "sprite": "sprites/game/next_ball_lightning.json",
+            "layer": "GamePlayerBase",
+            "offset": {"x": 0, "y": 21},
+            "anchor": {"x": 0.5, "y": 0},
+            "conditions": [
+                "${[shooter.nextColor] == -3}"
+            ]
+        },
+        {
+            "sprite": "sprites/game/next_ball_bomb.json",
+            "layer": "GamePlayerBase",
+            "offset": {"x": 0, "y": 21},
+            "anchor": {"x": 0.5, "y": 0},
+            "conditions": [
+                "${[shooter.nextColor] == -2}"
+            ]
+        },
+        {
+            "sprite": "sprites/game/next_ball_wild.json",
+            "layer": "GamePlayerBase",
+            "offset": {"x": 0, "y": 21},
+            "anchor": {"x": 0.5, "y": 0},
+            "conditions": [
+                "${[shooter.nextColor] == -1}"
+            ]
+        },
+        {
+            "sprite": "sprites/game/next_ball_0.json",
+            "layer": "GamePlayerBase",
+            "offset": {"x": 0, "y": 21},
+            "anchor": {"x": 0.5, "y": 0},
+            "conditions": [
+                "${[shooter.nextColor] == 0}"
+            ]
+        },
+        {
+            "sprite": "sprites/game/next_ball_1.json",
+            "layer": "GamePlayerBase",
+            "offset": {"x": 0, "y": 21},
+            "anchor": {"x": 0.5, "y": 0},
+            "conditions": [
+                "${[shooter.nextColor] == 1}"
+            ]
+        },
+        {
+            "sprite": "sprites/game/next_ball_2.json",
+            "layer": "GamePlayerBase",
+            "offset": {"x": 0, "y": 21},
+            "anchor": {"x": 0.5, "y": 0},
+            "conditions": [
+                "${[shooter.nextColor] == 2}"
+            ]
+        },
+        {
+            "sprite": "sprites/game/next_ball_3.json",
+            "layer": "GamePlayerBase",
+            "offset": {"x": 0, "y": 21},
+            "anchor": {"x": 0.5, "y": 0},
+            "conditions": [
+                "${[shooter.nextColor] == 3}"
+            ]
+        },
+        {
+            "sprite": "sprites/game/next_ball_4.json",
+            "layer": "GamePlayerBase",
+            "offset": {"x": 0, "y": 21},
+            "anchor": {"x": 0.5, "y": 0},
+            "conditions": [
+                "${[shooter.nextColor] == 4}"
+            ]
+        },
+        {
+            "sprite": "sprites/game/next_ball_5.json",
+            "layer": "GamePlayerBase",
+            "offset": {"x": 0, "y": 21},
+            "anchor": {"x": 0.5, "y": 0},
+            "conditions": [
+                "${[shooter.nextColor] == 5}"
+            ]
+        },
+        {
+            "sprite": "sprites/game/next_ball_6.json",
+            "layer": "GamePlayerBase",
+            "offset": {"x": 0, "y": 21},
+            "anchor": {"x": 0.5, "y": 0},
+            "conditions": [
+                "${[shooter.nextColor] == 6}"
+            ]
+        },
+        {
+            "sprite": "sprites/game/next_ball_7.json",
+            "layer": "GamePlayerBase",
+            "offset": {"x": 0, "y": 21},
+            "anchor": {"x": 0.5, "y": 0},
+            "conditions": [
+                "${[shooter.nextColor] == 7}"
+            ]
+        }
+    ],
     "spheres": [
         {
             "pos": {
@@ -33,49 +128,6 @@
             }
         }
     ],
-    "nextBallOffset": {
-        "x": 0,
-        "y": 21
-    },
-    "nextBallAnchor": {
-        "x": 0.5,
-        "y": 0
-    },
-    "nextBallSprites": {
-        "-3": {
-            "sprite": "sprites/game/next_ball_lightning.json"
-        },
-        "-2": {
-            "sprite": "sprites/game/next_ball_bomb.json"
-        },
-        "-1": {
-            "sprite": "sprites/game/next_ball_wild.json"
-        },
-        "0": {
-            "sprite": "sprites/game/next_ball_0.json"
-        },
-        "1": {
-            "sprite": "sprites/game/next_ball_1.json"
-        },
-        "2": {
-            "sprite": "sprites/game/next_ball_2.json"
-        },
-        "3": {
-            "sprite": "sprites/game/next_ball_3.json"
-        },
-        "4": {
-            "sprite": "sprites/game/next_ball_4.json"
-        },
-        "5": {
-            "sprite": "sprites/game/next_ball_5.json"
-        },
-        "6": {
-            "sprite": "sprites/game/next_ball_6.json"
-        },
-        "7": {
-            "sprite": "sprites/game/next_ball_7.json"
-        }
-    },
     "speedShotBeam": {
         "sprite": "sprites/particles/speed_shot_beam.json",
         "fadeTime": 0.5,
