@@ -20,7 +20,7 @@ if [ ! -d "./data" ]; then
     good=0
 fi
 
-if [ ! -d "./english" ] && [ ! -d "./English" ]; then
+if [ ! -d "./english" ] && [ ! -d "./English" ] && [ ! -d "./locale/english" ]; then
     printf "! Folder \"english\" does not exist !\n"
     good=0
 fi
@@ -75,6 +75,12 @@ printf "%s\n" '' '' '' '' \
     "Step 1. Preparing and backing up..." \
     "==========================================="
 
+if [ -d "./locale" ] && [ -d "./locale/english" ]; then
+    printf "The \"english\" folder needs to be moved out of the \"locale\" folder, fixing... "
+    mv ./locale/english ./english
+    printf "Done!\n"
+fi
+
 if [ -d "./English" ]; then
     printf "The \"English\" folder should be named \"english\" because Linux, fixing... "
     mv ./English ./english
@@ -111,24 +117,6 @@ printf "%s\n" '' '' '' '' \
     "===========================================" \
     "Step 3. Converting..." \
     "==========================================="
-# Linux is case sensitive -_-
-# TODO: Move this logic to main.py!
-mv data/maps/PooloftheLotusBlossom data/maps/PoolOfTheLotusBlossom
-mv data/maps/ScrollofThoth data/maps/ScrollOfThoth
-
-mv data/maps/BastionoftheCatGoddess data/maps/BastionOfTheCatGoddess
-mv data/maps/CrossingtheReedSea data/maps/CrossingTheReedSea
-mv data/maps/EyeofHorus data/maps/EyeOfHorus
-mv data/maps/FestivalofJubilee data/maps/FestivalOfJubilee
-mv data/maps/HalloftheApisBull data/maps/HallOfTheApisBull
-mv data/maps/InvasionoftheHyksos data/maps/InvasionOfTheHyksos
-mv data/maps/OpeningoftheMouthCeremony data/maps/OpeningOfTheMouthCeremony
-mv data/maps/QueenofDenial data/maps/QueenOfDenial
-mv data/maps/ReignoftheHereticKing data/maps/ReignOfTheHereticKing
-mv data/maps/TheStellaeofThutmosis data/maps/TheStellaeOfThutmosis
-mv data/maps/TheTreasureCityofRameses data/maps/TheTreasureCityOfRameses
-mv data/maps/ValleyoftheKings data/maps/ValleyOfTheKings
-mv data/maps/WeighingoftheHeart data/maps/WeighingOfTheHeart
 
 #python -m pip install pillow
 python main.py --all

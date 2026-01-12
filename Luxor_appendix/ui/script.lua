@@ -856,13 +856,17 @@ function c.tick(f)
 
       c.Main_Text_PlayerE.widget.text = player
       c.Main_Text_PlayerH.widget.text = player
-      c.Main_Text_Version.widget.text = "Running on OpenSMCE " .. _VERSION
+      if c.Main_Text_Version then
+        c.Main_Text_Version.widget.text = "Running on OpenSMCE " .. _VERSION
+      end
 
       for i, row in ipairs(c.HighscoreRows) do
         local entry = f.highscoreGetEntry(i)
         row.rank.widget.text = tostring(i)
         row.name.widget.text = entry.name
-        row.name2.widget.text = entry.name
+        if row.name2 then
+          row.name2.widget.text = entry.name
+        end
         row.level.widget.text = entry.level
         row.score.widget.text = _Utils.formatNumber(entry.score)
       end

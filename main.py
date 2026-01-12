@@ -22,38 +22,10 @@ CONVERSION_SCOPE_KEYS = {
 	"--layers": "layers"
 }
 
-# A list of maps which have different casing.
-# TODO: Make this a dynamic list. Necessary for mods to work on Linux.
-LUXOR_MAP_REPL = {
-	# Luxor
-	"InTheShadowofthePyramids": "InTheShadowOfThePyramids",
-	"InnerSanctumoftheTemple": "InnerSanctumOfTheTemple",
-	"flightofthesacredibis": "FlightOfTheSacredIbis",
-	"DescenttotheUnderworld": "DescentToTheUnderworld",
-	"inundationofthenile": "InundationOfTheNile",
-	"danceofthecrocodiles": "DanceOfTheCrocodiles",
-	"RasJourneytotheWest": "RasJourneyToTheWest",
-	"ThePillarofOsiris": "ThePillarOfOsiris",
-	"ScrollofThoth": "ScrollOfThoth",
-	"PooloftheLotusBlossom": "PoolOfTheLotusBlossom",
-	"demo": "Demo",
-	# Luxor Amun Rising
-	"HalloftheApisBull": "HallOfTheApisBull",
-	"QueenofDenial": "QueenOfDenial",
-	"BastionoftheCatGoddess": "BastionOfTheCatGoddess",
-	"WeighingoftheHeart": "WeighingOfTheHeart",
-	"ReignoftheHereticKing": "ReignOfTheHereticKing",
-	"TheTreasureCityofRameses": "TheTreasureCityOfRameses",
-	"OpeningoftheMouthCeremony": "OpeningOfTheMouthCeremony",
-	"FestivalofJubilee": "FestivalOfJubilee",
-	"CrossingtheReedSea": "CrossingTheReedSea",
-	"TheStellaeofThutmosis": "TheStellaeOfThutmosis",
-	"ValleyoftheKings": "ValleyOfTheKings",
-	"EyeofHorus": "EyeOfHorus",
-	"InvasionoftheHyksos": "InvasionOfTheHyksos",
-	"demo2": "Demo2",
-	"narmerpalette": "NarmerPalette"
-}
+# A list of folders in the `<FDATA>/maps` folder.
+# All directories which match the name will be converted to the case in this reference list.
+# Filled in `convert()`.
+MAP_NAMES = []
 
 # Maps keyboard shortcuts from the MumboJumbo engine to LOVE2D.
 KEYS = {
@@ -81,8 +53,12 @@ def fix_path(path):
 	path = path.replace("\\", "/")
 	path = path.replace("data/", FDATA + "/")
 	if FDATA + "/maps" in path:
-		for name in LUXOR_MAP_REPL:
-			path = path.replace(name, LUXOR_MAP_REPL[name])
+		components = path.split("/")
+		components_lower = [component.lower() for component in components]
+		for name in MAP_NAMES:
+			if name.lower() in components_lower:
+				components[components_lower.index(name.lower())] = name
+		path = "/".join(components)
 
 	return path
 
@@ -102,6 +78,25 @@ def store_contents(path, contents):
 	file = open(path, "w")
 	file.write(json.dumps(contents, indent = 4))
 	file.close()
+
+###  Takes a list of lines and processes it, creating a new list of lines.
+###  The returned list has all leading and trailing whitespace, empty and commented out lines removed.
+###  The lines are also split into a list of words.
+def preprocess_contents(contents):
+	lines = []
+	for line in contents:
+		line = line.strip()
+		# Ignore empty lines.
+		if line == "":
+			continue
+		words = line.split(" ")
+		# Remove empty words.
+		while "" in words:
+			words.remove("")
+		# Ignore comments.
+		if not words[0].startswith("//"):
+			lines.append(words)
+	return lines
 
 ###  Creates a folder with a given path if it doesn't exist yet.
 def make_dir(path):
@@ -274,8 +269,7 @@ def convert_path(contents):
 	vertices = []
 	vertex_order = []
 
-	for line in contents:
-		words = line.split(" ")
+	for words in preprocess_contents(contents):
 		if words[0] == "v":
 			vertices.append({"x":float(words[1]),"y":-float(words[2]),"hidden":False})
 		if words[0] == "f":
@@ -355,14 +349,7 @@ def convert_level(contents):
 	midEndDistance1 = 0
 	midEndDistance2 = 0
 
-	for line in contents:
-		line = line.strip()
-		if line == "":
-			continue
-		words = line.split(" ")
-		# Remove empty words.
-		while "" in words:
-			words.remove("")
+	for words in preprocess_contents(contents):
 		if words[0] == "mapFile":
 			level_data["map"] = convert_pascal(" ".join(words[2:])[1:-1]).replace("'", "")
 		if words[0].startswith("spawnColor_") and words[2] == "true":
@@ -417,6 +404,12 @@ def convert_level(contents):
 	level_data["pathsBehavior"][1]["speeds"].append({"distance":midEndDistance2,"speed":viseMidMinSpeed,"transition":{"type":"bezier","point1":viseSpeedMinBzLerp[0],"point2":viseSpeedMinBzLerp[1]}})
 	level_data["pathsBehavior"][1]["speeds"].append({"distance":1,"speed":viseMinSpeed})
 
+	# Fix the map name.
+	for name in MAP_NAMES:
+		if level_data["map"].lower() == name.lower():
+			level_data["map"] = name
+			break
+
 	# Don't include the second path behavior if it's not included in the level file.
 	if level_data["pathsBehavior"][1]["spawnDistance"] == 0:
 		level_data["pathsBehavior"].pop()
@@ -424,10 +417,10 @@ def convert_level(contents):
 	return level_data
 
 #
-#  Converts the map.ui file.
+#  Takes map.ui file contents and returns map data.
 #
 
-def convert_map(input_path, output_path):
+def convert_map(contents):
 	map_data = {
 		"$schema": "../../../../schemas/map.json",
 		"name": "",
@@ -435,51 +428,21 @@ def convert_map(input_path, output_path):
 		"sprites": []
 	}
 
-	contents = get_contents(input_path)
-
-	for line in contents:
-		line = line.strip()
-		if line == "":
-			continue
-		words = line.split(" ")
-
+	for words in preprocess_contents(contents):
 		if words[0] == "MapName":
 			map_data["name"] = " ".join(words[2:])[1:-1]
-
 		if words[0] == "Sprite":
-			is_global = "\\".join(input_path.replace("/", "\\").split("\\")[1:-1]).lower() != ("\\".join(words[2].split("\\")[1:-1])).lower()
-			sprite_name = (words[2].replace("\\", "/").replace("data/sprites", "sprites")[:-4]) if is_global else words[2].split("\\")[-1][:-4]
-			sprite = {
-				"x": 0,
-				"y": 0,
-				"sprite": ("" if is_global else ":") + sprite_name + ".json",
-				"background": True
-			}
-			map_data["sprites"].append(sprite)
-
+			map_data["sprites"].append({"x": 0, "y": 0, "sprite": resolve_path_sprite(words[2]), "layer": "GameBackground"})
+		if words[0] == "Depth":
+			map_data["sprites"][0]["layer"] = words[2]
 		if words[0] == "GLSprite":
-			is_global = "\\".join(input_path.replace("/", "\\").split("\\")[1:-1]).lower() != ("\\".join(words[5].split("\\")[1:-1])).lower()
-			background = words[4] == "GamePieceHShadow"
-			foreground = words[4] == "MenuControls"
-			sprite_name = (words[5].replace("\\", "/").replace("data/sprites", "sprites")[:-4]) if is_global else words[5].split("\\")[-1][:-4]
-			sprite = {
-				"x": int(words[2]),
-				"y": int(words[3]),
-				"sprite": ("" if is_global else ":") + sprite_name + ".json",
-				"background": background
-			}
-			if foreground:
-				sprite["foreground"] = foreground
-			map_data["sprites"].append(sprite)
-
+			map_data["sprites"].append({"x": int(words[2]), "y": int(words[3]), "sprite": resolve_path_sprite(words[5]), "layer": words[4]})
 		if words[0] == "Path":
-			path = convert_path(get_contents(fix_path(words[2])))
-			map_data["paths"].append(path)
-
+			map_data["paths"].append(convert_path(get_contents(fix_path(words[2]))))
 		if words[0] == "Node":
 			map_data["paths"][int(words[2])]["nodes"][int(words[3])]["hidden"] = True
 
-	store_contents(output_path, map_data)
+	return map_data
 
 #
 #  Takes the given path to .font file and converts it to OpenSMCE format.
@@ -546,26 +509,20 @@ def convert_ui(contents, full_name = None):
 
 	button_layer = None # Hack for stagemap scriptlet layering
 
-	for line in contents:
-		line = line.strip()
-		if line == "":
-			continue
-
+	for words in preprocess_contents(contents):
 		if child_scan:
 			# If we're at 0, we've encountered a Child and not a single curly brace yet.
 			# Ignore everything that happens between the Child line and the first curly brace.
 			if child_scan_level > 0:
-				child_contents.append(line)
-			if line == "{":
+				child_contents.append(" ".join(words))
+			if words[0] == "{":
 				child_scan_level += 1
-			if line == "}":
+			if words[0] == "}":
 				child_scan_level -= 1 # protection for nested children
 				if child_scan_level == 0:
 					child_scan = False
 					ui_data["children"].append(convert_ui(child_contents, full_name))
 			continue
-
-		words = line.split(" ")
 		
 		if first_line:
 			# First line is always NAME = TYPE. Extract relevant information.
@@ -582,8 +539,6 @@ def convert_ui(contents, full_name = None):
 			first_line = False
 			continue
 
-		if words[0] == "//":
-			continue # we don't want comments
 		if words[0] == "X":
 			ui_data["pos"]["x"] = int(words[2])
 		if words[0] == "Y":
@@ -674,7 +629,7 @@ def convert_ui(contents, full_name = None):
 				if words[4] in style_types:
 					style_type = style_types[words[4]]
 				else:
-					print("Unknown style type! " + words[4])
+					print("!! Unknown style type! " + words[4])
 					style_type = "none"
 				# Create a background child for animation if this is a mask.
 				if words[4] == "SpriteMask":
@@ -740,9 +695,7 @@ def convert_ui(contents, full_name = None):
 	# Hardcoded additions which don't make sense to be put elsewhere.
 	if full_name == "Main.Menu":
 		ui_data["type"] = "level"
-		ui_data["path"] = "levels/level_0.json"
-	if full_name == "Main.Menu.Button_MoreGames": # This refers to a nonexistent sprite.
-		ui_data["type"] = "none"
+		ui_data["path"] = "levels/level_0_0.json"
 	if full_name == "Menu_Options.Frame.Slot_sfx.Slider_Effects":
 		ui_data["releaseSound"] = "sound_events/catch_powerup_shot_speed.json"
 	
@@ -782,18 +735,7 @@ def convert_ui_script(contents):
 	stage_lengths = []
 	level = 1
 
-	for line in contents:
-		line = line.strip()
-		if line == "":
-			continue
-
-		words = line.split(" ")
-		# Remove empty words.
-		while "" in words:
-			words.remove("")
-
-		if words[0] == "//":
-			continue # we don't want comments
+	for words in preprocess_contents(contents):
 		if words[0] == "LevelPsys":
 			ui_data["children"].append({"name": "LevelPsys", "type": "particle", "path": resolve_path_particle(words[2])})
 		if words[0] == "StagePsys":
@@ -859,14 +801,7 @@ def convert_psys(contents):
 	emitter_vel_max_x = 0
 	emitter_vel_max_y = 0
 
-	for line in contents:
-		line = line.strip()
-		if line == "":
-			continue
-		words = line.split(" ")
-		if words[0] == "//":
-			continue # we don't want comments
-
+	for words in preprocess_contents(contents):
 		if spawner_name == None:
 			if words[0] == "Emitter":
 				spawner_name = words[1]
@@ -1025,17 +960,10 @@ def convert_sounds_from_sl3(contents):
 	name = ""
 	param_mode = False
 
-	for line in contents:
-		line = line.strip()
-		if line == "":
-			continue
-		words = line.split(" ")
-		if words[0][:2] == "//":
-			continue # we don't want comments
-
-		if line == "{":
+	for words in preprocess_contents(contents):
+		if words[0] == "{":
 			param_mode = True
-		elif line == "}":
+		elif words[0] == "}":
 			param_mode = False
 		else:
 			if param_mode:
@@ -1053,6 +981,10 @@ def convert_sounds_from_sl3(contents):
 				}
 				if name in looping_sounds:
 					event["loop"] = True
+				if name == "collapse_scarab":
+					# collapse_scarab sound event also has a condition.
+					event["sounds"] = [{"sound": event["sound"], "conditions": ["${[sphere.crushed|true]}"]}]
+					del event["sound"]
 
 				events[name] = event
 
@@ -1067,17 +999,10 @@ def convert_music_from_sl3(contents):
 	name = ""
 	param_mode = False
 
-	for line in contents:
-		line = line.strip()
-		if line == "":
-			continue
-		words = line.split(" ")
-		if words[0][:2] == "//":
-			continue # we don't want comments
-
-		if line == "{":
+	for words in preprocess_contents(contents):
+		if words[0] == "{":
 			param_mode = True
-		elif line == "}":
+		elif words[0] == "}":
 			param_mode = False
 		else:
 			if param_mode:
@@ -1121,18 +1046,7 @@ def convert_powerups(contents):
 		"pool": []
 	}
 
-	for line in contents:
-		line = line.strip()
-		if line == "":
-			continue
-
-		words = line.split(" ")
-		# Remove empty words.
-		while "" in words:
-			words.remove("")
-
-		if words[0] == "//":
-			continue # we don't want comments
+	for words in preprocess_contents(contents):
 		if words[0].startswith("spawn_"):
 			generator_data["pool"].append({"entry": POWERUPS[words[0][6:]], "weight": int(words[2])})
 		if words[0].startswith("scoring_"):
@@ -1149,18 +1063,7 @@ def convert_powerups(contents):
 def convert_layers(contents):
 	layer_data = {"$schema": "../../../schemas/config/layers.json", "layers": []}
 
-	for line in contents:
-		line = line.strip()
-		if line == "":
-			continue
-
-		words = line.split(" ")
-		# Remove empty words.
-		while "" in words:
-			words.remove("")
-
-		if words[0] == "//":
-			continue # we don't want comments
+	for words in preprocess_contents(contents):
 		if words[0].startswith("\"") and words[0].endswith("\""):
 			layer_data["layers"].append(words[0][1:-1])
 	
@@ -1216,7 +1119,7 @@ def convert_maps(files):
 
 	for file in files:
 		print(file)
-		convert_map(file, "output/" + resolve_path_map(file))
+		store_contents("output/" + resolve_path_map(file), convert_map(get_contents(file)))
 
 ### Converts level files.
 ### Input: data/levels/*.lvl
@@ -1323,6 +1226,11 @@ def convert(conversion_scope):
 	# combine_alpha_path("warning2.jpg", "", "warning_gem.png")
 	# convert_map(FDATA + "/maps/Demo/map.ui", "output/maps/Demo/config.json")
 	# store_contents("output/levels/level_0_0.json", convert_level(get_contents(FDATA + "/levels/level_0_0.lvl")))
+
+	# Generate map names.
+	for r, d, f in os.walk(FDATA + "/maps"):
+		for directory in d:
+			MAP_NAMES.append(directory)
 
 	CONVERSION_FUNCTIONS = {
 		"sprites": convert_sprites,
