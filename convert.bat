@@ -38,10 +38,10 @@ if not exist assets\ (
 	set good=0
 )
 
-if exist data\sprites\powerups\scorpion.spr (
+if exist data\sprites\game\scorpion.spr (
 	set outfolder="Luxor Amun Rising"
 	set appendix="Luxor_Amun_Rising_appendix"
-) else if exist data\data\sprites\powerups\scorpion.spr (
+) else if exist data\data\sprites\game\scorpion.spr (
 	set outfolder="Luxor Amun Rising"
 	set appendix="Luxor_Amun_Rising_appendix"
 ) else (

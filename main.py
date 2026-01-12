@@ -36,6 +36,7 @@ LUXOR_MAP_REPL = {
 	"ThePillarofOsiris": "ThePillarOfOsiris",
 	"ScrollofThoth": "ScrollOfThoth",
 	"PooloftheLotusBlossom": "PoolOfTheLotusBlossom",
+	"demo": "Demo",
 	# Luxor Amun Rising
 	"HalloftheApisBull": "HallOfTheApisBull",
 	"QueenofDenial": "QueenOfDenial",
@@ -72,14 +73,6 @@ KEYS = {
 def convert_pascal(line):
 	return "".join(word[0].upper() + word[1:].lower() for word in line.split(" "))
 
-###  Removes all preceeding whitespaces from the given line.
-def unindent(line):
-	char = 0
-	while char < len(line):
-		if not line[char] in [" ", "\t"]:
-			return line[char:]
-		char += 1
-
 ### Fixes paths for unix-like systems. This includes backslashes and different directory name casing.
 def fix_path(path):
 	if path[0] == "\"" and path[-1] == "\"":
@@ -99,6 +92,8 @@ def get_contents(path):
 	file = open(path, "r")
 	contents = file.read()
 	file.close()
+	if contents[0] == "\ufeff": # Remove BOM
+		contents = contents[1:]
 	return contents.split("\n")
 
 ###  Stores given data in JSON format in a given file.
@@ -135,6 +130,10 @@ def resolve_path_image(path):
 ###  Changes e.g. "data\sprites\game\shooter.spr" to "sprites/game/shooter.json".
 def resolve_path_sprite(path):
 	return fix_path(path).replace(FDATA + "/", "")[:-4] + ".json"
+
+###  Changes e.g. "data\maps\UraeusNefertari\map.ui" to "maps/UraeusNefertari/config.json".
+def resolve_path_map(path):
+	return fix_path(path).replace(FDATA + "/maps", "maps").replace("map.ui", "config.json")
 
 ###  Changes e.g. "data\fonts\score4.font" to "fonts/score4.json".
 def resolve_path_font(path):
@@ -176,16 +175,6 @@ def collapse_random_vector(ax, ay, bx, by, is_float):
 		return {"x": ax, "y": ay}
 	else:
 		return "${vec2(" + str(collapse_random_base(ax, bx, is_float)) + ", " + str(collapse_random_base(ay, by, is_float)) + ")}"
-
-###  Changes e.g. "level_1_1" to "level_101".
-def rename_level(name):
-	try:
-		words = name.split("_")
-		a = int(words[1])
-		b = int(words[2])
-		return "level_" + str(a * 100 + b)
-	except:
-		return name
 
 ###  Gets a UI child by name. This cannot go outside of a single file.
 def get_ui_child(ui_data, child_name):
@@ -367,8 +356,8 @@ def convert_level(contents):
 	midEndDistance2 = 0
 
 	for line in contents:
-		line = unindent(line)
-		if line == None:
+		line = line.strip()
+		if line == "":
 			continue
 		words = line.split(" ")
 		# Remove empty words.
@@ -435,22 +424,22 @@ def convert_level(contents):
 	return level_data
 
 #
-#  Takes all files from given path and converts them to the Sphere Matcher Engine format. A slash after the path is important!
+#  Converts the map.ui file.
 #
 
 def convert_map(input_path, output_path):
 	map_data = {
-		"$schema":"../../../../schemas/map.json",
-		"name":"",
-		"paths":[],
-		"sprites":[]
+		"$schema": "../../../../schemas/map.json",
+		"name": "",
+		"paths": [],
+		"sprites": []
 	}
 
-	contents = get_contents(input_path + "map.ui")
+	contents = get_contents(input_path)
 
 	for line in contents:
-		line = unindent(line)
-		if line == None:
+		line = line.strip()
+		if line == "":
 			continue
 		words = line.split(" ")
 
@@ -458,7 +447,7 @@ def convert_map(input_path, output_path):
 			map_data["name"] = " ".join(words[2:])[1:-1]
 
 		if words[0] == "Sprite":
-			is_global = "\\".join(input_path.replace("/", "\\").split("\\")[1:]).lower() != ("\\".join(words[2].split("\\")[1:-1]) + "\\").lower()
+			is_global = "\\".join(input_path.replace("/", "\\").split("\\")[1:-1]).lower() != ("\\".join(words[2].split("\\")[1:-1])).lower()
 			sprite_name = (words[2].replace("\\", "/").replace("data/sprites", "sprites")[:-4]) if is_global else words[2].split("\\")[-1][:-4]
 			sprite = {
 				"x": 0,
@@ -469,7 +458,7 @@ def convert_map(input_path, output_path):
 			map_data["sprites"].append(sprite)
 
 		if words[0] == "GLSprite":
-			is_global = "\\".join(input_path.replace("/", "\\").split("\\")[1:]).lower() != ("\\".join(words[5].split("\\")[1:-1]) + "\\").lower()
+			is_global = "\\".join(input_path.replace("/", "\\").split("\\")[1:-1]).lower() != ("\\".join(words[5].split("\\")[1:-1])).lower()
 			background = words[4] == "GamePieceHShadow"
 			foreground = words[4] == "MenuControls"
 			sprite_name = (words[5].replace("\\", "/").replace("data/sprites", "sprites")[:-4]) if is_global else words[5].split("\\")[-1][:-4]
@@ -484,13 +473,13 @@ def convert_map(input_path, output_path):
 			map_data["sprites"].append(sprite)
 
 		if words[0] == "Path":
-			path = convert_path(get_contents(input_path + words[2].split("\\")[-1]))
+			path = convert_path(get_contents(fix_path(words[2])))
 			map_data["paths"].append(path)
 
 		if words[0] == "Node":
 			map_data["paths"][int(words[2])]["nodes"][int(words[3])]["hidden"] = True
 
-	store_contents(output_path + "config.json", map_data)
+	store_contents(output_path, map_data)
 
 #
 #  Takes the given path to .font file and converts it to OpenSMCE format.
@@ -558,12 +547,15 @@ def convert_ui(contents, full_name = None):
 	button_layer = None # Hack for stagemap scriptlet layering
 
 	for line in contents:
-		line = unindent(line)
-		if line == None:
+		line = line.strip()
+		if line == "":
 			continue
 
 		if child_scan:
-			child_contents.append(line)
+			# If we're at 0, we've encountered a Child and not a single curly brace yet.
+			# Ignore everything that happens between the Child line and the first curly brace.
+			if child_scan_level > 0:
+				child_contents.append(line)
 			if line == "{":
 				child_scan_level += 1
 			if line == "}":
@@ -736,6 +728,10 @@ def convert_ui(contents, full_name = None):
 				anim["endValue"] = int(words[4]) / 255
 			if words[2] == "BezierControls":
 				anim["transition"] = {"type": "bezier", "point1": float(words[4]), "point2": float(words[5])}
+	
+	# Text widgets are actually aligned to left by default if no JUSTIFY is specified.
+	if ui_data["type"] == "text" and not "align" in ui_data:
+		ui_data["align"] = {"x": 0, "y": 0}
 
 	# Sometimes there are sprite widgets which don't actually have any sprite. Fix this here.
 	if ui_data["type"] == "sprite" and not "sprite" in ui_data:
@@ -767,7 +763,7 @@ def convert_ui(contents, full_name = None):
 	return ui_data
 
 #
-#  Takes .uis file contents and returns UI script data for the stagemap, as well as saves an output/ui/stage_names.json file.
+#  Takes .uis file contents and returns UI script data for the stagemap, as well as saves an output/ui/stage_names.json file and a level_sets/adventure.json file.
 #
 
 def convert_ui_script(contents):
@@ -778,13 +774,17 @@ def convert_ui_script(contents):
 			{"name": "LevelButtons", "children": []}
 		]
 	}
-
+	level_set_data = {
+		"$schema": "../../../schemas/level_set.json",
+		"levelOrder": []
+	}
 	stage_names = []
+	stage_lengths = []
 	level = 1
 
 	for line in contents:
-		line = unindent(line)
-		if line == None:
+		line = line.strip()
+		if line == "":
 			continue
 
 		words = line.split(" ")
@@ -808,11 +808,21 @@ def convert_ui_script(contents):
 				ui_data["children"].append({"name": "Set", "type": "sprite", "pos": {"x": int(words[-2]), "y": int(words[-1])}, "sprite": resolve_path_sprite(words[-3])})
 			else:
 				stage_names.append(" ".join(words[7:])[1:-1])
+			stage_lengths.append(words[5])
 		if words[0] == "Level":
 			level_buttons = get_ui_child(ui_data, "LevelButtons")
 			level_buttons["children"].append({"name": str(level), "type": "spriteButton", "neverDisabled": True, "pos": {"x": int(words[4]), "y": int(words[5])}, "sprite": "sprites/dialogs/button_level.json"})
 			level += 1
+			level_data = {"type": "level", "level": "levels/level_" + words[1] + "_" + words[2] + ".json", "name": words[1] + "-" + words[2]}
+			if words[2] == "1":
+				level_data["checkpoint"] = {"id": int(words[1])}
+				if words[1] == "1":
+					level_data["checkpoint"]["unlockedOnStart"] = True
+			elif words[2] == stage_lengths[int(words[1]) - 1] and int(words[1]) < len(stage_lengths):
+				level_data["unlockCheckpointsOnBeat"] = [int(words[1]) + 1]
+			level_set_data["levelOrder"].append(level_data)
 	
+	store_contents("output/level_sets/adventure.json", level_set_data)
 	store_contents("output/ui/stage_names.json", stage_names)
 	
 	return ui_data
@@ -850,8 +860,8 @@ def convert_psys(contents):
 	emitter_vel_max_y = 0
 
 	for line in contents:
-		line = unindent(line)
-		if line == None:
+		line = line.strip()
+		if line == "":
 			continue
 		words = line.split(" ")
 		if words[0] == "//":
@@ -1016,8 +1026,8 @@ def convert_sounds_from_sl3(contents):
 	param_mode = False
 
 	for line in contents:
-		line = unindent(line)
-		if line == None:
+		line = line.strip()
+		if line == "":
 			continue
 		words = line.split(" ")
 		if words[0][:2] == "//":
@@ -1058,8 +1068,8 @@ def convert_music_from_sl3(contents):
 	param_mode = False
 
 	for line in contents:
-		line = unindent(line)
-		if line == None:
+		line = line.strip()
+		if line == "":
 			continue
 		words = line.split(" ")
 		if words[0][:2] == "//":
@@ -1112,8 +1122,8 @@ def convert_powerups(contents):
 	}
 
 	for line in contents:
-		line = unindent(line)
-		if line == None:
+		line = line.strip()
+		if line == "":
 			continue
 
 		words = line.split(" ")
@@ -1140,8 +1150,8 @@ def convert_layers(contents):
 	layer_data = {"$schema": "../../../schemas/config/layers.json", "layers": []}
 
 	for line in contents:
-		line = unindent(line)
-		if line == None:
+		line = line.strip()
+		if line == "":
 			continue
 
 		words = line.split(" ")
@@ -1193,18 +1203,20 @@ def convert_sprites(files):
 		print(file)
 		combine_alpha_sprite(file, "output/" + resolve_path_sprite(file), "output/" + resolve_path_image(file))
 
-### Converts maps and sprites belonging to maps.
-### Input: data/maps/**
-### Output: output/maps/**
-def convert_maps(directories):
-	if directories == []:
+### Converts map files.
+### Input: data/maps/*/map.ui
+### Output: output/maps/*/config.json
+def convert_maps(files):
+	if files == []:
 		for r, d, f in os.walk(FDATA + "/maps"):
-			for directory in d:
-				directories.append(directory)
+			for file in f:
+				if not file.endswith("map.ui"):
+					continue
+				files.append(r + "/" + file)
 
-	for directory in directories:
-		print(directory)
-		convert_map(FDATA + "/maps/" + directory + "/", "output/maps/" + directory + "/")
+	for file in files:
+		print(file)
+		convert_map(file, "output/" + resolve_path_map(file))
 
 ### Converts level files.
 ### Input: data/levels/*.lvl
@@ -1219,7 +1231,7 @@ def convert_levels(files):
 
 	for file in files:
 		print(file)
-		store_contents("output/levels/" + rename_level(file[:-4]) + ".json", convert_level(get_contents(FDATA + "/levels/" + file)))
+		store_contents("output/levels/" + file[:-4] + ".json", convert_level(get_contents(FDATA + "/levels/" + file)))
 
 ### Converts fonts.
 ### Input: data/fonts/*.font
@@ -1309,7 +1321,7 @@ def convert(conversion_scope):
 	# Sample manual conversion functions:
 	# combine_alpha_path("warning.jpg", "warning_alpha.tga", "warning.png")
 	# combine_alpha_path("warning2.jpg", "", "warning_gem.png")
-	# convert_map(FDATA + "/maps/Demo/", "output/maps/Demo/")
+	# convert_map(FDATA + "/maps/Demo/map.ui", "output/maps/Demo/config.json")
 	# store_contents("output/levels/level_0_0.json", convert_level(get_contents(FDATA + "/levels/level_0_0.lvl")))
 
 	CONVERSION_FUNCTIONS = {

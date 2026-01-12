@@ -30,7 +30,7 @@ if [ ! -d "./assets" ]; then
     good=0
 fi
 
-if [ -e "./data/sprites/powerups/scorpion.spr" ] || [ -e "./data/data/sprites/powerups/scorpion.spr" ]; then
+if [ -e "./data/sprites/game/scorpion.spr" ] || [ -e "./data/data/sprites/game/scorpion.spr" ]; then
     outfolder="Luxor Amun Rising"
     appendix="Luxor_Amun_Rising_appendix"
 else
