@@ -425,22 +425,38 @@ def convert_map(contents):
 		"$schema": "../../../../schemas/map.json",
 		"name": "",
 		"paths": [],
-		"sprites": []
+		"objects": []
 	}
 
+	particle_data = None
+
 	for words in preprocess_contents(contents):
+		if particle_data != None:
+			if words[0] == "X":
+				particle_data["x"] = int(words[2])
+			if words[0] == "Y":
+				particle_data["y"] = int(words[2])
+			if words[0] == "Depth":
+				particle_data["layer"] = words[2]
+			if words[0] == "File":
+				particle_data["particle"] = resolve_path_particle(words[2])
+			if words[0] == "}":
+				map_data["objects"].append(particle_data)
+				particle_data = None
 		if words[0] == "MapName":
 			map_data["name"] = " ".join(words[2:])[1:-1]
 		if words[0] == "Sprite":
-			map_data["sprites"].append({"x": 0, "y": 0, "sprite": resolve_path_sprite(words[2]), "layer": "GameBackground"})
+			map_data["objects"].append({"type": "sprite", "x": 0, "y": 0, "sprite": resolve_path_sprite(words[2]), "layer": "GameBackground"})
 		if words[0] == "Depth":
-			map_data["sprites"][0]["layer"] = words[2]
+			map_data["objects"][0]["layer"] = words[2]
 		if words[0] == "GLSprite":
-			map_data["sprites"].append({"x": int(words[2]), "y": int(words[3]), "sprite": resolve_path_sprite(words[5]), "layer": words[4]})
+			map_data["objects"].append({"type": "sprite", "x": int(words[2]), "y": int(words[3]), "sprite": resolve_path_sprite(words[5]), "layer": words[4]})
 		if words[0] == "Path":
 			map_data["paths"].append(convert_path(get_contents(fix_path(words[2]))))
 		if words[0] == "Node":
 			map_data["paths"][int(words[2])]["nodes"][int(words[3])]["hidden"] = True
+		if words[0] == "Child" and words[3] == "uiParticleSystem":
+			particle_data = {"type": "particle"}
 
 	return map_data
 
