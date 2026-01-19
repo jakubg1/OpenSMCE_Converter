@@ -19,7 +19,9 @@ CONVERSION_SCOPE_KEYS = {
 	"--ui": "ui",
 	"--uiscriptlet": "uiscriptlet",
 	"--powerups": "powerups",
-	"--layers": "layers"
+	"--layers": "layers",
+	"--shooter": "shooter",
+	"--locale": "locale"
 }
 
 # A list of folders in the `<FDATA>/maps` folder.
@@ -1085,6 +1087,106 @@ def convert_layers(contents):
 	
 	return layer_data
 
+# Maps sphere IDs to next sphere sprites.
+SHOOTER_NEXT_BALLS = {
+	-3: "sprites/game/next_ball_lightning.json",
+	-2: "sprites/game/next_ball_bomb.json",
+	-1: "sprites/game/next_ball_wild.json",
+	0: "sprites/game/next_ball_0.json",
+	1: "sprites/game/next_ball_1.json",
+	2: "sprites/game/next_ball_2.json",
+	3: "sprites/game/next_ball_3.json",
+	4: "sprites/game/next_ball_4.json",
+	5: "sprites/game/next_ball_5.json",
+	6: "sprites/game/next_ball_6.json",
+	7: "sprites/game/next_ball_7.json"
+}
+
+#
+#  Takes the uiscript/game.ui file contents, loads the sprites/game/next_ball_0.spr and sprites/game/shooter.spr files for width measurement, and returns the shooters/default.json file contents.
+#
+
+def convert_shooter(contents):
+	# Measure shooter and next sphere width.
+	shooter_sprite = preprocess_contents(get_contents(FDATA + "/sprites/game/shooter.spr"))
+	next_sprite = preprocess_contents(get_contents(FDATA + "/sprites/game/next_ball_0.spr"))
+	shooter_width = int(shooter_sprite[2][0])
+	shooter_height = int(shooter_sprite[2][1])
+	next_width = int(next_sprite[2][0])
+
+	shooter_data = {
+		"$schema": "../../../schemas/shooter.json",
+		"movement": {"type": "linear", "xMin": 20, "xMax": 780, "y": 526, "angle": 0},
+		"sprites": [
+			{"sprite": "sprites/game/shooter.json", "layer": "GamePlayerBase", "offset": {"x": 0, "y": 0}, "anchor": {"x": 0.5, "y": 0}},
+			{"sprite": "sprites/game/shooter_shadow.json", "layer": "GamePlayerBaseShadow", "offset": {"x": 4, "y": 4}, "anchor": {"x": 0.5, "y": 0}}
+		],
+		"spheres": [{"pos": {"x": 0, "y": 5}}],
+		"speedShotBeam": {"sprite": "sprites/particles/speed_shot_beam.json", "fadeTime": 0.5, "renderingType": "cut", "colored": False},
+		"sounds": {"sphereSwap": "sound_events/bullet_swap.json", "sphereFill": "sound_events/bullet_reload.json"},
+		"speedShotParticle": "particles/speed_shot_beam.json",
+		"shotSpeed": 1000,
+		"shotCooldownFade": 0.1,
+		"destroySphereOnFail": True,
+		"hitboxSize": {"x": shooter_width, "y": shooter_height},
+		"hitboxOffset": {"x": 0, "y": shooter_height // 2}
+	}
+
+	current_child = None
+	next_sphere_offset = {"x": 0, "y": 0}
+
+	for words in preprocess_contents(contents):
+		if words[0] == "Child":
+			current_child = words[1]
+		if current_child == "PlayerBase":
+			if words[0] == "Y":
+				shooter_data["movement"]["y"] = int(words[2])
+			if words[0] == "Depth":
+				shooter_data["sprites"][0]["layer"] = words[2]
+			if words[0] == "ShadowDepth":
+				shooter_data["sprites"][1]["layer"] = words[2]
+			if words[0] == "SpeedShotDepth":
+				shooter_data["speedShotBeam"]["layer"] = words[2]
+				shooter_data["speedShotParticleLayer"] = words[2]
+			if words[0] == "BulletOffset":
+				shooter_data["spheres"][0]["pos"]["y"] = int(float(words[2]))
+			if words[0] == "NextBulletOffset":
+				next_sphere_offset = {"x": int(words[2]) - (shooter_width - next_width) // 2, "y": int(words[3])}
+	
+	for next_ball in SHOOTER_NEXT_BALLS:
+		sprite = {
+			"sprite": SHOOTER_NEXT_BALLS[next_ball],
+			"layer": shooter_data["sprites"][0]["layer"],
+			"offset": next_sphere_offset,
+			"anchor": {"x": 0.5, "y": 0},
+			"conditions": ["${[shooter.nextColor] == " + str(next_ball) + "}"]
+		}
+		shooter_data["sprites"].append(sprite)
+
+	return shooter_data
+
+#
+#  Takes the english/strings.utf8 file contents and returns the locale/english.json file contents.
+#
+
+def convert_locale(contents):
+	locale_data = {
+		"$schema": "../../../schemas/locale.json",
+		"keys": {}
+	}
+
+	for words in preprocess_contents(contents):
+		spl = " ".join(words).split("\" = \"")
+		key = spl[0][1:].replace("\\n", "\n").replace("\\'", "'")
+		value = spl[1][:-1].replace("\\n", "\n").replace("\\'", "'").replace("%d-%d", "%s")
+		if key == "CHAIN X" or key == "COMBO X":
+			value = "\n" + value + "%s"
+		if key == "BONUS":
+			value = "%s\n" + value
+		locale_data["keys"][key] = value
+	
+	return locale_data
+
 #
 #  Takes a path to the image and generates a Color Palette file pointing to it. Temporary function.
 #  Example input: data\bitmaps\powerups\wild_pal.jpg
@@ -1235,6 +1337,18 @@ def convert_powerups_file(files):
 def convert_layers_file(files):
 	store_contents("output/config/layers.json", convert_layers(get_contents(FDATA + "/uiscript/depths.txt")))
 
+### Converts layer list.
+### Input: uiscript/game.ui, sprites/game/next_ball_0.spr, sprites/game/shooter.spr
+### Output: shooters/default.json
+def convert_shooter_file(files):
+	store_contents("output/shooters/default.json", convert_shooter(get_contents(FDATA + "/uiscript/game.ui")))
+
+### Converts locale.
+### Input: english/strings.utf8
+### Output: locale/english.json
+def convert_locale_file(files):
+	store_contents("output/locale/english.json", convert_locale(get_contents(FDATA + "/strings.utf8")))
+
 ### Main conversion function.
 def convert(conversion_scope):
 	# Sample manual conversion functions:
@@ -1259,7 +1373,9 @@ def convert(conversion_scope):
 		"ui": convert_uis,
 		"uiscriptlet": convert_ui_scriptlet,
 		"powerups": convert_powerups_file,
-		"layers": convert_layers_file
+		"layers": convert_layers_file,
+		"shooter": convert_shooter_file,
+		"locale": convert_locale_file
 	}
 
 	conversion_types = list(conversion_scope.keys())
@@ -1307,9 +1423,11 @@ def main():
 		print("    --uiscriptlet - Converts UI Scriptlet (uiscript/stage_select.uis).")
 		print("    --powerups - Converts powerup spawning and scoring (levels/powerups.txt).")
 		print("    --layers - Converts layer list (uiscript/depths.txt).")
+		print("    --shooter - Converts the shooter (uiscript/game.ui, sprites/game/next_ball_0.spr, sprites/game/shooter.spr).")
+		print("    --locale - Converts the locale (strings.utf8).")
 		print()
-		print("    After any of these above, excluding '--all', '--sounds', '--music', '--uiscriptlet', '--powerups' and '--layers',")
-		print("     you can give any number of paths to the relevant files to be converted. By default, all files will be converted.")
+		print("    After '--sprites', '--maps', '--levels', '--fonts', '--particles' or '--ui', you can give any number")
+		print("     of paths to the relevant files to be converted. By default, all files will be converted.")
 		print()
 		print("    -d <folder> - Specify a different input folder, defaults to 'data'.")
 		print()
@@ -1322,7 +1440,8 @@ def main():
 			arg = sys.argv[i + 1]
 			if next_value == None:
 				if arg == "--all":
-					conversion_scope = {"sprites": [], "maps": [], "levels": [], "fonts": [], "particles": [], "sounds": [], "music": [], "ui": [], "uiscriptlet": [], "powerups": [], "layers": []}
+					for key in CONVERSION_SCOPE_KEYS:
+						conversion_scope[CONVERSION_SCOPE_KEYS[key]] = []
 				elif arg in CONVERSION_SCOPE_KEYS:
 					registry = CONVERSION_SCOPE_KEYS[arg]
 					if registry in conversion_scope:
@@ -1334,7 +1453,7 @@ def main():
 				elif arg == "-d":
 					next_value = arg
 				elif last_registry != None:
-					if last_registry in ["sounds", "music", "uiscriptlet", "powerups", "layers"]:
+					if not last_registry in ["sprites", "maps", "levels", "fonts", "particles", "ui"]:
 						print("Error: The '" + last_registry + "' file type cannot be narrowed down!")
 						exit(1)
 					conversion_scope[last_registry].append(arg)

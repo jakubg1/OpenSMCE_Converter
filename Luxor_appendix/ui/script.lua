@@ -461,6 +461,7 @@ end
 function c.highscoresDone(f)
   f.resetActive()
   c.Menu_Highscores:hide()
+  c.Menu_Highscores:hideParticles()
   c.Menu_Highscores:scheduleFunction("hideEnd", function()
     c.Main:show()
     c.Main:setActive()
@@ -790,10 +791,11 @@ function c.tick(f)
         end
         local scoreAnim = _Utils.formatNumber(c.scoreDisplay)
         local levelName = f.profileGetLevelName()
+        local longLevelName = f.translate("STAGE %d-%d", levelName)
         local levelMapName = f.profileGetMap().name
         local stageName = c.stageNames[f.profileGetLatestCheckpoint()]
 
-        c.Menu_Continue_Text_Stage.widget.text = "STAGE " .. levelName
+        c.Menu_Continue_Text_Stage.widget.text = longLevelName
         c.Menu_Continue_Text_Score.widget.text = scoreStr
 
         c.Hud_Text_Stage.widget.text = levelName
@@ -802,13 +804,13 @@ function c.tick(f)
         c.Hud_Text_Score.widget.text = scoreAnim
 
         c.Banner_StageMap_Text_StageName.widget.text = stageName
-        c.Banner_StageMap_Text_StageNumber.widget.text = "STAGE " .. levelName
+        c.Banner_StageMap_Text_StageNumber.widget.text = longLevelName
         c.Banner_StageMap_Text_MapName.widget.text = levelMapName
 
-        c.Banner_HighScore_Text_Congrats.widget.text = "CONGRATULATIONS, " .. player .. "!"
+        c.Banner_HighScore_Text_Congrats.widget.text = f.translate("CONGRATULATIONS, %s!", player)
         c.Banner_HighScore_Text_Score.widget.text = scoreStr
 
-        c.Banner_Intro_Text_Stage.widget.text = "STAGE " .. levelName
+        c.Banner_Intro_Text_Stage.widget.text = longLevelName
         c.Banner_Intro_Text_Map.widget.text = levelMapName
 
         -- Level
@@ -834,7 +836,7 @@ function c.tick(f)
             end
           end
 
-          c.Banner_LevelComplete_Text_Stage.widget.text = "STAGE " .. levelName
+          c.Banner_LevelComplete_Text_Stage.widget.text = longLevelName
           c.Banner_LevelComplete_Text_MapName.widget.text = levelMapName
           c.Banner_LevelComplete_Text_LevelScore.widget.text = levelScore
           c.Banner_LevelComplete_Text_ShotsFired.widget.text = levelShots
@@ -850,6 +852,7 @@ function c.tick(f)
       local newCheckpointID = f.configGetCheckpointID("level_sets/adventure.json", c.newGameStage)
       local newLevelData = f.configGetLevelData("level_sets/adventure.json", newCheckpointID)
       local newLevelName = f.configGetLevelName("level_sets/adventure.json", newCheckpointID)
+      local newLongLevelName = f.translate("STAGE %d-%d", newLevelName)
       local newLevelMapName = f.configGetMapData(newLevelData.map).name
       local newStageName = c.stageNames[c.newGameStage]
 
@@ -872,7 +875,7 @@ function c.tick(f)
       end
 
       c.Menu_StageSelect_Text_StageName.widget.text = newStageName
-      c.Menu_StageSelect_Text_StageNumber.widget.text = "STAGE " .. newLevelName
+      c.Menu_StageSelect_Text_StageNumber.widget.text = newLongLevelName
       c.Menu_StageSelect_Text_MapName.widget.text = newLevelMapName
     end
   end

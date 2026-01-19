@@ -6,7 +6,7 @@
             "type": "collectibleGenerator",
             "generator": "collectible_generators/vanilla_powerup.json",
             "conditions": [
-                "${([match.cascade] == 1 && [match.streakBoost] && [match.streak] % 3 == 0) || [match.cascade] % 3 == 0}"
+                "${([match.cascade] == 1 && [match.streak] % 3 == 0) || [match.cascade] % 3 == 0}"
             ]
         },
         {

@@ -1,7 +1,7 @@
 {
     "$schema": "../../../schemas/score_event.json",
     "score": "${([match.length] * 100 + ([match.streakBoost] ? max([match.streak] - 2, 0) * 100 : 0)) * [match.cascade]}",
-    "text": "${strnum([event.score]) .. ([match.streakBoost] && [match.streak] > 2 ? '\nCOMBO X' .. [match.streak] : '') .. ([match.cascade] > 1 ? '\nCHAIN X' .. [match.cascade] : '')}",
+    "text": "${tr1('+%s', strnum([event.score])) .. ([match.streakBoost] && [match.streak] > 2 ? tr1('COMBO X', [match.streak]) : '') .. ([match.cascade] > 1 ? tr1('CHAIN X', [match.cascade]) : '')}",
     "fonts": {
         "options": [
             "fonts/score1.json",

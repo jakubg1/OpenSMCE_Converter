@@ -6,6 +6,7 @@
         "x": 800,
         "y": 600
     },
+    "locale": "locale/english.json",
     "richPresence": {
         "enabled": true
     }

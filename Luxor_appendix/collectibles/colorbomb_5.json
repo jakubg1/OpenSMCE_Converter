@@ -6,7 +6,7 @@
     "pickupParticle": "particles/powerup_catch.json",
     "spawnSound": "sound_events/spawn_powerup.json",
     "pickupSound": "sound_events/catch_powerup_color_bomb.json",
-    "pickupName": "COLOR BOMB!",
+    "pickupName": "COLOR BOMB",
     "pickupFont": "fonts/score5.json",
     "effects": [
         {
