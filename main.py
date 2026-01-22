@@ -1,3 +1,4 @@
+#!/bin/python
 import math, sys, os, json
 from functools import cmp_to_key
 from PIL import Image, ImageDraw
@@ -21,6 +22,7 @@ CONVERSION_SCOPE_KEYS = {
 	"--powerups": "powerups",
 	"--layers": "layers",
 	"--shooter": "shooter",
+	"--spheres": "spheres",
 	"--locale": "locale"
 }
 
@@ -1165,6 +1167,125 @@ def convert_shooter(contents):
 
 	return shooter_data
 
+# Maps sphere IDs to sphere data.
+SPHERES = {
+	-3: {
+		"sprite": "sprites/game/ball_lightning.json",
+		"animationSpeed": 16,
+		"rotate": False,
+		"idleParticle": "particles/idle_ball_lightning.json",
+		"destroyParticle": "particles/lightning_beam.json",
+		"color": {"r": 0.7, "g": 0.8, "b": 1},
+		"shotBehavior": {"type": "destroySpheres", "selector": "sphere_selectors/lightning.json", "scoreEvent": "score_events/lightning.json"},
+		"shotEffects": [{"type": "setStreak", "streak": 0}],
+		"shotSound": "sound_events/launch_lightning.json",
+		"matches": [-1, 1, 2, 3, 4, 5, 6, 7]
+	},
+	-2: {
+		"sprite": "sprites/game/ball_fire.json",
+		"animationSpeed": 16,
+		"rotate": False,
+		"idleParticle": "particles/idle_ball_bomb.json",
+		"destroyParticle": "particles/collapse_ball_bomb.json",
+		"colorPalette": "color_palettes/powerups/fire_pal.json",
+		"colorPaletteSpeed": 64,
+		"shotSound": "sound_events/launch_fireball.json",
+		"hitBehavior": {"type": "destroySpheres", "selector": "sphere_selectors/fireball.json", "scoreEvent": "score_events/fireball.json"},
+		"hitSound": "sound_events/collapse_fireball.json",
+		"matches": [-1, 1, 2, 3, 4, 5, 6, 7]
+	},
+	-1: {
+		"sprite": "sprites/game/ball_wild.json",
+		"animationSpeed": 16,
+		"rotate": False,
+		"idleParticle": "particles/idle_ball_wild.json",
+		"destroyParticle": "particles/collapse_wild.json",
+		"colorPalette": "color_palettes/powerups/wild_pal.json",
+		"colorPaletteSpeed": 64,
+		"shotSound": "sound_events/launch_wild.json",
+		"matches": [-1, 1, 2, 3, 4, 5, 6, 7]
+	},
+	0: {
+		"sprite": "sprites/game/vise.json",
+		"animationSpeed": 28.57143,
+		"destroyParticle": "particles/collapse_vise.json",
+		"destroyCollectible": "collectible_generators/vanilla_scarab.json",
+		"destroySound": "sound_events/collapse_scarab.json",
+		"color": {"r": 1, "g": 1, "b": 1},
+		"matches": []
+	},
+	1: {"color": {"r": 0, "g": 0, "b": 1}},
+	2: {"color": {"r": 1, "g": 1, "b": 0}},
+	3: {"color": {"r": 1, "g": 0, "b": 0}},
+	4: {"color": {"r": 0, "g": 1, "b": 0}},
+	5: {"color": {"r": 1, "g": 0, "b": 1}},
+	6: {"color": {"r": 1, "g": 1, "b": 1}},
+	7: {"color": {"r": 0, "g": 0, "b": 0}}
+}
+
+#
+#  Takes the uiscript/game.ui file contents and uses it to generate sphere data.
+#
+
+def convert_spheres(contents):
+	current_child = None
+	shooter_layer = None
+	shot_layer = None
+
+	for words in preprocess_contents(contents):
+		if words[0] == "Child":
+			current_child = words[1]
+		if current_child == "Bullet":
+			# Both layers of interest are in objects named Bullet, but one is actually Playfield.PlayerBase.Bullet and the other one is Playfield.Bullet.
+			if words[0] == "Depth":
+				if shooter_layer == None:
+					shooter_layer = words[2]
+				else:
+					shot_layer = words[2]
+	
+	for color in SPHERES:
+		sphere = SPHERES[color]
+		sphere_data = {
+			"$schema": "../../../schemas/sphere.json",
+			"sprites": [
+				{
+					"sprite": sphere["sprite"] if "sprite" in sphere else "sprites/game/ball_" + str(color) + ".json",
+					"shooterLayer": shooter_layer,
+					"shotLayer": shot_layer
+				}
+			]
+		}
+		if "animationSpeed" in sphere:
+			sphere_data["sprites"][0]["animationSpeed"] = sphere["animationSpeed"]
+		if "rotate" in sphere:
+			sphere_data["sprites"][0]["rotate"] = sphere["rotate"]
+		sphere_data["sprites"].append({"sprite": "sprites/game/ball_shadow.json", "layer": "GamePieceNShadow", "hiddenLayer": "GamePieceHShadow", "shooterLayer": "GamePieceNShadow", "shotLayer": "GamePieceNShadow", "offset": {"x": 4, "y": 4}})
+
+		if "idleParticle" in sphere:
+			sphere_data["idleParticle"] = sphere["idleParticle"]
+		sphere_data["destroyParticle"] = sphere["destroyParticle"] if "destroyParticle" in sphere else "particles/collapse_ball_" + str(color) + ".json"
+		if "destroyCollectible" in sphere:
+			sphere_data["destroyCollectible"] = sphere["destroyCollectible"]
+		if "destroySound" in sphere:
+			sphere_data["destroySound"] = sphere["destroySound"]
+		if "color" in sphere:
+			sphere_data["color"] = sphere["color"]
+		if "colorPalette" in sphere:
+			sphere_data["colorPalette"] = sphere["colorPalette"]
+		if "colorPaletteSpeed" in sphere:
+			sphere_data["colorPaletteSpeed"] = sphere["colorPaletteSpeed"]
+		if "shotBehavior" in sphere:
+			sphere_data["shotBehavior"] = sphere["shotBehavior"]
+		if "shotEffects" in sphere:
+			sphere_data["shotEffects"] = sphere["shotEffects"]
+		sphere_data["shotSound"] = sphere["shotSound"] if "shotSound" in sphere else "sound_events/launch_sphere.json"
+		if "hitBehavior" in sphere:
+			sphere_data["hitBehavior"] = sphere["hitBehavior"]
+		sphere_data["hitSound"] = sphere["hitSound"] if "hitSound" in sphere else "sound_events/collide_spheres_shot.json"
+		sphere_data["matches"] = sphere["matches"] if "matches" in sphere else [-1, color]
+
+		store_contents("output/spheres/sphere_" + str(color) + ".json", sphere_data)
+
 #
 #  Takes the english/strings.utf8 file contents and returns the locale/english.json file contents.
 #
@@ -1343,6 +1464,12 @@ def convert_layers_file(files):
 def convert_shooter_file(files):
 	store_contents("output/shooters/default.json", convert_shooter(get_contents(FDATA + "/uiscript/game.ui")))
 
+### Converts sphere list.
+### Input: uiscript/game.ui
+### Output: spheres/sphere_*.json
+def convert_sphere_files(files):
+	convert_spheres(get_contents(FDATA + "/uiscript/game.ui"))
+
 ### Converts locale.
 ### Input: english/strings.utf8
 ### Output: locale/english.json
@@ -1375,6 +1502,7 @@ def convert(conversion_scope):
 		"powerups": convert_powerups_file,
 		"layers": convert_layers_file,
 		"shooter": convert_shooter_file,
+		"spheres": convert_sphere_files,
 		"locale": convert_locale_file
 	}
 
@@ -1424,6 +1552,7 @@ def main():
 		print("    --powerups - Converts powerup spawning and scoring (levels/powerups.txt).")
 		print("    --layers - Converts layer list (uiscript/depths.txt).")
 		print("    --shooter - Converts the shooter (uiscript/game.ui, sprites/game/next_ball_0.spr, sprites/game/shooter.spr).")
+		print("    --spheres - Converts the spheres (from uiscript/game.ui).")
 		print("    --locale - Converts the locale (strings.utf8).")
 		print()
 		print("    After '--sprites', '--maps', '--levels', '--fonts', '--particles' or '--ui', you can give any number")
