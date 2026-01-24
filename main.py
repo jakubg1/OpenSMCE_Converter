@@ -23,7 +23,8 @@ CONVERSION_SCOPE_KEYS = {
 	"--layers": "layers",
 	"--shooter": "shooter",
 	"--spheres": "spheres",
-	"--locale": "locale"
+	"--locale": "locale",
+	"--highscores": "highscores"
 }
 
 # A list of folders in the `<FDATA>/maps` folder.
@@ -75,6 +76,14 @@ def get_contents(path):
 	if contents[0] == "\ufeff": # Remove BOM
 		contents = contents[1:]
 	return contents.split("\n")
+
+###  Takes a file from a given path and returns its contents as a binary string.
+def get_binary_contents(path):
+	path = fix_path(path) # MacOS hack
+	file = open(path, "rb")
+	contents = file.read()
+	file.close()
+	return contents
 
 ###  Stores given data in JSON format in a given file.
 def store_contents(path, contents):
@@ -1309,6 +1318,40 @@ def convert_locale(contents):
 	return locale_data
 
 #
+#  Takes the scores.dat file contents and returns the runtime.json file contents.
+#
+
+def convert_highscores(contents):
+	runtime_data = {"highscores": {"entries": []}}
+
+	# Parse the highscore file.
+	cursor = 4 # Skip the header
+	for i in range(10):
+		entry = {"name": "", "level": "", "score": 0}
+		# Ignore the index.
+		cursor += 4
+		# Parse player name.
+		for i in range(13):
+			if contents[cursor] > 0:
+				entry["name"] += chr(contents[cursor])
+			cursor += 4
+		# Parse level and stage.
+		level = contents[cursor] + (contents[cursor + 1] << 8)
+		cursor += 2
+		stage = contents[cursor] + (contents[cursor + 1] << 8)
+		cursor += 2
+		entry["level"] = str(stage) + "-" + str(level)
+		# Skip unused chunk.
+		cursor += 4
+		# Parse score.
+		for i in range(8):
+			entry["score"] += contents[cursor] << i * 8
+			cursor += 1
+		runtime_data["highscores"]["entries"].append(entry)
+
+	return runtime_data
+
+#
 #  Takes a path to the image and generates a Color Palette file pointing to it. Temporary function.
 #  Example input: data\bitmaps\powerups\wild_pal.jpg
 #
@@ -1476,6 +1519,12 @@ def convert_sphere_files(files):
 def convert_locale_file(files):
 	store_contents("output/locale/english.json", convert_locale(get_contents(FDATA + "/strings.utf8")))
 
+### Converts highscores.
+### Input: scores.dat
+### Output: runtime.json
+def convert_highscores_file(files):
+	store_contents("output/runtime.json", convert_highscores(get_binary_contents(FDATA + "/scores.dat")))
+
 ### Main conversion function.
 def convert(conversion_scope):
 	# Sample manual conversion functions:
@@ -1503,7 +1552,8 @@ def convert(conversion_scope):
 		"layers": convert_layers_file,
 		"shooter": convert_shooter_file,
 		"spheres": convert_sphere_files,
-		"locale": convert_locale_file
+		"locale": convert_locale_file,
+		"highscores": convert_highscores_file
 	}
 
 	conversion_types = list(conversion_scope.keys())
@@ -1554,6 +1604,7 @@ def main():
 		print("    --shooter - Converts the shooter (uiscript/game.ui, sprites/game/next_ball_0.spr, sprites/game/shooter.spr).")
 		print("    --spheres - Converts the spheres (from uiscript/game.ui).")
 		print("    --locale - Converts the locale (strings.utf8).")
+		print("    --highscores - Converts the highscore list (scores.dat).")
 		print()
 		print("    After '--sprites', '--maps', '--levels', '--fonts', '--particles' or '--ui', you can give any number")
 		print("     of paths to the relevant files to be converted. By default, all files will be converted.")
