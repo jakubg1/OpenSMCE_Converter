@@ -1025,30 +1025,37 @@ def convert_sounds_from_sl3(contents):
 
 def convert_music_from_sl3(contents):
 	tracks = {}
+	playlists = {}
 	name = ""
 	param_mode = False
+	current_track = None
+	current_playlist = None
 
 	for words in preprocess_contents(contents):
 		if words[0] == "{":
 			param_mode = True
-		elif words[0] == "}":
+			continue
+		if words[0] == "}":
+			# End of parameters. Save the current track/playlist and move on.
+			if current_track != None:
+				tracks[name] = current_track
+				current_track = None
+			if current_playlist != None:
+				playlists[name] = current_playlist
+				current_playlist = None
 			param_mode = False
+			continue
+		if param_mode:
+			if words[0] == "track":
+				current_playlist["tracks"].append("music_tracks/" + words[2] + ".json")
 		else:
-			if param_mode:
-				pass # we aren't interested in parameters
-			else:
-				name = words[0]
-				if words[2] == "playlist":
-					continue # we aren't interested in playlists (for now) - TODO: multi-track support
+			name = words[0]
+			if words[2] == "stream":
+				current_track = {"$schema": "../../../schemas/music_track.json", "audio": resolve_path_music(words[3])}
+			if words[2] == "playlist":
+				current_playlist = {"$schema": "../../../schemas/music_playlist.json", "tracks": []}
 
-				track = {
-					"$schema": "../../../schemas/music_track.json",
-					"audio": resolve_path_music(words[3])
-				}
-
-				tracks[name] = track
-
-	return tracks
+	return {"tracks": tracks, "playlists": playlists}
 
 #
 #  Takes the levels/powerups.txt file contents and SAVES to collectible_generators/vanilla_powerup.json as well as score_events/coin.json and score_events/gem_X.json.
@@ -1458,15 +1465,19 @@ def convert_sounds(files):
 		print(event_name)
 		store_contents("output/sound_events/" + event_name + ".json", events[event_name])
 
-### Converts music tracks.
+### Converts music tracks and playlists.
 ### Input: data/music/music.sl3
-### Output: output/music_tracks/*.json
+### Output: output/music_tracks/*.json, output/music_playlists/*.json
 def convert_music(files):
-	tracks = convert_music_from_sl3(get_contents(FDATA + "/music/music.sl3"))
+	data = convert_music_from_sl3(get_contents(FDATA + "/music/music.sl3"))
 
-	for n in tracks:
+	for n in data["tracks"]:
 		print(n)
-		store_contents("output/music_tracks/" + n + ".json", tracks[n])
+		store_contents("output/music_tracks/" + n + ".json", data["tracks"][n])
+
+	for n in data["playlists"]:
+		print(n)
+		store_contents("output/music_playlists/" + n + ".json", data["playlists"][n])
 
 ### Converts UI files.
 ### Input: data/uiscript/*.ui
