@@ -1,6 +1,6 @@
 {
     "$schema": "../../../schemas/score_event.json",
     "score": "${max(floor([entity.traveledPixels] / 24), 1) * 50}",
-    "text": "${tr1('BONUS', strnum([event.score]))}",
+    "text": "${tr1('BONUS', [event.fscore])}",
     "font": "fonts/score0.json"
 }

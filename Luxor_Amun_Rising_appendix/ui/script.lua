@@ -993,14 +993,12 @@ function c.levelStart(f)
   c.Banner_Intro:show()
   c.Banner_Intro:hideAfter(2.75)
   c.Banner_Intro:scheduleFunction("hideEnd", function()
-    f.levelRestartMusic()
     f.levelContinue()
     c.Button_Pause:buttonSetEnabled(true)
   end)
 end
 
 function c.levelLoaded(f)
-  f.levelRestartMusic()
   c.Banner_Paused:show()
   c.Button_Pause:buttonSetEnabled(true)
 end
@@ -1075,7 +1073,12 @@ end
 ----------------------
 
 function c.menuMusic(f, state)
-  f.musicVolume("music_tracks/menu_music.json", state and 1 or 0, 1)
+  if state then
+    f.playlistSkip("music_playlists/music_menu.json")
+    f.playlistPlay("music_playlists/music_menu.json", 1)
+  else
+    f.playlistPause("music_playlists/music_menu.json", 1)
+  end
 end
 
 function c.startGame(f)

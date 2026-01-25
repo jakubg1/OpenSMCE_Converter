@@ -4,6 +4,7 @@
         "buttonClickSound": "sound_events/click.json",
         "buttonHoverSound": "sound_events/highlight.json"
     },
+    "scoreFormat": "${tr1('+%s', strnum([event.score]))}",
     "sphereBehavior": {
         "acceleration": 200,
         "attractionAcceleration": 500,
