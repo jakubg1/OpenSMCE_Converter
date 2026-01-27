@@ -931,7 +931,8 @@ def convert_psys(contents):
 			if "EF_USE_COLOR_RATE" in spawner_flags:
 				spawner_data["particleData"]["colorPaletteSpeed"] = 1000 / float(words[2])
 		if words[0] == "AnimRate":
-			spawner_data["particleData"]["animationSpeed"] = 1000 / float(words[2])
+			rate = float(words[2])
+			spawner_data["particleData"]["animationSpeed"] = (1000 / rate) if rate > 0 else 0
 		if words[0] == "FadeInEndTime":
 			spawner_data["particleData"]["fadeInPoint"] = float(words[2])
 		if words[0] == "FadeOutStartTime":

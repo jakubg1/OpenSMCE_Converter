@@ -743,7 +743,9 @@ function c.mainMapStart(f)
   c.Menu_StageSelect:hide()
   c.Menu_StageSelect:scheduleFunction("hideEnd", function()
     c.Menu_StageSelect_LevelPsys:hide()
-    c.Menu_StageSelect_Clouds:hide()
+    if c.Menu_StageSelect_Clouds then
+      c.Menu_StageSelect_Clouds:hide()
+    end
     c.menuMusic(f, false)
     if not f.profileGetVariable("dontShowInstructions") then
       c.newGameStarting = true
@@ -1177,7 +1179,9 @@ function c.stageSelectShow(f)
     --
     c.stageSelectUpdateButtons(f)
     c.Menu_StageSelect:show()
-    c.Menu_StageSelect_Clouds:show()
+    if c.Menu_StageSelect_Clouds then
+      c.Menu_StageSelect_Clouds:show()
+    end
     c.Menu_StageSelect_LevelPsys:show()
     c.Menu_StageSelect:setActive()
     c.Menu_StageSelect_LevelButtons:resetActive()
