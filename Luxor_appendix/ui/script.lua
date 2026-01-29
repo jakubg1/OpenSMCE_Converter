@@ -747,7 +747,7 @@ function c.tick(f)
     local progress = f.loadingGetProgress()
     splashProgress.widget.valueData = progress
     if progress == 1 then
-      splashPlay.x, splashPlay.y = splashProgress.x, splashProgress.y
+      splashPlay.x, splashPlay.y = 264, 161
     end
   end
 

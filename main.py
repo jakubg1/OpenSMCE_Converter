@@ -391,6 +391,10 @@ def convert_level(contents):
 		if words[0] == "viseMidMinSpeed":
 			viseMidMinSpeed = float(words[2])
 		if words[0] == "viseMinSpeed":
+			if words[2] == "7.55.0":
+				# Failsafe for the Luigi's Voyage mod.
+				# TODO: Make a generic pre-GVF parser.
+				continue
 			viseMinSpeed = float(words[2])
 		if words[0] == "viseSpeedMaxBzLerp":
 			viseSpeedMaxBzLerp = [float(words[2]), float(words[3])]
@@ -456,6 +460,7 @@ def convert_map(contents):
 			if words[0] == "}":
 				map_data["objects"].append(particle_data)
 				particle_data = None
+			continue
 		if words[0] == "MapName":
 			map_data["name"] = " ".join(words[2:])[1:-1]
 		if words[0] == "Sprite":
@@ -467,7 +472,11 @@ def convert_map(contents):
 		if words[0] == "Path":
 			map_data["paths"].append(convert_path(get_contents(fix_path(words[2]))))
 		if words[0] == "Node":
-			map_data["paths"][int(words[2])]["nodes"][int(words[3])]["hidden"] = True
+			nodes = map_data["paths"][int(words[2])]["nodes"]
+			if int(words[3]) >= len(nodes):
+				print("!! Node property hidden out of bounds: " + words[3] + " out of " + str(len(nodes)))
+				continue
+			nodes[int(words[3])]["hidden"] = True
 		if words[0] == "Child" and words[3] == "uiParticleSystem":
 			particle_data = {"type": "particle"}
 
@@ -482,6 +491,7 @@ def convert_font(input_path, output_path):
 		"$schema":"../../../schemas/font.json",
 		"type":"image",
 		"image":"",
+		"height":0,
 		"characters":{}
 	}
 
@@ -491,10 +501,12 @@ def convert_font(input_path, output_path):
 	combine_alpha_path(contents[0].replace("\\", "/"), contents[1].replace("\\", "/"), "output/" + image_name + ".png")
 	font_data["image"] = image_name + ".png"
 
+	font_data["height"] = int(contents[2])
+
 	for i in range((len(contents) - 4) // 2):
 		char = contents[i * 2 + 4]
 		params = contents[i * 2 + 5].split(" ")
-		font_data["characters"][char] = {"offset":int(params[0]),"width":int(params[2])}
+		font_data["characters"][char] = {"x":int(params[0]),"y":int(params[1]),"width":int(params[2])}
 
 	store_contents(output_path, font_data)
 
@@ -571,6 +583,11 @@ def convert_ui(contents, full_name = None):
 		if words[0] == "X":
 			ui_data["pos"]["x"] = int(words[2])
 		if words[0] == "Y":
+			if words[2] == "30S":
+				# Failsafe for the Luigi's Voyage mod.
+				# TODO: Make a generic pre-GVF parser.
+				ui_data["pos"]["y"] = 30
+				continue
 			ui_data["pos"]["y"] = int(words[2])
 		if words[0] == "Flags":
 			if words[2] == "WF_ROOT_COORDS":
@@ -923,6 +940,9 @@ def convert_psys(contents):
 			spawner_data["particleData"]["animationFrameCount"] = int(sprite_contents[4])
 		if words[0] == "Palette":
 			image_file = resolve_path_image2(words[2])
+			if not file_exists(fix_path(words[2])):
+				print("!! Unknown image: " + fix_path(words[2]) + " - the palette has been ignored!")
+				continue
 			color_palette_file = words[2].replace("\\", "/").replace("data/bitmaps", "color_palettes")
 			spawner_data["particleData"]["colorPalette"] = color_palette_file[:-4] + ".json"
 			# Create a new Color Palette alongside.
@@ -1304,7 +1324,7 @@ def convert_spheres(contents):
 		store_contents("output/spheres/sphere_" + str(color) + ".json", sphere_data)
 
 #
-#  Takes the english/strings.utf8 file contents and returns the locale/english.json file contents.
+#  Takes the locale/english/strings.utf8 file contents and returns the locale/english.json file contents.
 #
 
 def convert_locale(contents):
@@ -1526,7 +1546,7 @@ def convert_sphere_files(files):
 	convert_spheres(get_contents(FDATA + "/uiscript/game.ui"))
 
 ### Converts locale.
-### Input: english/strings.utf8
+### Input: locale/english/strings.utf8
 ### Output: locale/english.json
 def convert_locale_file(files):
 	store_contents("output/locale/english.json", convert_locale(get_contents(FDATA + "/strings.utf8")))

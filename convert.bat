@@ -88,12 +88,6 @@ echo.
 echo ===========================================
 echo Step 1. Preparing and backing up...
 echo ===========================================
-if exist data\data\ (
-	echo The "data" folder is nested too deeply, fixing...
-	xcopy /q /s /y "data\data\" "data\"
-	rmdir /s /q data\data
-	echo Done!
-)
 if exist English\English\ (
 	echo The "English" folder is nested too deeply, fixing...
 	xcopy /q /s /y "English\English\" "English\"
@@ -114,6 +108,7 @@ echo ===========================================
 echo Step 2. Merging data/ with english/...
 echo ===========================================
 xcopy /q /s /y "English\data\" "data\"
+xcopy /q /s /y "English\" "data\"
 rmdir /s /q English
 echo.
 echo.

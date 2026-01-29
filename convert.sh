@@ -87,13 +87,6 @@ if [ -d "./English" ]; then
     printf "Done!\n"
 fi
 
-if [ -d "./data/data" ]; then
-    printf "The \"data\" folder is nested too deeply, fixing... "
-    cp -aflt ./data ./data/data/*
-    rm -rf ./data/data
-    printf "Done!\n"
-fi
-
 if [ -d "./english/english" ]; then
     printf "The \"english\" folder is nested too deeply, fixing... "
     cp -aflt ./english ./english/english/*
@@ -110,6 +103,7 @@ printf "%s\n" '' '' '' '' \
     "==========================================="
 
     cp -aflt ./data ./english/data/*
+    cp -aflt ./data ./english/*
     rm -rf ./english
 
 
