@@ -149,7 +149,10 @@ def resolve_path_font(path):
 
 ###  Changes e.g. "data\psys\powerup_stop.psys" to "particles/powerup_stop.json".
 def resolve_path_particle(path):
-	return fix_path(path).replace(FDATA + "/psys", "particles")[:-5] + ".json"
+	path = fix_path(path)
+	if FDATA + "/maps" in path:
+		return path.replace(FDATA + "/maps", "maps")[:-5] + ".particle.json"
+	return path.replace(FDATA + "/psys", "particles")[:-5] + ".json"
 
 ###  Changes e.g. "data\sound\collapse_1.ogg" to "sounds/collapse_1.ogg".
 def resolve_path_sound(path):
@@ -462,7 +465,7 @@ def convert_map(contents):
 				particle_data = None
 			continue
 		if words[0] == "MapName":
-			map_data["name"] = " ".join(words[2:])[1:-1]
+			map_data["name"] = " ".join(words[2:])[1:-1].replace("\\n", "\n")
 		if words[0] == "Sprite":
 			map_data["objects"].append({"type": "sprite", "x": 0, "y": 0, "sprite": resolve_path_sprite(words[2]), "layer": "GameBackground"})
 		if words[0] == "Depth":
@@ -479,6 +482,14 @@ def convert_map(contents):
 			nodes[int(words[3])]["hidden"] = True
 		if words[0] == "Child" and words[3] == "uiParticleSystem":
 			particle_data = {"type": "particle"}
+		if words[0] == "}Level":
+			# Failsafe for Branchia A mod.
+			# The "Last Summer of London" map's contents are doubled up, which causes everything to double up in the converted map.
+			# TODO: Make a generic pre-GVF parser.
+			break
+	
+	# Children are drawn in reverse order in the original game, but they are drawn in top-down order in OpenSMCE...
+	map_data["objects"].reverse()
 
 	return map_data
 
@@ -799,7 +810,7 @@ def convert_ui_script(contents):
 			stage_lengths.append(words[5])
 		if words[0] == "Level":
 			level_buttons = get_ui_child(ui_data, "LevelButtons")
-			level_buttons["children"].append({"name": str(level), "type": "spriteButton", "neverDisabled": True, "pos": {"x": int(words[4]), "y": int(words[5])}, "sprite": "sprites/dialogs/button_level.json"})
+			level_buttons["children"].append({"name": str(level), "type": "spriteButton", "neverDisabled": True, "pos": {"x": int(float(words[4])), "y": int(float(words[5]))}, "sprite": "sprites/dialogs/button_level.json"})
 			level += 1
 			level_data = {"type": "level", "level": "levels/level_" + words[1] + "_" + words[2] + ".json", "name": words[1] + "-" + words[2]}
 			if words[2] == "1":
@@ -839,6 +850,10 @@ def convert_psys(contents):
 	start_vel_min_y = 0
 	start_vel_max_x = 0
 	start_vel_max_y = 0
+	rot_min = 0
+	rot_max = 0
+	rot_vel_min = 0
+	rot_vel_max = 0
 	dev_delay = 0
 	dev_angle_min = 0
 	dev_angle_max = 0
@@ -876,6 +891,8 @@ def convert_psys(contents):
 						"fadeTime":None,
 						"fadeInPoint":0,
 						"fadeOutPoint":1,
+						"angle":0,
+						"angleSpeed":0,
 						"posRelative":False
 					}
 				}
@@ -884,10 +901,17 @@ def convert_psys(contents):
 			continue
 
 		if words[0] == "}":
+			spawner_data["particleData"]["angle"] = collapse_random_number(rot_min, rot_max, True)
+			spawner_data["particleData"]["angleSpeed"] = collapse_random_number(rot_vel_min, rot_vel_max, True)
 			spawner_data["particleData"]["lifespan"] = collapse_random_number(lifespan_min, lifespan_max, True)
+			if spawner_data["particleData"]["lifespan"] >= 1000:
+				spawner_data["particleData"]["lifespan"] = None
 			spawner_data["particleData"]["spawnScale"] = collapse_random_vector(spawn_radius_min_x, spawn_radius_min_y, spawn_radius_max_x, spawn_radius_max_y, True)
 			spawner_data["particleData"]["movement"]["speed"] = collapse_random_vector(start_vel_min_x, start_vel_min_y, start_vel_max_x, start_vel_max_y, True)
 			spawner_data["speed"] = collapse_random_vector(emitter_vel_min_x, emitter_vel_min_y, emitter_vel_max_x, emitter_vel_max_y, True)
+			# Invalidate the fade out point if fade regions overlap.
+			if spawner_data["particleData"]["fadeOutPoint"] < spawner_data["particleData"]["fadeInPoint"]:
+				spawner_data["particleData"]["fadeOutPoint"] = None
 
 			if "EF_LIFESPAN_INFINITE" in spawner_flags:
 				if spawner_data["particleData"]["fadeInPoint"] != 0:
@@ -913,6 +937,9 @@ def convert_psys(contents):
 				spawner_data["particleData"]["movement"]["speed"] = spawner_data["particleData"]["movement"]["speed"]["x"]
 				spawner_data["particleData"]["movement"]["acceleration"] = spawner_data["particleData"]["movement"]["acceleration"]["x"]
 
+			# Delete fields which have default values.
+			if spawner_data["lifespan"] == None:
+				del spawner_data["lifespan"]
 			if spawner_data["particleData"]["lifespan"] == None:
 				del spawner_data["particleData"]["lifespan"]
 			if spawner_data["particleData"]["fadeTime"] == None:
@@ -921,6 +948,10 @@ def convert_psys(contents):
 				del spawner_data["particleData"]["fadeInPoint"]
 			if spawner_data["particleData"]["fadeOutPoint"] == 1:
 				del spawner_data["particleData"]["fadeOutPoint"]
+			if spawner_data["particleData"]["angle"] == 0:
+				del spawner_data["particleData"]["angle"]
+			if spawner_data["particleData"]["angleSpeed"] == 0:
+				del spawner_data["particleData"]["angleSpeed"]
 
 			particle_data["emitters"].append(spawner_data)
 			spawner_name = None
@@ -980,6 +1011,14 @@ def convert_psys(contents):
 		if words[0] == "Acc":
 			spawner_data["particleData"]["movement"]["acceleration"]["x"] = float(words[2])
 			spawner_data["particleData"]["movement"]["acceleration"]["y"] = float(words[3])
+		if words[0] == "RotMin":
+			rot_min = float(words[2]) / 360 * math.pi * 2
+		if words[0] == "RotMax":
+			rot_max = float(words[2]) / 360 * math.pi * 2
+		if words[0] == "RotVelMin":
+			rot_vel_min = float(words[2]) / 360 * math.pi * 2
+		if words[0] == "RotVelMax":
+			rot_vel_max = float(words[2]) / 360 * math.pi * 2
 		if words[0] == "DevDelay":
 			dev_delay = float(words[2])
 		if words[0] == "DevAngle":
@@ -996,6 +1035,9 @@ def convert_psys(contents):
 			spawner_data["acceleration"]["y"] = float(words[3])
 		if words[0] == "EmitterLifespan":
 			spawner_data["lifespan"] = collapse_random_number(float(words[2]), float(words[3]), True)
+			# If the emitter lifespan equals to 0, it is assumed to be infinite, even if the flag isn't set.
+			if spawner_data["lifespan"] == 0:
+				spawner_data["lifespan"] = None
 
 	return particle_data
 
@@ -1288,7 +1330,8 @@ def convert_spheres(contents):
 				{
 					"sprite": sphere["sprite"] if "sprite" in sphere else "sprites/game/ball_" + str(color) + ".json",
 					"shooterLayer": shooter_layer,
-					"shotLayer": shot_layer
+					"shotLayer": shot_layer,
+					"resize": False
 				}
 			]
 		}
@@ -1466,15 +1509,15 @@ def convert_fonts(files):
 ### Output: output/particles/*.json
 def convert_particles(files):
 	if files == []:
-		for r, d, f in os.walk(FDATA + "/psys"):
+		for r, d, f in os.walk(FDATA):
 			for file in f:
 				if not file.endswith(".psys"):
 					continue
-				files.append(file)
+				files.append(r + "/" + file)
 
 	for file in files:
 		print(file)
-		store_contents("output/particles/" + file[:-5] + ".json", convert_psys(get_contents(FDATA + "/psys/" + file)))
+		store_contents("output/" + resolve_path_particle(file), convert_psys(get_contents(file)))
 
 ### Converts sound events.
 ### Input: data/sound/sounds.sl3
