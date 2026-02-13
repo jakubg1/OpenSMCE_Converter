@@ -471,7 +471,7 @@ def convert_map(contents):
 		if words[0] == "Depth":
 			map_data["objects"][0]["layer"] = words[2]
 		if words[0] == "GLSprite":
-			map_data["objects"].append({"type": "sprite", "x": int(words[2]), "y": int(words[3]), "sprite": resolve_path_sprite(words[5]), "layer": words[4]})
+			map_data["objects"].append({"type": "sprite", "x": int(float(words[2])), "y": int(float(words[3])), "sprite": resolve_path_sprite(words[5]), "layer": words[4]})
 		if words[0] == "Path":
 			map_data["paths"].append(convert_path(get_contents(fix_path(words[2]))))
 		if words[0] == "Node":
@@ -748,6 +748,10 @@ def convert_ui(contents, full_name = None):
 	# Sometimes there are sprite widgets which don't actually have any sprite. Fix this here.
 	if ui_data["type"] == "sprite" and not "sprite" in ui_data:
 		ui_data["type"] = "none"
+	
+	# bitLuxor also has a particle widget that should be a sprite widget.
+	if ui_data["type"] == "particle" and not "particle" in ui_data and "sprite" in ui_data:
+		ui_data["type"] = "sprite"
 
 	# Hardcoded additions which don't make sense to be put elsewhere.
 	if full_name == "Main.Menu":
@@ -884,7 +888,6 @@ def convert_psys(contents):
 						"spawnScale":{"x":0,"y":0},
 						"lifespan":None,
 						"sprite":"",
-						"animationFrameCount":1,
 						"animationSpeed":0,
 						"animationLoop":False,
 						"animationFrameRandom":False,
@@ -903,9 +906,8 @@ def convert_psys(contents):
 		if words[0] == "}":
 			spawner_data["particleData"]["angle"] = collapse_random_number(rot_min, rot_max, True)
 			spawner_data["particleData"]["angleSpeed"] = collapse_random_number(rot_vel_min, rot_vel_max, True)
-			spawner_data["particleData"]["lifespan"] = collapse_random_number(lifespan_min, lifespan_max, True)
-			if spawner_data["particleData"]["lifespan"] >= 1000:
-				spawner_data["particleData"]["lifespan"] = None
+			if lifespan_min < 1000:
+				spawner_data["particleData"]["lifespan"] = collapse_random_number(lifespan_min, lifespan_max, True)
 			spawner_data["particleData"]["spawnScale"] = collapse_random_vector(spawn_radius_min_x, spawn_radius_min_y, spawn_radius_max_x, spawn_radius_max_y, True)
 			spawner_data["particleData"]["movement"]["speed"] = collapse_random_vector(start_vel_min_x, start_vel_min_y, start_vel_max_x, start_vel_max_y, True)
 			spawner_data["speed"] = collapse_random_vector(emitter_vel_min_x, emitter_vel_min_y, emitter_vel_max_x, emitter_vel_max_y, True)
@@ -953,7 +955,12 @@ def convert_psys(contents):
 			if spawner_data["particleData"]["angleSpeed"] == 0:
 				del spawner_data["particleData"]["angleSpeed"]
 
-			particle_data["emitters"].append(spawner_data)
+			# TODO: Remove when better error handling is added in OpenSMCE.
+			if file_exists(fix_path(spawner_data["particleData"]["sprite"])):
+				spawner_data["particleData"]["sprite"] = resolve_path_sprite(spawner_data["particleData"]["sprite"])
+				particle_data["emitters"].append(spawner_data)
+			else:
+				print("!! Particle emitter sprite not found: " + fix_path(spawner_data["particleData"]["sprite"]) + " - Emitter omitted!")
 			spawner_name = None
 			continue
 
@@ -966,9 +973,8 @@ def convert_psys(contents):
 		if words[0] == "ParticleRate" and float(words[2]) > 0:
 			spawner_data["spawnDelay"] = 1 / float(words[2])
 		if words[0] == "Sprite":
-			spawner_data["particleData"]["sprite"] = resolve_path_sprite(words[2])
-			sprite_contents = get_contents(words[2])
-			spawner_data["particleData"]["animationFrameCount"] = int(sprite_contents[4])
+			# The path is resolved at the very last step, because the raw value is checked for whether the file exists.
+			spawner_data["particleData"]["sprite"] = words[2]
 		if words[0] == "Palette":
 			image_file = resolve_path_image2(words[2])
 			if not file_exists(fix_path(words[2])):
@@ -1333,7 +1339,11 @@ def convert_spheres(contents):
 					"shotLayer": shot_layer,
 					"resize": False
 				}
-			]
+			],
+			"destroyParticle": "particles/collapse_ball_" + str(color) + ".json",
+			"shotSound": "sound_events/launch_sphere.json",
+			"hitSound": "sound_events/collide_spheres_shot.json",
+			"matches": [-1, color]
 		}
 		if "animationSpeed" in sphere:
 			sphere_data["sprites"][0]["animationSpeed"] = sphere["animationSpeed"]
@@ -1341,28 +1351,15 @@ def convert_spheres(contents):
 			sphere_data["sprites"][0]["rotate"] = sphere["rotate"]
 		sphere_data["sprites"].append({"sprite": "sprites/game/ball_shadow.json", "layer": "GamePieceNShadow", "hiddenLayer": "GamePieceHShadow", "shooterLayer": "GamePieceNShadow", "shotLayer": "GamePieceNShadow", "offset": {"x": 4, "y": 4}})
 
-		if "idleParticle" in sphere:
-			sphere_data["idleParticle"] = sphere["idleParticle"]
-		sphere_data["destroyParticle"] = sphere["destroyParticle"] if "destroyParticle" in sphere else "particles/collapse_ball_" + str(color) + ".json"
-		if "destroyCollectible" in sphere:
-			sphere_data["destroyCollectible"] = sphere["destroyCollectible"]
-		if "destroySound" in sphere:
-			sphere_data["destroySound"] = sphere["destroySound"]
-		if "color" in sphere:
-			sphere_data["color"] = sphere["color"]
-		if "colorPalette" in sphere:
-			sphere_data["colorPalette"] = sphere["colorPalette"]
-		if "colorPaletteSpeed" in sphere:
-			sphere_data["colorPaletteSpeed"] = sphere["colorPaletteSpeed"]
-		if "shotBehavior" in sphere:
-			sphere_data["shotBehavior"] = sphere["shotBehavior"]
-		if "shotEffects" in sphere:
-			sphere_data["shotEffects"] = sphere["shotEffects"]
-		sphere_data["shotSound"] = sphere["shotSound"] if "shotSound" in sphere else "sound_events/launch_sphere.json"
-		if "hitBehavior" in sphere:
-			sphere_data["hitBehavior"] = sphere["hitBehavior"]
-		sphere_data["hitSound"] = sphere["hitSound"] if "hitSound" in sphere else "sound_events/collide_spheres_shot.json"
-		sphere_data["matches"] = sphere["matches"] if "matches" in sphere else [-1, color]
+		# Copy over all sphere data...
+		sphere_data.update(sphere)
+		# ...and remove fields we've used elsewhere.
+		if "sphere" in sphere_data:
+			del sphere_data["sphere"]
+		if "animationSpeed" in sphere_data:
+			del sphere_data["animationSpeed"]
+		if "rotate" in sphere_data:
+			del sphere_data["rotate"]
 
 		store_contents("output/spheres/sphere_" + str(color) + ".json", sphere_data)
 
