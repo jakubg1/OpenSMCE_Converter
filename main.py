@@ -73,7 +73,7 @@ def get_contents(path):
 	file = open(path, "r")
 	contents = file.read()
 	file.close()
-	if contents[0] == "\ufeff": # Remove BOM
+	if len(contents) > 0 and contents[0] == "\ufeff": # Remove BOM
 		contents = contents[1:]
 	return contents.split("\n")
 
