@@ -98,7 +98,6 @@ mkdir "_BACKUP"
 xcopy /q /s /y "data\" "_BACKUP\data\"
 xcopy /q /s /y "English\" "_BACKUP\English\"
 xcopy /q /s /y "assets\" "_BACKUP\assets\"
-xcopy /q /s /y "%appendix%\" "_BACKUP\%appendix%\"
 echo.
 echo.
 echo.
@@ -138,11 +137,9 @@ if %errorlevel% neq 0 (
 		rmdir /s /q %outfolder%
 		rmdir /s /q data
 		rmdir /s /q assets
-		rmdir /s /q %appendix%
 		xcopy /q /s /y "_BACKUP\data\" "data\"
 		xcopy /q /s /y "_BACKUP\English\" "English\"
 		xcopy /q /s /y "_BACKUP\assets\" "assets\"
-		xcopy /q /s /y "_BACKUP\%appendix%\" "%appendix%\"
 		rmdir /s /q _BACKUP
 	)
 	goto exit
@@ -172,7 +169,6 @@ echo ===========================================
 ren output %outfolder%
 rmdir /s /q data
 rmdir /s /q assets
-rmdir /s /q %appendix%
 ren "%outfolder%\_config.json" "config.json"
 echo The converter finished its job, hopefully successfully.
 echo If you haven't spotted any error in this console, you can launch OpenSMCE now..

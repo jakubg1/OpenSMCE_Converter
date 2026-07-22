@@ -95,7 +95,7 @@ if [ -d "./english/english" ]; then
 fi
 
 mkdir -p ./_BACKUP
-cp -aft ./_BACKUP ./data ./english ./assets ./$appendix
+cp -aft ./_BACKUP ./data ./english ./assets
 
 printf "%s\n" '' '' '' '' \
     "===========================================" \
@@ -127,8 +127,8 @@ if [ $? -ne 0 ]; then
     if [[ $keep =~ [yY] ]]; then
         printf "%s\n" '' \
         "Okay, reverting..."
-        rm -rf output "$outfolder" data assets $appendix
-        cp -aft . ./_BACKUP/data ./_BACKUP/english ./_BACKUP/assets ./_BACKUP/$appendix
+        rm -rf output "$outfolder" data assets
+        cp -aft . ./_BACKUP/data ./_BACKUP/english ./_BACKUP/assets
         rm -rf _BACKUP
     fi
     exit
@@ -151,7 +151,7 @@ printf "%s\n" '' '' '' '' \
     "==========================================="
 
 mv output "$outfolder"
-rm -rf data assets $appendix
+rm -rf data assets
 mv "$outfolder/_config.json" "$outfolder/config.json"
 
 printf "%s\n" \
