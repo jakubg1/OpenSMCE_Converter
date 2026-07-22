@@ -10,6 +10,7 @@ local c = {}
 
 -- SPLASH STUFF
 function c.init(f)
+  f.load("splash", "ui/splash.json")
   f.getWidgetN("splash"):show()
   f.getWidgetN("splash"):setActive()
   f.getWidgetN("splash"):setCallback("showEnd", c.splashStart)
@@ -24,11 +25,12 @@ function c.splashClick(f)
 end
 
 function c.splashStart(f)
-  f.loadMain()
+  f.loadResources()
 end
 
 function c.splashEnd(f)
-  f.initSession()
+  f.unload("splash")
+  f.load("root", "ui/toplevel.json")
 
   -- initSession() initializes all the UI, so from this point we can initialize all the modules.
   c.root = f.getWidgetN("root")

@@ -6,6 +6,11 @@
         "x": 800,
         "y": 600
     },
+    "layers": "config/layers.json",
+    "ui": {
+        "buttonClickSound": "sound_events/click.json",
+        "buttonHoverSound": "sound_events/highlight.json"
+    },
     "locale": "locale/english.json",
     "richPresence": {
         "enabled": true
