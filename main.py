@@ -659,7 +659,7 @@ def convert_ui(contents, full_name = None):
 				ui_data["animations"] = {"in": [], "out": []}
 			# Get animation ID and add it to the list if there's no such animation yet.
 			anim_id = int(words[1])
-			if len(ui_data["animations"]["in"]) <= anim_id:
+			while len(ui_data["animations"]["in"]) <= anim_id:
 				ui_data["animations"]["in"].append({})
 				ui_data["animations"]["out"].append({})
 			# Get animation data.
@@ -684,10 +684,10 @@ def convert_ui(contents, full_name = None):
 					"BezierLerp": "move"
 				}
 				if words[4] in style_types:
-					style_type = style_types[words[4]]
+					anim["type"] = style_types[words[4]]
 				else:
 					print("!! Unknown style type! " + words[4])
-					style_type = "none"
+					anim["type"] = "none"
 				# Create a background child for animation if this is a mask.
 				if words[4] == "SpriteMask":
 					if not "children" in sub_anim_uis[words[1]]:
@@ -696,13 +696,10 @@ def convert_ui(contents, full_name = None):
 					sub_anim_uis[words[1]] = get_ui_child(sub_anim_uis[words[1]], "_Mask")
 					anim["target"] += "/_Mask"
 					anim_out["target"] += "/_Mask"
-				# Fill in animation info for the animated Widget.
-				anim["type"] = style_type
 			if words[2] == "Time":
 				anim["time"] = int(words[4]) / 1000
 			if words[2] == "Loc" and anim["type"] == "move":
 				anim["endPos"] = {"x":int(words[4]),"y":int(words[5])}
-				anim_out["startPos"] = {"x":int(words[4]),"y":int(words[5])}
 			if words[2] == "AlphaStart" and anim["type"] == "fade":
 				anim["startValue"] = int(words[4]) / 255
 			if words[2] == "AlphaTarget" and anim["type"] == "fade":
@@ -724,15 +721,13 @@ def convert_ui(contents, full_name = None):
 					"BezierLerp": "move"
 				}
 				if words[4] in style_types:
-					style_type = style_types[words[4]]
+					anim["type"] = style_types[words[4]]
 				else:
 					print("!! Unknown style type! " + words[4])
-					style_type = "none"
-				anim["type"] = style_type
+					anim["type"] = "none"
 			if words[2] == "Time":
 				anim["time"] = int(words[4]) / 1000
 			if words[2] == "Loc" and anim["type"] == "move":
-				anim_in["startPos"] = {"x":int(words[4]),"y":int(words[5])}
 				anim["endPos"] = {"x":int(words[4]),"y":int(words[5])}
 			if words[2] == "AlphaStart" and anim["type"] == "fade":
 				anim["startValue"] = int(words[4]) / 255
@@ -773,6 +768,23 @@ def convert_ui(contents, full_name = None):
 		del ui_data["sounds"]
 	if "text" in ui_data and ui_data["text"] == "":
 		del ui_data["text"]
+	
+	# Deal with animations.
+	if "animations" in ui_data:
+		for anim_name in ui_data["animations"]:
+			anim = ui_data["animations"][anim_name]
+			for i in range(len(anim) - 1, 0, -1):
+				subanim = anim[i]
+				# Delete the animation if it is empty.
+				if not "type" in subanim:
+					del anim[i]
+					continue
+				# Add default alpha if a widget has fade animations without alpha values specified.
+				if subanim["type"] == "fade":
+					if not "startValue" in subanim:
+						subanim["startValue"] = 1.0
+					if not "endValue" in subanim:
+						subanim["endValue"] = 0.0
 
 	return ui_data
 
