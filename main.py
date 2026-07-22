@@ -1607,7 +1607,9 @@ def convert_locale_file(files):
 ### Input: scores.dat
 ### Output: runtime.json
 def convert_highscores_file(files):
-	store_contents("output/runtime.json", convert_highscores(get_binary_contents(FDATA + "/scores.dat")))
+	# If the file does not exist, no point of generating the runtime.json file - the highscore list will get populated with default values.
+	if file_exists(FDATA + "/scores.dat"):
+		store_contents("output/runtime.json", convert_highscores(get_binary_contents(FDATA + "/scores.dat")))
 
 ### Main conversion function.
 def convert(conversion_scope):
